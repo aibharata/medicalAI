@@ -1,4 +1,5 @@
-from setuptools import setup,find_packages
+from distutils.core import setup
+#from setuptools import setup,find_packages
 
 about = {}
 with open("medicalai/__about__.py") as fp:
@@ -12,14 +13,17 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 	
 setup(name='medicalai',
+      packages = ['medicalai'],
       version=about['__version__'],
       description='Medical-AI is a AI framework specifically for Medical Applications',
       url='https://github.com/aibharata/medicalAI',
+      download_url = 'https://aibharata/medicalAI/archive/v1_01.tar.gz',
+      keywords = ['AI Framework', 'Medical AI', 'Tensorflow', 'radiology AI'],
       author=about['__author__'],
       author_email='contact@aibharata.com',
       license=about['__license__'],
 	  install_requires=['pandas','tensorflow','numpy', 'matplotlib', 'plotly', 'pandas', 'seaborn', 'sklearn'],
-      packages=find_packages(),
+      #packages=find_packages(),
 	  include_package_data=True,
 	  package_data={
 	  '': ['*.pyd',
