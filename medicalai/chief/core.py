@@ -172,7 +172,7 @@ def get_accuracy(test_labels, test_predictions):
 	return accuracy_score(test_labels, test_predictions)
 	
 def plot_confusion_matrix(model, test_data, test_labels, labelNames, title='Confusion Matrix'):
-	test_predictions = model.predict_classes(test_data)
+	test_predictions = np.argmax(model.predict(test_data), axis=-1)
 	con_mat = tf.math.confusion_matrix(labels=test_labels, predictions=test_predictions).numpy()
 	con_mat_norm = np.around(con_mat.astype('float') / con_mat.sum(axis=1)[:, np.newaxis], decimals=2)
  

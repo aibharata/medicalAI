@@ -68,13 +68,10 @@ def getFile(url, storePath = None, cacheDir = None, subDir = 'dataset'):
 		with DLProgress(unit='B', unit_scale=True, miniters=1, desc=subDir) as pbar:
 			urlretrieve(url,file,pbar.hook)
 	typeF = pathlib.Path(file).suffix
-	
 	fileName = pathlib.Path(file).stem.split('.')[0]
 	
-	
 	if storePath is None:
-		storePath = os.path.join(dataDir,fileName)
-	print(storePath)	
+		storePath = os.path.join(dataDir,fileName)	
 	if typeF == '.zip':
 		unzip(file,storePath)
 		return storePath
