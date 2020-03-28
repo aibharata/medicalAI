@@ -23,6 +23,7 @@ import medicalai as mai
 You can use the following templates to perform specific Tasks
 
 ### Load Dataset From Folder
+Set the path of the dataset and set the target dimension of image that will be input to AI network.
 ```py 
 trainSet,testSet,labelNames =mai.datasetFromFolder(datasetFolderPath, targetDim = (96,96)).load_dataset()
 ```
