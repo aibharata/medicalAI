@@ -13,9 +13,10 @@ Dependencies: Numpy, Tensorflow, Seaborn, Matplotlib, Pandas
 # Usage
 
 ### Importing the Library
-```py
+```py 
 import medicalai as mai
 ```
+
 ## Using Templates
 You can use the following templates to perform specific Tasks
 
