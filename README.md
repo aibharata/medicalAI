@@ -76,7 +76,7 @@ model.predict(testSet.data[0:2])
 model = mai.modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = train_data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
 
 # Start Training
-result = mai.train(model, train_data, train_labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(test_data, test_labels), callbacks=None)#['tensorboard'])
+result = mai.train(model, train_data, train_labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(test_data, test_labels), callbacks=['tensorboard'])
 
 # Evaluate Trained Model on Test Data
 model.evaluate(test_data, test_labels)
