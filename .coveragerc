@@ -1,0 +1,7 @@
+[run]
+omit =
+    # omit anything in a .local directory anywhere
+    */.local/*
+    # omit everything in /usr
+    */AppData/*
+    # omit this single file
