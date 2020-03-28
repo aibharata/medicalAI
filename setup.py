@@ -1,5 +1,5 @@
-from distutils.core import setup
-#from setuptools import setup,find_packages
+#from distutils.core import setup
+from setuptools import setup,find_packages
 
 about = {}
 with open("medicalai/__about__.py") as fp:
@@ -8,9 +8,6 @@ with open("medicalai/__about__.py") as fp:
 
 with open('README.md') as readme_file:
 	readme = readme_file.read()
-
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
 	
 setup(name='medicalai',
       packages = ['medicalai'],
@@ -30,12 +27,13 @@ setup(name='medicalai',
 			#'*.pyc', 
 			'*.h5', '*.json','*.txt' ],
 	  },
-	  long_description=readme + history,
+	  long_description=readme,
+      long_description_content_type='text/markdown',
       classifiers=[
-          'Development Status :: 1 - Development/Stable',
+          'Development Status :: 3 - Alpha',
           'Intended Audience :: Science/Research',
-          'Topic :: General/Engineering',
-          'License :: OSI Approved :: Apache License',
+          'Topic :: Scientific/Engineering :: Artificial Intelligence',
+          'License :: OSI Approved :: Apache Software License',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
