@@ -10,17 +10,17 @@ with open('README.md') as readme_file:
 	readme = readme_file.read()
 	
 setup(name='medicalai',
-      packages = ['medicalai'],
+      #packages = ['medicalai'],
       version=about['__version__'],
       description='Medical-AI is a AI framework specifically for Medical Applications',
       url='https://github.com/aibharata/medicalAI',
-      download_url = 'https://github.com/aibharata/medicalAI/archive/v1_02.tar.gz',
+      download_url = 'https://github.com/aibharata/medicalAI/archive/v1_03.tar.gz',
       keywords = ['AI Framework', 'Medical AI', 'Tensorflow', 'radiology AI'],
       author=about['__author__'],
       author_email='contact@aibharata.com',
       license=about['__license__'],
 	  install_requires=['pandas','tensorflow','numpy', 'matplotlib', 'plotly', 'pandas', 'seaborn', 'sklearn'],
-      #packages=find_packages(),
+      packages=find_packages(),
 	  include_package_data=True,
 	  package_data={
 	  '': ['*.pyd',
