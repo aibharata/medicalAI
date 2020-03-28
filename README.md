@@ -18,16 +18,19 @@ import medicalai as mai
 ## Using Templates
 You can use the following templates to perform specific Tasks
 
-### Template 1: Loading Dataset From Folder 
+### Load Dataset From Folder
+```py 
 trainSet,testSet,labelNames =mai.datasetFromFolder(datasetFolderPath, targetDim = (96,96)).load_dataset()
-
+```
     - trainSet contains 'data' and 'labels' accessible by trainSet.data and trainSet.labels
     - testSet contains 'data' and 'labels' accessible by testSet.data and testSet.labels
     - labelNames contains class names/labels
 
 ### Check Loaded Dataset Size
+```py 
 print(trainSet.data.shape)
 print(trainSet.labels.shape)
+```
 
 ### Run Training and Save Model
 ```py
