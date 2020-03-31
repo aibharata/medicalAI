@@ -94,7 +94,8 @@ class INPUT_PROCESSOR:
 			
 		self.output_size		= targetDim
 		self.normalize			= normalize
-		if samplingMethod:
+		self.samplingMethodName = 'nearest' if samplingMethod==None else samplingMethod
+		if samplingMethod: 
 			if samplingMethod.lower()=='box':
 				self.samplingMethod =Image.BOX
 			elif samplingMethod.lower()=='nearest':
@@ -125,7 +126,27 @@ class INPUT_PROCESSOR:
 			processedData = processedData/255.0
 		return processedData
 
+	def processImage(self,image):
+		if isinstance(image,np.ndarray):
+			img = Image.fromarray(np.uint8((image)*255))
+		else:
+			img = Image.open(image)
+			if img.mode != 'RGB':
+				img = img.convert('RGB')
+		im_r = img.resize((self.output_size),self.samplingMethod)
+		np_im = np.array(im_r)
+		if self.normalize:
+			np_im = np_im/255.0
+		np_im = np.expand_dims(np_im, axis=0)
+		return np_im
 
+class InputProcessorFromMeta(INPUT_PROCESSOR):
+	def __init__(self, metaFile):
+		params = metaLoader(metaFile)
+		super().__init__(targetDim= params['network_input_dim'], samplingMethod=params['samplingMethodName'], normalize=params['normalize'])
+		self.labels = params['labels']
+		self.labelMap = params['labelMap'] 
+		
 
 class datasetManager(INPUT_PROCESSOR):
 	def __init__(self,folder, targetDim=(31,31), normalize=False , name = 'Dataset', useCache=True , forceCleanCache = False):
@@ -185,7 +206,13 @@ class datasetFromFolder(datasetManager):
 	 self.test = myDict()
 	 (self.train.data, self.train.labels), (self.test.data, self.test.labels) = self.load_data()
 	 self.load_dataset()
+	 self.train.network_input_dim= targetDim
+	 self.train.normalize= normalize
+	 self.train.labelMap = self.labelMap
+	 self.train.labelNames = self.labels
+	 self.train.samplingMethodName = self.samplingMethodName
 
+	
 	def load_dataset(self): 
 	 return self.train, self.test, self.labels
 
@@ -213,6 +240,36 @@ def datasetManagerFunc(folder,targetDim=(31,31), normalize=False):
 		
 	print('Train Shape:', x_train.shape) 
 	return (x_train, y_train), (x_test, y_test)
+
+
+
+def convertlist2tuple(lst): 
+	return tuple(lst) 
+
+def metaLoader(metaFile):
+	import json
+	if '.json' not in metaFile:
+		metaFile = metaFile+"_meta.json"
+	with open(metaFile) as f:
+		json_data = json.load(f)
+	json_data['network_input_dim']= convertlist2tuple(json_data['network_input_dim'])
+	return json_data
+
+
+
+def metaSaver(labelMap, labels, normalize,network_input_dim, samplingMethodName, outputName):
+	import json
+	meta = {}
+	for k,v in labelMap.items():
+		labelMap[k] = int(v)
+	meta['labelMap'] = labelMap
+	meta['normalize'] = normalize
+	meta['labels'] = labels
+	meta['network_input_dim'] = network_input_dim
+	meta['samplingMethodName'] = samplingMethodName
+	with open(outputName+"_meta.json", "w") as f:
+		json.dump(meta,f, sort_keys=True, indent=4)
+
 
 if __name__ == "__main__":
 	mainFolder = "chest-xray-pnumonia-covid19"
