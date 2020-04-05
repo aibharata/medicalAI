@@ -112,7 +112,30 @@ class tinyMedNet_v2(NetworkInit):
             print(20*'-')
             sys.exit(1)
         
-            
+class tinyMedNet_v3(NetworkInit):
+    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs
+    """
+    def call(self, inputSize, OutputSize, convLayers=2):
+        try:
+            model = Sequential()
+            model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'))
+            model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
+            for cnnLayerNum in range(0,convLayers-1):
+                model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid', name='CNN'+str(cnnLayerNum+2)))
+                model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
+            model.add(Flatten())
+            model.add(Dense(512, activation='relu', name='FC1'))
+            model.add(Dense(384, activation='relu', name='FC2'))
+            model.add(Dense(192, activation='relu', name='FC3'))
+            model.add(Dense(OutputSize, activation='softmax', name='FC4'))
+            return model
+        except ValueError as err:
+            print(err)
+            print(20*'-')
+            print('Dimension Error Occured')
+            print('SOLUTION: Try increasing the Input Dimension or Reducing the number of Layers')
+            print(20*'-')
+            sys.exit(1)            
         
 
 def get(networkInitialization):
@@ -121,6 +144,8 @@ def get(networkInitialization):
             return tinyMedNet()
         elif networkInitialization in ['tinyMedNet_v2', 'tiny_Medical_Network_v2']:
             return tinyMedNet_v2()
+        elif networkInitialization in ['tinyMedNet_v3', 'tiny_Medical_Network_v3']:
+            return tinyMedNet_v3()
         raise ValueError('Unknown network Initialization name: {}.'.format(networkInitialization))
 
     elif isinstance(networkInitialization, NetworkInit):
