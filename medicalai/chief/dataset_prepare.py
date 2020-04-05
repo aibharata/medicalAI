@@ -14,6 +14,7 @@
 
 from __future__ import absolute_import
 import os
+from  . import uFuncs
 
 def datasetFolderStructureValidate(folder):
 	dirs = os.listdir(folder)
@@ -59,7 +60,8 @@ def _labelMapper(labelNames, labelMap):
 	for sample in labelNames:
 		y_idx.append(np.array([labelMap[sample]]))
 	return y_idx
-	
+
+@uFuncs.timeit
 def _rgb_dataset_from_folder(Folder, labels, labelMap, inpPreProc):
 	DataSet = []
 	LabelSet =[]
