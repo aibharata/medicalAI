@@ -83,7 +83,9 @@ def show_model_details(model):
 
 def train(	model, x_train, y_train, 
 			batch_size=1,epochs=1, 
-			learning_rate=0.001, callbacks=None, validation_data = None
+			learning_rate=0.001, callbacks=None, 
+			saveBestModel = False, bestModelCond = None, 
+			validation_data = None
 		  ):
 	model.compile(optimizer=tf.keras.optimizers.Adam(lr=learning_rate),
 				  loss='sparse_categorical_crossentropy',
@@ -94,6 +96,27 @@ def train(	model, x_train, y_train,
 			tensorboard_callback = tf.keras.callbacks.TensorBoard(logdir, histogram_freq=1)
 			idx = callbacks.index("tensorboard")	
 			callbacks[idx] = tensorboard_callback
+
+	if saveBestModel:
+		if bestModelCond is not None and bestModelCond.lower() != 'default':
+			print('\n\tENGINE INITIALIZED WITH "SAVING BEST MODEL" MODE\n')
+			earlystop_callback = tf.keras.callbacks.EarlyStopping(
+			monitor=bestModelCond['monitor'], 
+			min_delta=bestModelCond['min_delta'],
+			patience=bestModelCond['patience']
+			)
+		else:
+			print('\n\tENGINE INITIALIZED WITH "SAVING BEST MODEL" MODE\n')
+			earlystop_callback = tf.keras.callbacks.EarlyStopping(
+			monitor='accuracy', 
+			min_delta=0.0001,verbose=0,
+			patience=2, mode='auto',
+    		baseline=None, restore_best_weights=True
+			)
+		if callbacks is None:
+			callbacks=[earlystop_callback]
+		else:
+			callbacks.append(earlystop_callback)
 
 	result = model.fit(x_train, y_train,
 			  batch_size=batch_size,
@@ -196,16 +219,15 @@ def plot_confusion_matrix(model, test_data, test_labels, labelNames, title='Conf
 class TRAIN_ENGINE:
 	def __init__(self):
 		self.result = {}
-
-	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None):
+	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None,SAVE_BEST_MODEL=True, BEST_MODEL_COND='Default', callbacks=None):
 		self.testSet = testSet
 		self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
-		self.result = train(self.model, trainSet.data, trainSet.labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(testSet.data, testSet.labels), callbacks=None)#['tensorboard'])
+		self.result = train(self.model, trainSet.data, trainSet.labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(testSet.data, testSet.labels), callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND)#['tensorboard'])
 		self.model.evaluate(testSet.data, testSet.labels)
 		
 		save_model_and_weights(self.model, outputName= MODEL_SAVE_NAME)
 		dataprc.metaSaver(trainSet.labelMap, trainSet.labelNames, trainSet.normalize,trainSet.network_input_dim, trainSet.samplingMethodName, outputName= MODEL_SAVE_NAME)
-
+	
 	def plot_train_acc_loss(self):
 		plot_training_metrics(self.result)
 

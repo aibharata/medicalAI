@@ -13,6 +13,8 @@
 #    limitations under the License.
 
 from __future__ import absolute_import
+from .nnets import resnet
+
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 import sys
@@ -21,7 +23,7 @@ import numpy as np
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.models import Sequential
-
+import tensorflow as tf
 class NetworkInit(object):
     """Base class for parameter Network initializers.
 
@@ -137,6 +139,12 @@ class tinyMedNet_v3(NetworkInit):
             print(20*'-')
             sys.exit(1)            
         
+class resNet56(NetworkInit):
+    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs
+    """
+    def call(self, inputSize, OutputSize, convLayers=0):
+        img_input = tf.keras.layers.Input(shape=inputSize)
+        return resnet.resnet56(img_input=img_input,classes=OutputSize)
 
 def get(networkInitialization):
     if networkInitialization.__class__.__name__ == 'str':
@@ -146,6 +154,8 @@ def get(networkInitialization):
             return tinyMedNet_v2()
         elif networkInitialization in ['tinyMedNet_v3', 'tiny_Medical_Network_v3']:
             return tinyMedNet_v3()
+        elif networkInitialization in ['resNet56', 'resnet56']:
+            return resNet56()
         raise ValueError('Unknown network Initialization name: {}.'.format(networkInitialization))
 
     elif isinstance(networkInitialization, NetworkInit):
@@ -156,7 +166,7 @@ def get(networkInitialization):
 
 
 if __name__ == "__main__":
-    v=get('tinyMedNet')
+    v=get('resNet56')
     print(10*'~', 'Tiny Net V1')
     INPUT_DIM= 96
     m = v((INPUT_DIM,INPUT_DIM,3),10)

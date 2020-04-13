@@ -14,7 +14,7 @@
 
 from __future__ import absolute_import
 import os
-from  . import uFuncs
+from  .uFuncs import timeit
 
 def datasetFolderStructureValidate(folder):
 	dirs = os.listdir(folder)
@@ -61,24 +61,21 @@ def _labelMapper(labelNames, labelMap):
 		y_idx.append(np.array([labelMap[sample]]))
 	return y_idx
 
-@uFuncs.timeit
+
 def _rgb_dataset_from_folder(Folder, labels, labelMap, inpPreProc):
-	DataSet = []
+	DataSet = None
 	LabelSet =[]
 	for label in labels:
 		classFolder = os.path.join(Folder, label)
 		SetItems = os.listdir(classFolder)
 		for image in SetItems:
-			img = Image.open(os.path.join(classFolder, image))
-			if img.mode != 'RGB':
-				img = img.convert('RGB')
-			img = np.array(img)
-			DataSet.append(img)
 			LabelSet.append(label)
-	DataSet = np.array(DataSet)
+		if DataSet is not None:
+			DataSet = np.vstack((DataSet,inpPreProc.resizeDataSetfromFolder(classFolder)))
+		else:
+			DataSet = inpPreProc.resizeDataSetfromFolder(classFolder)
 	y_train = _labelMapper(LabelSet, labelMap)
 	y_train = np.array(y_train)
-	DataSet = inpPreProc.resizeDataSet(DataSet)
 	return (DataSet, y_train)
 
 def _baseLabelMapper(labels):
@@ -128,6 +125,21 @@ class INPUT_PROCESSOR:
 			processedData = processedData/255.0
 		return processedData
 
+	def resizeDataSetfromFolder(self,folder):
+		processedData = []
+		imageNames = os.listdir(folder)
+		for i in tqdm.tqdm(range(0,len(imageNames))):
+			img = Image.open(os.path.join(folder, imageNames[i]))
+			if img.mode != 'RGB':
+				img = img.convert('RGB')
+			img = img.resize((self.output_size),self.samplingMethod)
+			np_im = np.array(img)
+			processedData.append(np_im)
+		processedData = np.array(processedData)
+		if self.normalize:
+			processedData = processedData/255.0
+		return processedData
+
 	def processImage(self,image):
 		if isinstance(image,np.ndarray):
 			img = Image.fromarray(np.uint8((image)*255))
@@ -151,10 +163,13 @@ class InputProcessorFromMeta(INPUT_PROCESSOR):
 		
 
 class datasetManager(INPUT_PROCESSOR):
-	def __init__(self,folder, targetDim=(31,31), normalize=False , name = 'Dataset', useCache=True , forceCleanCache = False):
+	def __init__(self,folder, targetDim=(31,31), normalize=False , name = None, useCache=True , forceCleanCache = False):
 		super().__init__(targetDim=targetDim, normalize=normalize)
 		self.folder = folder
-		self.name = name
+		if name ==None:
+			self.name = folder.split('/')[-1].split('\\')[-1]
+		else:
+			self.name = name
 		self.useCache = useCache
 		self.dirs, self.labels = getLabelsFromFolder(folder)
 		self.labelMap  = _baseLabelMapper(self.labels)
@@ -163,8 +178,9 @@ class datasetManager(INPUT_PROCESSOR):
 			self.reload_data()
 		else:
 			self.process_dataset()
-			
-	def process_dataset(self):
+
+	@timeit	
+	def convert_dataset(self):
 			trainFolder = os.path.join(self.folder,'train')
 			(self.x_train, self.y_train) = _rgb_dataset_from_folder(trainFolder, self.labels, self.labelMap, self)
 			# Test Data Preparataio, if Present
@@ -178,18 +194,20 @@ class datasetManager(INPUT_PROCESSOR):
 				print('Validate Shape:', self.x_val.shape) 
 				
 			print('Train Shape:', self.x_train.shape)
-			
-			if self.useCache:
-				self.cache_data()
 
+	def process_dataset(self):
+			self.convert_dataset()
+			if self.useCache:
+				self.compress_and_cache_data()
+	@timeit
 	def reload_data(self):
 		print('Reloading Dataset from Cache')
-		cached = np.load(self.cachefile)
+		cached = np.load(self.cachefile, mmap_mode='r')
 		(self.x_test, self.y_test) = (cached['x_test'], cached['y_test'])
 		(self.x_train, self.y_train) = (cached['x_train'], cached['y_train'])
-		#print(self.x_train.shape)
-		
-	def cache_data(self):
+	
+	@timeit
+	def compress_and_cache_data(self):
 		print('Caching Dataset')
 		np.savez_compressed(self.cachefile, x_train=self.x_train, y_train=self.y_train,
 									x_test = self.x_test, y_test = self.y_test)
@@ -202,7 +220,7 @@ class myDict(dict):
     pass
 
 class datasetFromFolder(datasetManager):
-	def __init__(self,folder, targetDim=(31,31), normalize=False , name = 'Dataset', useCache=True , forceCleanCache = False):
+	def __init__(self,folder, targetDim=(31,31), normalize=False , name = None, useCache=True , forceCleanCache = False):
 	 super().__init__(folder, targetDim, normalize, name, useCache, forceCleanCache)
 	 self.train = myDict()
 	 self.test = myDict()
