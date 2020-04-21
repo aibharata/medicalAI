@@ -15,7 +15,7 @@
 from __future__ import absolute_import
 import os
 from  .uFuncs import timeit
-
+import pydicom as dicomProcessor
 def datasetFolderStructureValidate(folder):
 	dirs = os.listdir(folder)
 	test = train = val = False
@@ -80,9 +80,9 @@ def _rgb_dataset_from_folder(Folder, labels, labelMap, inpPreProc):
 
 def _baseLabelMapper(labels):
 	le = LabelEncoder()
-	onehotCodeLabels = le.fit_transform(labels)
+	intEncoded = le.fit_transform(labels)
 	labelDict = {}
-	for k,v in zip(labels,onehotCodeLabels):
+	for k,v in zip(labels,intEncoded):
 		labelDict[k] = v
 	return labelDict
 
@@ -144,7 +144,15 @@ class INPUT_PROCESSOR:
 		if isinstance(image,np.ndarray):
 			img = Image.fromarray(np.uint8((image)*255))
 		else:
-			img = Image.open(image)
+			if os.path.splitext(image)[-1]== '.dcm':
+				ds = dicomProcessor.dcmread(image)
+				img = ds.pixel_array
+				im = Image.fromarray(img)
+				fName = "medicalai.png"
+				im.save(fName)
+				img = Image.open(fName)
+			else:
+				img = Image.open(image)
 			if img.mode != 'RGB':
 				img = img.convert('RGB')
 		im_r = img.resize((self.output_size),self.samplingMethod)

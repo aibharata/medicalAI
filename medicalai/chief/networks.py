@@ -13,7 +13,7 @@
 #    limitations under the License.
 
 from __future__ import absolute_import
-from .nnets import resnet
+from .nnets import resnet,covid_net
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
@@ -115,7 +115,7 @@ class tinyMedNet_v2(NetworkInit):
             sys.exit(1)
         
 class tinyMedNet_v3(NetworkInit):
-    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs
+    """tinyMedNet_v3 has 3 FC layers with Dropout and Configurable number of Conv Layers
     """
     def call(self, inputSize, OutputSize, convLayers=2):
         try:
@@ -125,10 +125,14 @@ class tinyMedNet_v3(NetworkInit):
             for cnnLayerNum in range(0,convLayers-1):
                 model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid', name='CNN'+str(cnnLayerNum+2)))
                 model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
+            model.add(Dropout(rate=0.2))
             model.add(Flatten())
             model.add(Dense(512, activation='relu', name='FC1'))
+            model.add(Dropout(rate=0.7))
             model.add(Dense(384, activation='relu', name='FC2'))
+            model.add(Dropout(rate=0.5))
             model.add(Dense(192, activation='relu', name='FC3'))
+            model.add(Dropout(rate=0.5))
             model.add(Dense(OutputSize, activation='softmax', name='FC4'))
             return model
         except ValueError as err:
@@ -139,12 +143,39 @@ class tinyMedNet_v3(NetworkInit):
             print(20*'-')
             sys.exit(1)            
         
+class resNet20(NetworkInit):
+    """resnet20
+    """
+    def call(self, inputSize, OutputSize, convLayers=0):
+        img_input = tf.keras.layers.Input(shape=inputSize)
+        return resnet.resnet20(img_input=img_input,classes=OutputSize)
+
+class resNet32(NetworkInit):
+    """resnet32
+    """
+    def call(self, inputSize, OutputSize, convLayers=0):
+        img_input = tf.keras.layers.Input(shape=inputSize)
+        return resnet.resnet32(img_input=img_input,classes=OutputSize)
+
 class resNet56(NetworkInit):
-    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs
+    """RESNET56
     """
     def call(self, inputSize, OutputSize, convLayers=0):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet56(img_input=img_input,classes=OutputSize)
+
+class resNet110(NetworkInit):
+    """resnet110
+    """
+    def call(self, inputSize, OutputSize, convLayers=0):
+        img_input = tf.keras.layers.Input(shape=inputSize)
+        return resnet.resnet110(img_input=img_input,classes=OutputSize)
+
+class megaNet(NetworkInit):
+    """megaNet is based on COVID-NET
+    """
+    def call(self, inputSize, OutputSize, convLayers=0):
+        return covid_net.keras_model_build(img_input=inputSize,classes=OutputSize)
 
 def get(networkInitialization):
     if networkInitialization.__class__.__name__ == 'str':
@@ -154,8 +185,16 @@ def get(networkInitialization):
             return tinyMedNet_v2()
         elif networkInitialization in ['tinyMedNet_v3', 'tiny_Medical_Network_v3']:
             return tinyMedNet_v3()
+        elif networkInitialization in ['resNet20', 'resnet20']:
+            return resNet20()
+        elif networkInitialization in ['resNet32', 'resnet32']:
+            return resNet32()
         elif networkInitialization in ['resNet56', 'resnet56']:
             return resNet56()
+        elif networkInitialization in ['resNet110', 'resnet110']:
+            return resNet110()
+        elif networkInitialization in ['megaNet', 'meganet']:
+            return megaNet()
         raise ValueError('Unknown network Initialization name: {}.'.format(networkInitialization))
 
     elif isinstance(networkInitialization, NetworkInit):

@@ -31,7 +31,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
 import seaborn as sns
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score,classification_report,cohen_kappa_score
 
 
 	
@@ -196,12 +196,24 @@ def decode_predictions(out, labelNames=None,top_preds=4):
 
 def get_accuracy(test_labels, test_predictions):
 	return accuracy_score(test_labels, test_predictions)
+
+def classify_report(y_true,y_pred):
+	return(classification_report(y_true, y_pred, digits=3))
+
+def print_classification_report(y_true,y_pred):
+	print(classification_report(y_true, y_pred, digits=3))
+
+def print_cohen_kappa_score(y_true,y_pred):
+	print(cohen_kappa_score(y_true, y_pred, digits=3))
+
+def plot_confusion_matrix(model, test_data, test_labels =None, labelNames=None, title='Confusion Matrix'):
 	
-def plot_confusion_matrix(model, test_data, test_labels, labelNames, title='Confusion Matrix'):
 	test_predictions = np.argmax(model.predict(test_data), axis=-1)
+	print(classify_report(test_labels,test_predictions))
+	print('Cohen kappa Score:', cohen_kappa_score(test_labels,test_predictions))
 	con_mat = tf.math.confusion_matrix(labels=test_labels, predictions=test_predictions).numpy()
 	con_mat_norm = np.around(con_mat.astype('float') / con_mat.sum(axis=1)[:, np.newaxis], decimals=2)
- 
+	
 	con_mat_df = pd.DataFrame(con_mat_norm,
 					 index = labelNames, 
 					 columns = labelNames)
