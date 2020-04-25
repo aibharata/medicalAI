@@ -81,15 +81,15 @@ def modelManager(modelName,x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME= 'tin
 def show_model_details(model):
 	model.summary()	
 
-def train(	model, x_train, y_train, 
+def train(	model, x_train, 
 			batch_size=1,epochs=1, 
 			learning_rate=0.001, callbacks=None, 
 			saveBestModel = False, bestModelCond = None, 
-			validation_data = None
+			validation_data = None, TRAIN_STEPS = None, TEST_STEPS = None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], verbose=None, y_train=None, 
 		  ):
 	model.compile(optimizer=tf.keras.optimizers.Adam(lr=learning_rate),
-				  loss='sparse_categorical_crossentropy',
-				  metrics=['accuracy'])
+				  loss=loss,
+				  metrics=metrics)
 	if callbacks is not None:
 		if ('tensorboard'in callbacks):
 			logdir=os.path.join('log')
@@ -97,33 +97,34 @@ def train(	model, x_train, y_train,
 			idx = callbacks.index("tensorboard")	
 			callbacks[idx] = tensorboard_callback
 
-	if saveBestModel:
+	if saveBestModel is not None and saveBestModel==True:
 		if bestModelCond is not None and bestModelCond.lower() != 'default':
-			print('\n\tENGINE INITIALIZED WITH "SAVING BEST MODEL" MODE\n')
+			print('\n\tENGINE INITIALIZED WITH "SAVING BEST MODEL" and Early Stopping MODE\n')
 			earlystop_callback = tf.keras.callbacks.EarlyStopping(
 			monitor=bestModelCond['monitor'], 
 			min_delta=bestModelCond['min_delta'],
 			patience=bestModelCond['patience']
 			)
-		else:
-			print('\n\tENGINE INITIALIZED WITH "SAVING BEST MODEL" MODE\n')
-			earlystop_callback = tf.keras.callbacks.EarlyStopping(
-			monitor='accuracy', 
-			min_delta=0.0001,verbose=0,
-			patience=2, mode='auto',
-    		baseline=None, restore_best_weights=True
-			)
-		if callbacks is None:
-			callbacks=[earlystop_callback]
-		else:
-			callbacks.append(earlystop_callback)
+			if callbacks is None:
+				callbacks=[earlystop_callback]
+			else:
+				callbacks.append(earlystop_callback)
 
-	result = model.fit(x_train, y_train,
-			  batch_size=batch_size,
-			  epochs=epochs,
-			  validation_data=validation_data,
-			  callbacks=callbacks
-			  )
+	if y_train is not None:
+		result = model.fit(x_train, y_train,
+				batch_size=batch_size,
+				epochs=epochs,
+				validation_data=validation_data,
+				callbacks=callbacks
+				)
+	else:
+		result = model.fit(x_train,
+				epochs=epochs,
+				steps_per_epoch=TRAIN_STEPS, validation_steps=TEST_STEPS,
+				validation_data=validation_data,
+				callbacks=callbacks,
+				verbose = verbose
+				)		
 	return result.history
 
 def plot_training_metrics(result, theme= 'light'):
@@ -229,20 +230,34 @@ def plot_confusion_matrix(model, test_data, test_labels =None, labelNames=None, 
 
 
 class TRAIN_ENGINE:
+	"""
+		TODO: Need to add Metasaver for Generator Condition
+	"""
 	def __init__(self):
 		self.result = {}
-	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None,SAVE_BEST_MODEL=True, BEST_MODEL_COND='Default', callbacks=None):
+	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None,SAVE_BEST_MODEL=True, BEST_MODEL_COND=None, callbacks=None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy']):
 		self.testSet = testSet
-		self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
-		self.result = train(self.model, trainSet.data, trainSet.labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(testSet.data, testSet.labels), callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND)#['tensorboard'])
-		self.model.evaluate(testSet.data, testSet.labels)
-		
+		if hasattr(trainSet, 'data'):
+			self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+			self.result = train(self.model, trainSet.data, y_train= trainSet.labels, batch_size=BATCH_SIZE, epochs=EPOCHS, learning_rate=LEARNING_RATE, validation_data=(testSet.data, testSet.labels), callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = None, TEST_STEPS = None, loss = loss, metrics = metrics)#['tensorboard'])
+			self.model.evaluate(testSet.data, testSet.labels)
+			dataprc.metaSaver(trainSet.labelMap, trainSet.labelNames, trainSet.normalize,trainSet.network_input_dim, trainSet.samplingMethodName, outputName= MODEL_SAVE_NAME)
+		else:
+			networkDim = np.zeros((1,)+trainSet.generator.image_shape)
+			#print('\n\nconvLayers:',convLayers, type(convLayers))
+			self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+			self.result = train(self.model, trainSet.generator, batch_size=None, epochs=EPOCHS, learning_rate=LEARNING_RATE, validation_data=testSet.generator, callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = trainSet.STEP_SIZE, TEST_STEPS = testSet.STEP_SIZE, loss = loss, metrics =metrics, verbose=1)#['tensorboard'])
+			self.model.evaluate(testSet.generator,steps =  testSet.STEP_SIZE)
+
 		save_model_and_weights(self.model, outputName= MODEL_SAVE_NAME)
-		dataprc.metaSaver(trainSet.labelMap, trainSet.labelNames, trainSet.normalize,trainSet.network_input_dim, trainSet.samplingMethodName, outputName= MODEL_SAVE_NAME)
+		
 	
 	def plot_train_acc_loss(self):
 		plot_training_metrics(self.result)
 
 	def plot_confusion_matrix(self,labelNames,title):
-		plot_confusion_matrix(self.model,self.testSet.data, self.testSet.labels, labelNames, title)
+		if hasattr(self.testSet, 'data'):	
+			plot_confusion_matrix(self.model,self.testSet.data, self.testSet.labels, labelNames, title)
+		else:
+			plot_confusion_matrix(self.model,self.testSet.generator, self.testSet.generator.classes, labelNames, title)
 

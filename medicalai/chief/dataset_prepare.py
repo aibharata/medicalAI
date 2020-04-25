@@ -228,6 +228,9 @@ class myDict(dict):
     pass
 
 class datasetFromFolder(datasetManager):
+	'''
+	TODO: Fix samplingMethodName assignment
+	'''
 	def __init__(self,folder, targetDim=(31,31), normalize=False , name = None, useCache=True , forceCleanCache = False):
 	 super().__init__(folder, targetDim, normalize, name, useCache, forceCleanCache)
 	 self.train = myDict()
@@ -297,6 +300,122 @@ def metaSaver(labelMap, labels, normalize,network_input_dim, samplingMethodName,
 	meta['samplingMethodName'] = samplingMethodName
 	with open(outputName+"_meta.json", "w") as f:
 		json.dump(meta,f, sort_keys=True, indent=4)
+
+import tensorflow as tf
+class AUGMENTATION(object):
+	def __init__(self, rotation_range = 12, fill_mode='constant', width_shift_range=0.1, height_shift_range=0.1, horizontal_flip=False, vertical_flip=False,
+				 brightness_range = (0.9, 1.1), zoom_range=(0.85, 1.15), rescale= 1./255,
+				 shear_range = 0, channel_shift_range = 0, samplewise_center = False, samplewise_std_normalization = False,
+				featurewise_center=False, featurewise_std_normalization=False,cval=0,
+				preprocessing_function = None):
+		self.rotation_range = rotation_range
+		self.fill_mode = fill_mode
+		self.width_shift_range = width_shift_range
+		self.height_shift_range = height_shift_range
+		self.horizontal_flip = horizontal_flip
+		self.vertical_flip = vertical_flip
+		self.brightness_range = brightness_range
+		self.zoom_range = zoom_range
+		self.rescale = rescale
+		self.featurewise_center = featurewise_center
+		self.featurewise_std_normalization = featurewise_std_normalization
+		self.cval = cval
+		self.shear_range = shear_range
+		self.channel_shift_range = channel_shift_range
+		self.samplewise_std_normalization = samplewise_std_normalization
+		self.samplewise_center = samplewise_center
+		self.preprocessing_function = preprocessing_function
+		self.create_aug()
+
+	def create_aug(self):
+		self.trainAug = tf.keras.preprocessing.image.ImageDataGenerator(
+						rotation_range = self.rotation_range,
+						fill_mode = self.fill_mode,
+						width_shift_range = self.width_shift_range,
+						height_shift_range = self.height_shift_range,
+						horizontal_flip = self.horizontal_flip,
+						vertical_flip = self.vertical_flip,
+						brightness_range = self.brightness_range,
+						zoom_range = self.zoom_range,
+						rescale = self.rescale,
+						featurewise_center = self.featurewise_center,
+						featurewise_std_normalization = self.featurewise_std_normalization,
+						cval = self.cval,
+						shear_range = self.shear_range,
+						channel_shift_range = self.channel_shift_range,
+						samplewise_std_normalization = self.samplewise_std_normalization,
+						samplewise_center = self.samplewise_center,
+						preprocessing_function = self.preprocessing_function,
+                        )
+		self.testAug = tf.keras.preprocessing.image.ImageDataGenerator(
+                                            rescale=self.rescale
+                                             )
+		#return trainAug, testAug
+
+from tensorflow.keras.utils import Sequence
+
+class datasetGenFromFolder(object):
+	'''
+	folder : The directory must be set to the path where your ‘n’ classes of folders are present.
+	targetDim : The target_size is the size of your input images to the neural network.
+	class_mode : Set “binary” if classifying only two classes, if not set to “categorical”, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to “input”.
+	color_mode: “grayscale” for black and white or grayscale, “rgb” for three color channels.
+	batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
+	'''
+	def __init__(self, folder, targetDim=(224,224), normalize=False , batch_size = 16, augmentation = True, 
+					color_mode="rgb",class_mode="categorical",shuffle=True, seed=17,
+					):
+
+		self.folder = folder
+		self.targetDim = targetDim
+		self.normalize = normalize
+		self.batch_size = batch_size
+		
+		self.color_mode = color_mode
+		self.class_mode = class_mode
+		self.seed = seed
+		self.shuffle = shuffle
+		self.trainGen = myDict()
+		self.testGen = myDict()
+
+		if isinstance(augmentation, AUGMENTATION):
+			self.augmentation = augmentation
+		else:
+			if augmentation==True or augmentation=='True' or augmentation=='Default':
+				self.augmentation  = AUGMENTATION()
+			else:
+				self.augmentation = myDict()
+				self.augmentation.trainAug = tf.keras.preprocessing.image.ImageDataGenerator()
+				self.augmentation.testAug = tf.keras.preprocessing.image.ImageDataGenerator()
+
+		self.trainGen.generator = self.augmentation.trainAug.flow_from_directory(
+				directory=os.path.join(self.folder,"train"),
+				target_size=targetDim,
+				batch_size=self.batch_size,
+				color_mode = self.color_mode,
+				class_mode = self.class_mode,
+				seed = self.seed,
+				shuffle = self.shuffle,
+				)
+
+		self.testGen.generator = self.augmentation.testAug.flow_from_directory(
+				directory=os.path.join(self.folder,"test"),
+				target_size=targetDim,
+				batch_size=1,
+				color_mode = self.color_mode,
+				class_mode = self.class_mode,
+				seed = self.seed,
+				shuffle = False,
+				)				
+		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n//self.trainGen.generator.batch_size)
+		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n//self.testGen.generator.batch_size)
+		self.labelMap = self.trainGen.generator.class_indices
+		self.trainGen.labelMap = self.trainGen.generator.class_indices
+		self.testGen.labelMap = self.trainGen.generator.class_indices
+		
+	def load_generator(self):
+		return self.trainGen, self.testGen
+
 
 
 if __name__ == "__main__":

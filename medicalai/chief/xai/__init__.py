@@ -12,7 +12,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-__project__ = "medicalai"
-__author__ = "Vinayaka Jyothi - For AiBharata"
-__version__ = "1.1.2"
-__license__ = "Apache"
+from __future__ import absolute_import
+
+from .xcams import *

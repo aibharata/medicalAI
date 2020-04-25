@@ -18,4 +18,7 @@ from .core import *
 from .networks import *
 from .dataset_prepare import *
 from .download_utils import *
+from .prettyloss import *
 from . import nnets
+from . import model_metrics
+from . import xai

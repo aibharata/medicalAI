@@ -88,3 +88,12 @@ mai.plot_training_metrics(result)
 #Save the Trained Model
 mai.save_model_and_weights(model, outputName= MODEL_SAVE_NAME)
 ```
+
+## Automated Tests
+To Check the tests
+
+        pytest
+
+To See Output of Print Statements
+
+        pytest -s 

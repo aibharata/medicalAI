@@ -60,7 +60,8 @@ class NetworkInit(object):
 
 
 class tinyMedNet(NetworkInit):
-    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs
+    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs. This network can be used to demonstrate the framework working.
+       Additionally this acts a starting point for example/tutorial for getting started to know the Medical AI library.
     """
     def call(self, inputSize, OutputSize, convLayers=None):
         try:
@@ -92,7 +93,9 @@ class tinyMedNet(NetworkInit):
         return model
 
 class tinyMedNet_v2(NetworkInit):
-    """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs
+    """tinyMedNet_v2 allows users to configure the number of Conv/CNN layers.
+       tinyMedNet_v2 is a classification network that consumes very less resources and can be trained even on CPUs. This network can be used to demonstrate the framework working.
+       Additionally this acts a starting point for example/tutorial for getting started to know the Medical AI library.
     """
     def call(self, inputSize, OutputSize, convLayers=2):
         try:
@@ -115,7 +118,7 @@ class tinyMedNet_v2(NetworkInit):
             sys.exit(1)
         
 class tinyMedNet_v3(NetworkInit):
-    """tinyMedNet_v3 has 3 FC layers with Dropout and Configurable number of Conv Layers
+    """tinyMedNet_v3 has 3 FC layers with Dropout and Configurable number of Conv/CNN Layers.
     """
     def call(self, inputSize, OutputSize, convLayers=2):
         try:
@@ -146,36 +149,39 @@ class tinyMedNet_v3(NetworkInit):
 class resNet20(NetworkInit):
     """resnet20
     """
-    def call(self, inputSize, OutputSize, convLayers=0):
+    def call(self, inputSize, OutputSize, convLayers=None):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet20(img_input=img_input,classes=OutputSize)
 
 class resNet32(NetworkInit):
     """resnet32
     """
-    def call(self, inputSize, OutputSize, convLayers=0):
+    def call(self, inputSize, OutputSize, convLayers=None):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet32(img_input=img_input,classes=OutputSize)
 
 class resNet56(NetworkInit):
     """RESNET56
     """
-    def call(self, inputSize, OutputSize, convLayers=0):
+    def call(self, inputSize, OutputSize, convLayers=None):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet56(img_input=img_input,classes=OutputSize)
 
 class resNet110(NetworkInit):
     """resnet110
     """
-    def call(self, inputSize, OutputSize, convLayers=0):
+    def call(self, inputSize, OutputSize, convLayers=None):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet110(img_input=img_input,classes=OutputSize)
 
 class megaNet(NetworkInit):
-    """megaNet is based on COVID-NET
     """
-    def call(self, inputSize, OutputSize, convLayers=0):
-        return covid_net.keras_model_build(img_input=inputSize,classes=OutputSize)
+    megaNet is based on COVID-NET.
+    This is a tensorflow 2.0 network variant for COVID-Net described in Paper "COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images" by Linda Wang et al. 
+    Reference: https://github.com/busyyang/COVID-19/
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return covid_net.COVIDNET_Keras(img_input=inputSize,classes=OutputSize)
 
 def get(networkInitialization):
     if networkInitialization.__class__.__name__ == 'str':
