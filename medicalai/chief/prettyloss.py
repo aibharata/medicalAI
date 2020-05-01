@@ -19,7 +19,7 @@ class prettyLoss(object):
     def __call__(self, epoch=None, **kwargs):
         
         if epoch is not None:
-            print_string = f'Epoch {epoch: 5d} '
+            print_string = 'Epoch {: 5d} '.format(epoch)
         else:
             print_string = ''
 
@@ -40,13 +40,13 @@ class prettyLoss(object):
             if self.show_percentage:
                 show_value = 0 if pre_value == 0 \
                              else (value - pre_value) / float(pre_value)
-                key_string = f'| {key}: {show_color}{value:3.2f}({show_value:+3.2%}) {indicator}'
+                key_string = '| {}: {}{:3.2f}({:+3.2%}) {}'.format(key,show_color,value,show_value,indicator)
             else: 
-                key_string = f'| {key}: {show_color}{value:.4f} {indicator}'
+                key_string = '| {}: {}{:.4f} {}'.format(key,show_color,value,indicator)
             
             # Trim some long outputs
             key_string_part = key_string[:32]
-            print_string += key_string_part+f'{self.STYLE_END}\t'
+            print_string += key_string_part+self.STYLE_END+'\t'
             
             self.loss_terms[key] = value
             
