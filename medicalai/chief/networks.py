@@ -13,7 +13,7 @@
 #    limitations under the License.
 
 from __future__ import absolute_import
-from .nnets import resnet,covid_net
+from .nnets import resnet,covid_net,densenet,vgg16,mobilenet,mobilenetv2,xception,inceptionv3,inceptionResnet
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
@@ -126,12 +126,12 @@ class tinyMedNet_v3(NetworkInit):
             model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'))
             model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
             for cnnLayerNum in range(0,convLayers-1):
-                model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid', name='CNN'+str(cnnLayerNum+2)))
+                model.add(Conv2D(128, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid', name='CNN'+str(cnnLayerNum+2)))
                 model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
             model.add(Dropout(rate=0.2))
             model.add(Flatten())
-            model.add(Dense(512, activation='relu', name='FC1'))
-            model.add(Dropout(rate=0.7))
+            # model.add(Dense(512, activation='relu', name='FC1'))
+            # model.add(Dropout(rate=0.5))
             model.add(Dense(384, activation='relu', name='FC2'))
             model.add(Dropout(rate=0.5))
             model.add(Dense(192, activation='relu', name='FC3'))
@@ -183,6 +183,69 @@ class megaNet(NetworkInit):
     def call(self, inputSize, OutputSize, convLayers=None):
         return covid_net.COVIDNET_Keras(img_input=inputSize,classes=OutputSize)
 
+class DenseNet121(NetworkInit):
+    """
+    DenseNet121 model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return densenet.DenseNet121_Model(img_input=inputSize,classes=OutputSize)
+
+class VGG16(NetworkInit):
+    """
+    VGG16 model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple,default : (224,223,3)
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return vgg16.VGG16_Model(img_input=inputSize,classes=OutputSize)
+
+class MobileNet(NetworkInit):
+    """
+    MobileNet model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple,default : (224,223,3)
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return mobilenet.MobileNet(img_input=inputSize,classes=OutputSize)
+
+class MobileNetV2(NetworkInit):
+    """
+    MobileNet model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple,default : (224,223,3)
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return mobilenetv2.MobileNetV2(img_input=inputSize,classes=OutputSize)
+
+class Xception(NetworkInit):
+    """
+    Xception model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple,default : (224,223,3)
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return xception.Xception(img_input=inputSize,classes=OutputSize)
+
+class InceptionV3(NetworkInit):
+    """
+    InceptionV3 model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple,default : (224,223,3)
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return inceptionv3.InceptionV3(img_input=inputSize,classes=OutputSize)
+
+class InceptionResNetV2(NetworkInit):
+    """
+    InceptionResNetV2 model, with weights pre-trained on ImageNet
+    inputSize: input image size tuple,default : (224,223,3)
+    outputSize: Number of classes for prediction
+    """
+    def call(self, inputSize, OutputSize, convLayers=None):
+        return inceptionResnet.InceptionResNetV2_Model(img_input=inputSize,classes=OutputSize)
+
 def get(networkInitialization):
     if networkInitialization.__class__.__name__ == 'str':
         if networkInitialization in ['tinyMedNet', 'tiny_Medical_Network']:
@@ -201,6 +264,20 @@ def get(networkInitialization):
             return resNet110()
         elif networkInitialization in ['megaNet', 'meganet']:
             return megaNet()
+        elif networkInitialization in ['densenet','DenseNet','DenseNet121']:
+            return DenseNet121()
+        elif networkInitialization in ['vgg16','VGG16','vgg','VGG']:
+            return VGG16()
+        elif networkInitialization in ['mobilenet','MobileNet']:
+            return MobileNet()
+        elif networkInitialization in ['mobilenetv2','MobileNetV2']:
+            return MobileNetV2()
+        elif networkInitialization in ['xception','Xception']:
+            return Xception()
+        elif networkInitialization in ['inception','InceptionV3','inceptionv3']:
+            return InceptionV3()
+        elif networkInitialization in ['inceptionresnet','InceptionResNet','InceptionReset','InceptionResNetV2']:
+            return InceptionResNetV2()
         raise ValueError('Unknown network Initialization name: {}.'.format(networkInitialization))
 
     elif isinstance(networkInitialization, NetworkInit):

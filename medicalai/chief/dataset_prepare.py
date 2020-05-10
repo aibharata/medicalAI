@@ -13,9 +13,11 @@
 #    limitations under the License.
 
 from __future__ import absolute_import
+from  medicalai.__about__ import __version__
 import os
 from  .uFuncs import timeit
 import pydicom as dicomProcessor
+import pandas as pd
 def datasetFolderStructureValidate(folder):
 	dirs = os.listdir(folder)
 	test = train = val = False
@@ -89,10 +91,13 @@ def _baseLabelMapper(labels):
 
 
 class INPUT_PROCESSOR:
-	def __init__(self, targetDim=(31,31), samplingMethod=None,normalize=False):
+	def __init__(self, targetDim=(31,31), samplingMethod=None,normalize=False, color_mode='RGB', rescale=None , dtype='float32'):
 			
 		self.output_size		= targetDim
 		self.normalize			= normalize
+		self.rescale 			= rescale
+		self.dtype 				= dtype
+		self.color_mode			= color_mode
 		self.samplingMethodName = 'nearest' if samplingMethod==None else samplingMethod
 		if samplingMethod: 
 			if samplingMethod.lower()=='box':
@@ -116,56 +121,83 @@ class INPUT_PROCESSOR:
 		processedData = []
 		for i in tqdm.tqdm(range(0,dataset.shape[0])):
 			im = Image.fromarray(dataset[i])
-			im_r = im.resize((self.output_size),self.samplingMethod)
-			np_im = np.array(im_r)
+			np_im = self._process_single_image(im)
 				
 			processedData.append(np_im)
 		processedData = np.array(processedData)
 		if self.normalize:
-			processedData = processedData/255.0
+			processedData = processedData*(1./255)
+		if self.rescale is not None:
+			processedData = processedData*self.rescale
 		return processedData
+
+	def _process_single_image(self, img):
+		if self.color_mode.upper() == 'RGB':
+			if img.mode != 'RGB':
+				img = img.convert('RGB')
+		elif self.color_mode.upper() == 'RGBA':
+			if img.mode != 'RGBA':
+				img = img.convert('RGBA')
+		elif color_mode.upper() == 'GRAYSCALE':
+			if img.mode != 'L':
+				img = img.convert('L')
+		img = img.resize((self.output_size[0:2]),self.samplingMethod)
+		np_im = np.array(img, self.dtype)
+		return np_im
 
 	def resizeDataSetfromFolder(self,folder):
 		processedData = []
 		imageNames = os.listdir(folder)
 		for i in tqdm.tqdm(range(0,len(imageNames))):
 			img = Image.open(os.path.join(folder, imageNames[i]))
-			if img.mode != 'RGB':
-				img = img.convert('RGB')
-			img = img.resize((self.output_size),self.samplingMethod)
-			np_im = np.array(img)
+			np_im = self._process_single_image(img)
 			processedData.append(np_im)
 		processedData = np.array(processedData)
 		if self.normalize:
-			processedData = processedData/255.0
+			processedData = processedData*(1./255)
+		if self.rescale is not None:
+			processedData = processedData*self.rescale
 		return processedData
+
 
 	def processImage(self,image):
 		if isinstance(image,np.ndarray):
+			if len(image.shape)>3:
+				image = np.squeeze(image,0)
 			img = Image.fromarray(np.uint8((image)*255))
 		else:
-			if os.path.splitext(image)[-1]== '.dcm':
+			try:
+				sep = os.path.splitext(image)
+				fileExt = sep[-1]
+				fileName = sep[0]
+			except: 
+				sep = os.path.splitext(image.path)
+				fileExt = sep[-1]
+				fileName = sep[0]
+			if fileExt== '.dcm':
 				ds = dicomProcessor.dcmread(image)
 				img = ds.pixel_array
 				im = Image.fromarray(img)
-				fName = "medicalai.png"
+				fName = fileName+".png"
 				im.save(fName)
 				img = Image.open(fName)
 			else:
 				img = Image.open(image)
-			if img.mode != 'RGB':
-				img = img.convert('RGB')
-		im_r = img.resize((self.output_size),self.samplingMethod)
-		np_im = np.array(im_r)
+		np_im = self._process_single_image(img)
 		if self.normalize:
-			np_im = np_im/255.0
+			np_im = np_im*(1./255)
+		if self.rescale is not None:
+			np_im = np_im*self.rescale
 		np_im = np.expand_dims(np_im, axis=0)
 		return np_im
+
+
 
 class InputProcessorFromMeta(INPUT_PROCESSOR):
 	def __init__(self, metaFile):
 		params = metaLoader(metaFile)
-		super().__init__(targetDim= params['network_input_dim'], samplingMethod=params['samplingMethodName'], normalize=params['normalize'])
+		super().__init__(targetDim= params['network_input_dim'], samplingMethod=params['samplingMethodName'], normalize=params['normalize'],rescale=params['rescale'], )
+		self.classes = params['labels']
 		self.labels = params['labels']
 		self.labelMap = params['labelMap'] 
 		
@@ -241,8 +273,10 @@ class datasetFromFolder(datasetManager):
 	 self.train.normalize= normalize
 	 self.train.labelMap = self.labelMap
 	 self.train.labelNames = self.labels
-	 self.train.samplingMethodName = self.samplingMethodName
+	 self.test.labelMap = self.labelMap
+	 self.test.labelNames = self.labels
 
+	 self.train.samplingMethodName = self.samplingMethodName
 	
 	def load_dataset(self): 
 	 return self.train, self.test, self.labels
@@ -278,26 +312,35 @@ def convertlist2tuple(lst):
 	return tuple(lst) 
 
 def metaLoader(metaFile):
+    import json
+    if '.json' not in metaFile:
+        metaFile = metaFile+"_meta.json"
+    with open(metaFile) as f:
+        json_data = json.load(f)
+    version = __version__
+    if version != json_data['medicalai_version']:
+        print('Meta File Generated using Medicalai v{:}.'.format(json_data['medicalai_version']))
+        print('Current Installed version of Medicalai v{:}'.format(version))
+        print('If any problem occurs during training/inference. Check medicalai page: {}'.format('https://github.com/aibharata/medicalAI'))
+    json_data['config']['network_input_dim']= convertlist2tuple(json_data['config']['network_input_dim'])
+    return json_data['config']
+
+
+def metaSaver(labelMap, labels, normalize=None, rescale=None, network_input_dim=None, samplingMethodName=None, outputName=None):
 	import json
-	if '.json' not in metaFile:
-		metaFile = metaFile+"_meta.json"
-	with open(metaFile) as f:
-		json_data = json.load(f)
-	json_data['network_input_dim']= convertlist2tuple(json_data['network_input_dim'])
-	return json_data
-
-
-
-def metaSaver(labelMap, labels, normalize,network_input_dim, samplingMethodName, outputName):
-	import json
-	meta = {}
+	from collections import OrderedDict
+	meta = OrderedDict()
+	meta['medicalai_version'] = __version__
+	meta['config'] = OrderedDict()
 	for k,v in labelMap.items():
 		labelMap[k] = int(v)
-	meta['labelMap'] = labelMap
-	meta['normalize'] = normalize
-	meta['labels'] = labels
-	meta['network_input_dim'] = network_input_dim
-	meta['samplingMethodName'] = samplingMethodName
+	meta['config']['labelMap'] = labelMap
+	meta['config']['normalize'] = normalize
+	meta['config']['rescale'] = rescale
+	meta['config']['labels'] = labels
+	meta['config']['network_input_dim'] = network_input_dim
+	meta['config']['samplingMethodName'] = samplingMethodName
+	
 	with open(outputName+"_meta.json", "w") as f:
 		json.dump(meta,f, sort_keys=True, indent=4)
 
@@ -352,7 +395,17 @@ class AUGMENTATION(object):
                                              )
 		#return trainAug, testAug
 
-from tensorflow.keras.utils import Sequence
+from tensorflow.keras.utils import Sequence,to_categorical
+class medicalai_generator(tf.keras.preprocessing.image.ImageDataGenerator):
+	def __init__(self):
+		super().__init__()
+		self.one_hot_labels = to_categorical(self.labels)
+
+def safe_labelmap_converter(labelMap):
+	labs = [0 for x in list(labelMap.keys())]
+	for k,v in labelMap.items():
+		labs[v]=k
+	return labs
 
 class datasetGenFromFolder(object):
 	'''
@@ -363,7 +416,7 @@ class datasetGenFromFolder(object):
 	batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
 	'''
 	def __init__(self, folder, targetDim=(224,224), normalize=False , batch_size = 16, augmentation = True, 
-					color_mode="rgb",class_mode="categorical",shuffle=True, seed=17,
+					color_mode="rgb",class_mode="sparse",shuffle=True, seed=17
 					):
 
 		self.folder = folder
@@ -377,6 +430,7 @@ class datasetGenFromFolder(object):
 		self.shuffle = shuffle
 		self.trainGen = myDict()
 		self.testGen = myDict()
+		self.class_weights = myDict()
 
 		if isinstance(augmentation, AUGMENTATION):
 			self.augmentation = augmentation
@@ -401,7 +455,7 @@ class datasetGenFromFolder(object):
 		self.testGen.generator = self.augmentation.testAug.flow_from_directory(
 				directory=os.path.join(self.folder,"test"),
 				target_size=targetDim,
-				batch_size=1,
+				batch_size=self.batch_size, #1
 				color_mode = self.color_mode,
 				class_mode = self.class_mode,
 				seed = self.seed,
@@ -412,11 +466,136 @@ class datasetGenFromFolder(object):
 		self.labelMap = self.trainGen.generator.class_indices
 		self.trainGen.labelMap = self.trainGen.generator.class_indices
 		self.testGen.labelMap = self.trainGen.generator.class_indices
-		
+		self.trainGen.labelNames = safe_labelmap_converter(self.trainGen.labelMap)
+		self.testGen.labelNames = safe_labelmap_converter(self.testGen.labelMap)
+		if len(self.trainGen.generator.labels.shape)==1:
+			self.trainGen.generator.one_hot_labels = to_categorical(self.trainGen.generator.labels)
+			self.testGen.generator.one_hot_labels = to_categorical(self.testGen.generator.labels)
+		else:
+			self.trainGen.generator.one_hot_labels = self.trainGen.generator.labels
+			self.testGen.generator.one_hot_labels = self.testGen.generator.labels
+
 	def load_generator(self):
 		return self.trainGen, self.testGen
 
+	def get_class_weights(self):
+		self.pos = np.sum(np.array(self.trainGen.generator.one_hot_labels)==1, axis=0)
+		for i in range(len(self.pos)):
+			self.class_weights[i]=(np.sum(self.pos))/(len(self.pos)*self.pos[i])
+		return self.class_weights
+	
+	def get_numpy(self, generator):
+		prevBSize =generator.generator.batch_size
+		generator.generator.batch_size  = generator.generator.samples
+		dataset_as_tuple = next(generator.generator)
+		generator.generator.batch_size = prevBSize
+		return dataset_as_tuple
 
+#############################################################################################
+#Data from data frame implementation
+class datasetGenFromDataframe(object):
+	'''
+	csv_path = folder containing train.csv and test.csv
+	folder : The directory must be set to the path where your training images are present.
+	x_col : Name of column containing image name, default = "name"
+	y_col : Name of column for labels, default = "labels"
+	targetDim : The target_size is the size of your input images to the neural network.
+	class_mode : Set “binary” if classifying only two classes, if not set to “categorical”, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to “input”.
+	color_mode: “grayscale” for black and white or grayscale, “rgb” for three color channels.
+	batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
+	'''
+
+	def __init__(self, folder, csv_path='.' , x_col = "name", y_col = "labels", targetDim=(224,224), normalize=False , batch_size = 16, augmentation = True, 
+					color_mode="rgb", class_mode="sparse", shuffle=True, seed=17):
+		self.csv_path = csv_path
+		self.folder = folder
+		self.x_col = x_col
+		self.y_col = y_col
+		self.targetDim = targetDim
+		self.normalize = normalize
+		self.batch_size = batch_size
+		
+		self.color_mode = color_mode
+		self.class_mode = class_mode
+		self.seed = seed
+		self.shuffle = shuffle
+		self.trainGen = myDict()
+		self.testGen = myDict()
+		self.class_weights = myDict()
+
+		if isinstance(augmentation, AUGMENTATION):
+			self.augmentation = augmentation
+		else:
+			if augmentation==True or augmentation=='True' or augmentation=='Default':
+				self.augmentation  = AUGMENTATION()
+			else:
+				self.augmentation = myDict()
+				self.augmentation.trainAug = tf.keras.preprocessing.image.ImageDataGenerator()
+				self.augmentation.testAug = tf.keras.preprocessing.image.ImageDataGenerator()
+
+		self.traindf = pd.read_csv(os.path.join(csv_path,"train.csv"),dtype=str)
+		self.testdf = pd.read_csv(os.path.join(csv_path,"test.csv"),dtype=str)
+		print("[INFO]: Succesfully read train.csv & test.csv")
+		print("[INFO]: Gathering images for generator")
+		self.trainGen.generator = self.augmentation.trainAug.flow_from_dataframe(
+				dataframe = self.traindf,
+				directory=os.path.join(self.folder,"train"),
+				x_col = self.x_col,
+				y_col = self.y_col,
+				target_size=targetDim,
+				batch_size=self.batch_size,
+				color_mode = self.color_mode,
+				class_mode = self.class_mode,
+				seed = self.seed,
+				shuffle = self.shuffle,
+				validate_filenames = False
+				)
+
+		self.testGen.generator = self.augmentation.testAug.flow_from_dataframe(
+				dataframe = self.testdf,
+				directory=os.path.join(self.folder,"test"),
+				x_col = self.x_col,
+				y_col = self.y_col,
+				target_size=targetDim,
+				batch_size=self.batch_size,
+				color_mode = self.color_mode,
+				class_mode = self.class_mode,
+				seed = self.seed,
+				validate_filenames = False,
+				shuffle = False
+				)				
+		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n//self.trainGen.generator.batch_size)
+		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n//self.testGen.generator.batch_size)
+		self.labelMap = self.trainGen.generator.class_indices
+		self.trainGen.labelMap = self.trainGen.generator.class_indices
+		self.testGen.labelMap = self.trainGen.generator.class_indices
+		self.trainGen.labelNames = safe_labelmap_converter(self.trainGen.labelMap)
+		self.testGen.labelNames = safe_labelmap_converter(self.testGen.labelMap)
+		if len(np.asarray(self.trainGen.generator.labels).shape)==1:
+			print("[INFO]: Converting labes to one_hot_labels")
+			self.trainGen.generator.one_hot_labels = to_categorical(self.trainGen.generator.labels)
+			self.testGen.generator.one_hot_labels = to_categorical(self.testGen.generator.labels)
+		else:
+			self.trainGen.generator.one_hot_labels = self.trainGen.generator.labels
+			self.testGen.generator.one_hot_labels = self.testGen.generator.labels
+
+	def load_generator(self):
+		return self.trainGen, self.testGen
+
+	def get_class_weights(self):
+		self.pos = np.sum(np.array(self.trainGen.generator.one_hot_labels)==1, axis=0)
+		for i in range(len(self.pos)):
+			self.class_weights[i]=(np.sum(self.pos))/(len(self.pos)*self.pos[i])
+		return self.class_weights
+	
+	def get_numpy(self, generator):
+		prevBSize =generator.generator.batch_size
+		generator.generator.batch_size  = generator.generator.samples
+		dataset_as_tuple = next(generator.generator)
+		generator.generator.batch_size = prevBSize
+		return dataset_as_tuple
+
+#############################################################################################
 
 if __name__ == "__main__":
 	mainFolder = "chest-xray-pnumonia-covid19"

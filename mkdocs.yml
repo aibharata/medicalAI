@@ -1,0 +1,5 @@
+site_name: Medicalai
+
+repo_url: https://github.com/aibharata/medicalAI
+theme:
+  name: material
