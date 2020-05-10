@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest)
+
 # medicalAI
 Medical-AI is a AI framework specifically for Medical Applications
 
