@@ -1,4 +1,4 @@
-[![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest) [![Join the chat at https://gitter.im/aibh-medicalAI/community](https://badges.gitter.im/aibh-medicalAI/community.svg)](https://gitter.im/aibh-medicalAI/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # medicalAI
 Medical-AI is a AI framework specifically for Medical Applications
