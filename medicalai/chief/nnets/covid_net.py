@@ -12,10 +12,9 @@ def PEPXModel(input_tensor, filters, name):
 
 
 def COVIDNET_Keras(img_input=(224, 224, 3), classes =4):
-    '''
-    This is a tensorflow 2.0 network variant for COVID-Net described in Paper "COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images" by Linda Wang et al. 
+    """This is a tensorflow 2.0 network variant for COVID-Net described in Paper "COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images" by Linda Wang et al. 
     Reference: https://github.com/busyyang/COVID-19/
-    '''
+    """
     input = Input(shape=img_input, name='input')
     x = Conv2D(input_shape=img_input, filters=64, kernel_size=(7, 7), activation='relu', padding='same',
                strides=(2, 2))(input)

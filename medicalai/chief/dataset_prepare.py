@@ -495,8 +495,8 @@ class datasetGenFromFolder(object):
 #Data from data frame implementation
 class datasetGenFromDataframe(object):
 	"""Creates Keras Dataset Generator for Handling Large Datasets from DataFrame.
-
-	Args:
+	
+	Arguments:
 		csv_path: folder containing train.csv and test.csv.
 		folder: The directory must be set to the path where your training images are present.
 		x_col: Name of column containing image name, `default = name`.

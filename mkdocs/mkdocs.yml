@@ -1,0 +1,29 @@
+docs_dir: _build/pydocmd
+markdown_extensions:
+- admonition
+- pymdownx.arithmatex
+- pymdownx.betterem: {smart_enable: all}
+- pymdownx.caret
+- pymdownx.critic
+- pymdownx.extra
+- pymdownx.details
+- pymdownx.inlinehilite
+- pymdownx.magiclink
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.superfences
+- pymdownx.tasklist: {custom_checkbox: true}
+- pymdownx.tabbed
+- pymdownx.tilde
+- toc: {permalink: true}
+nav:
+- {Home: index.md}
+- medicalai.chief:
+  - {Data Processing Pipeline: medicalai/dataset_processors.md}
+  - {Core: medicalai/core.md}
+  - {AI Networks: medicalai/networks.md}
+plugins: [search, awesome-pages]
+repo_url: https://github.com/aibharata/medicalAI
+site_dir: _build/site
+site_name: Medicalai
+theme: material
