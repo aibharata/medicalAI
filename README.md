@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://aibharata.github.io/medicalAI/"><img src="https://github.com/aibharata/medicalAI/logo/logo.png" alt="MedicalAI"></a>
+  <a href="https://aibharata.github.io/medicalAI/"><img src="https://raw.githubusercontent.com/aibharata/medicalAI/master/logo/logo.png" alt="MedicalAI"></a>
 </p>
 <p align="center">
     <em>Medical-AI is a AI framework specifically for Medical Applications</em>
