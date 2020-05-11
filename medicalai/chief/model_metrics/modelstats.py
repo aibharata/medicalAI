@@ -513,9 +513,14 @@ def generate_evaluation_report(CLASS_NAMES, predictions, groundTruth=None,  gene
 
     Args:
 
-        expected (np.array): ground truth, size (n_examples)
-        preds (np.array): model output, size (n_examples)
-        threshold (float): cutoff value for positive prediction from model
+        CLASS_NAMES (list): List of Label names or class names of dataset. 
+        predictions (np.array): Predicted output of test data.
+        groundTruth (np.array): Ground truth of test data.
+        generator (Optional): If generator method used in training, pass the generator.
+        returnPlot (Bool): Returns the plot handle if set to `True`
+        showPlot (Bool): Display the plot if set to `True`. [IMP: Until the plot is closed, the code execution is blocked.]
+        printStat (Bool): Print the statistics of the experiment on the console if set to `True`. T
+        **kwargs (Optional): Plot Setting Arguments 
 
     Returns:
 

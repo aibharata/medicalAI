@@ -1,3 +1,19 @@
+<p align="center">
+  <a href="https://aibharata.github.io/medicalAI/"><img src="https://www.aibharata.com/assets/images/AI%20Red%20PNG.png" alt="MedicalAI"></a>
+</p>
+<p align="center">
+    <em>Medical-AI is a AI framework specifically for Medical Applications</em>
+</p>
+
+
+---
+
+**Documentation**: <a href="https://aibharata.github.io/medicalAI/" target="_blank">https://fastapi.tiangolo.com</a>
+
+**Source Code**: <a href="https://github.com/aibharata/medicalai" target="_blank">https://github.com/aibharata/medicalai</a>
+
+---
+
 [![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest) [![Gitter](https://badges.gitter.im/aibh-medicalAI/devteam.svg)](https://gitter.im/aibh-medicalAI/devteam?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # medicalAI
