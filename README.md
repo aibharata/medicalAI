@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://aibharata.github.io/medicalAI/"><img src="https://www.aibharata.com/assets/images/AI%20Red%20PNG.png" alt="MedicalAI"></a>
+  <a href="https://aibharata.github.io/medicalAI/"><img src="https://github.com/aibharata/medicalAI/logo/logo.png" alt="MedicalAI"></a>
 </p>
 <p align="center">
     <em>Medical-AI is a AI framework specifically for Medical Applications</em>
@@ -16,21 +16,20 @@
 
 [![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest) [![Gitter](https://badges.gitter.im/aibh-medicalAI/devteam.svg)](https://gitter.im/aibh-medicalAI/devteam?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# medicalAI
-Medical-AI is a AI framework specifically for Medical Applications
+Medical-AI is a AI framework  for rapid prototyping of AI for Medical Applications.
 
-# Installation
+## Installation
 ```py 
 pip install medicalai
 ```
-# Requirements
+## Requirements
 Python Version : 3.5-3.7 (Doesn't Work on 3.8 Since Tensorflow does not support 3.8 yet.
 
 Dependencies: Numpy, Tensorflow, Seaborn, Matplotlib, Pandas
 
     NOTE: Dependency libraries are automatically installed. No need for user to install them manually.
 
-# Usage
+## Usage
 
 ### Importing the Library
 ```py 
