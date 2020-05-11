@@ -8,7 +8,7 @@
 
 ---
 
-**Documentation**: <a href="https://aibharata.github.io/medicalAI/" target="_blank">https://fastapi.tiangolo.com</a>
+**Documentation**: <a href="https://aibharata.github.io/medicalAI/" target="_blank">https://aibharata.github.io/medicalAI/</a>
 
 **Source Code**: <a href="https://github.com/aibharata/medicalai" target="_blank">https://github.com/aibharata/medicalai</a>
 
