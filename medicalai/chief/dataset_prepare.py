@@ -408,13 +408,13 @@ def safe_labelmap_converter(labelMap):
 	return labs
 
 class datasetGenFromFolder(object):
-	'''
-	folder : The directory must be set to the path where your ‘n’ classes of folders are present.
+	"""
+	folder : The directory must be set to the path where your `n` classes of folders are present.
 	targetDim : The target_size is the size of your input images to the neural network.
-	class_mode : Set “binary” if classifying only two classes, if not set to “categorical”, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to “input”.
-	color_mode: “grayscale” for black and white or grayscale, “rgb” for three color channels.
+	class_mode : Set `binary` if classifying only two classes, if not set to `categorical`, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to `input`.
+	color_mode: `grayscale` for black and white or grayscale, `rgb` for three color channels.
 	batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
-	'''
+	"""
 	def __init__(self, folder, targetDim=(224,224), normalize=False , batch_size = 16, augmentation = True, 
 					color_mode="rgb",class_mode="sparse",shuffle=True, seed=17
 					):
@@ -494,16 +494,18 @@ class datasetGenFromFolder(object):
 #############################################################################################
 #Data from data frame implementation
 class datasetGenFromDataframe(object):
-	'''
-	csv_path = folder containing train.csv and test.csv
-	folder : The directory must be set to the path where your training images are present.
-	x_col : Name of column containing image name, default = "name"
-	y_col : Name of column for labels, default = "labels"
-	targetDim : The target_size is the size of your input images to the neural network.
-	class_mode : Set “binary” if classifying only two classes, if not set to “categorical”, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to “input”.
-	color_mode: “grayscale” for black and white or grayscale, “rgb” for three color channels.
-	batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
-	'''
+	"""Creates Keras Dataset Generator for Handling Large Datasets from DataFrame.
+
+	Args:
+		csv_path: folder containing train.csv and test.csv.
+		folder: The directory must be set to the path where your training images are present.
+		x_col: Name of column containing image name, `default = name`.
+		y_col: Name of column for labels, `default = labels`.
+		targetDim: The target_size is the size of your input images to the neural network.
+		class_mode: Set `binary` if classifying only two classes, if not set to `categorical`, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to `input`.
+		color_mode: `grayscale` for black and white or grayscale, `rgb` for three color channels.
+		batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
+	"""
 
 	def __init__(self, folder, csv_path='.' , x_col = "name", y_col = "labels", targetDim=(224,224), normalize=False , batch_size = 16, augmentation = True, 
 					color_mode="rgb", class_mode="sparse", shuffle=True, seed=17):
