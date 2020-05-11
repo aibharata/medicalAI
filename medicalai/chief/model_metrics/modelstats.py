@@ -26,10 +26,13 @@ def true_positives(expected, preds, threshold=0.5):
     Count true positives.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         true_pos (int): true positives
     """
     true_pos = 0
@@ -42,10 +45,13 @@ def true_negatives(expected, preds, threshold=0.5):
     Count true negatives.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         true_neg (int): true negatives
     """
     true_neg = 0
@@ -58,10 +64,13 @@ def false_positives(expected, preds, threshold=0.5):
     Count false positives.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         false_pos (int): false positives
     """
     false_pos = 0
@@ -74,10 +83,13 @@ def false_negatives(expected, preds, threshold=0.5):
     Count false positives.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         pred (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         false_neg (int): false negatives
     """
     false_neg = 0
@@ -90,10 +102,13 @@ def get_accuracy(expected, preds, threshold=0.9):
     Compute accuracy of predictions at threshold.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         accuracy (float): accuracy of predictions at threshold
     """
     accuracy = 0.0
@@ -110,8 +125,11 @@ def get_prevalence(expected):
     Compute accuracy of predictions at threshold.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
+
     Returns:
+
         prevalence (float): prevalence of positive cases
     """
     prevalence = 0.0
@@ -123,10 +141,13 @@ def get_sensitivity(expected, preds, threshold=0.5):
     Compute sensitivity of predictions at threshold.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         sensitivity (float): probability that our test outputs positive given that the case is actually positive
     """
     sensitivity = 0.0
@@ -140,10 +161,13 @@ def get_specificity(expected, preds, threshold=0.5):
     Compute specificity of predictions at threshold.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         specificity (float): probability that the test outputs negative given that the case is actually negative
     """
     specificity = 0.0
@@ -157,10 +181,13 @@ def get_ppv(expected, preds, threshold=0.5):
     Compute PPV of predictions at threshold.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         PPV (float): positive predictive value of predictions at threshold
     """
     PPV = 0.0
@@ -174,10 +201,13 @@ def get_npv(expected, preds, threshold=0.5):
     Compute NPV of predictions at threshold.
 
     Args:
+
         expected (np.array): ground truth, size (n_examples)
         preds (np.array): model output, size (n_examples)
         threshold (float): cutoff value for positive prediction from model
+
     Returns:
+
         NPV (float): negative predictive value of predictions at threshold
     """
     NPV = 0.0
@@ -191,12 +221,16 @@ def compute_class_freqs(labels):
     Compute positive and negative frequences for each class.
 
     Args:
+
         labels (np.array): matrix of labels, size (num_examples, num_classes)
+
     Returns:
+
         positive_frequencies (np.array): array of positive frequences for each
                                          class, size (num_classes)
         negative_frequencies (np.array): array of negative frequences for each
                                          class, size (num_classes)
+
     """
     N = labels.shape[0] #np.sum(labels,axis=1)
     positive_frequencies = np.sum(labels == 1,axis=0) / N
@@ -208,10 +242,12 @@ def get_weighted_loss(pos_weights, neg_weights, epsilon=1e-7):
     Return weighted loss function given negative weights and positive weights.
 
     Args:
+
       pos_weights (np.array): array of positive weights for each class, size (num_classes)
       neg_weights (np.array): array of negative weights for each class, size (num_classes)
     
     Returns:
+
       weighted_loss (function): weighted loss function
     """
     from tensorflow.keras import backend as K
@@ -220,9 +256,11 @@ def get_weighted_loss(pos_weights, neg_weights, epsilon=1e-7):
         Return weighted loss value. 
 
         Args:
+
             y_true (Tensor): Tensor of true labels, size is (num_examples, num_classes)
             y_pred (Tensor): Tensor of predicted labels, size is (num_examples, num_classes)
         Returns:
+
             loss (Tensor): overall scalar loss summed across all classes
         """
         loss = 0.0
@@ -379,6 +417,7 @@ def get_performance_metrics(y, pred, class_labels, tp=get_true_pos,
                             acc=None, prevalence=None, spec=None,
                             sens=None, ppv=None, npv=None, auc=None, f1=None,
                             thresholds=[]):
+
     if len(thresholds) != len(class_labels):
         thresholds = [.5] * len(class_labels)
 
@@ -469,6 +508,19 @@ def platt_scaling(y, pred,class_labels):
 
 
 def generate_evaluation_report(CLASS_NAMES, predictions, groundTruth=None,  generator=None, returnPlot = True, showPlot= True , printStat=True, **kwargs):
+    """
+    Generates Evaluation PDF Report for a Test/Validation experimentation. Ground truth needs to be passed to generate the pdf report.
+
+    Args:
+
+        expected (np.array): ground truth, size (n_examples)
+        preds (np.array): model output, size (n_examples)
+        threshold (float): cutoff value for positive prediction from model
+
+    Returns:
+
+        true_pos (int): true positives
+    """    
     OUTPUT_CLASSES = len(CLASS_NAMES)
     if groundTruth is not None and generator is None:
         gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[groundTruth[:,0]]
