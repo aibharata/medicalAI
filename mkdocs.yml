@@ -1,4 +1,4 @@
-docs_dir: _build/pydocmd
+docs_dir: docs
 edit_uri: ''
 extra_css:
 - css/termynal.css
