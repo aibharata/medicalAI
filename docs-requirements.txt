@@ -1,9 +1,12 @@
-sphinx
-sphinx-autobuild
-sphinx-rtd-theme
+#sphinx
+#sphinx-autobuild
+#sphinx-rtd-theme
 
-# if using typehints
-sphinx-autodoc-typehints
+## if using typehints
+#sphinx-autodoc-typehints
+
+mkdocs-material
+pymdown-extensions
 
 mock
 autodoc
