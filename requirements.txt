@@ -1,0 +1,7 @@
+mkdocs-material
+pymdown-extensions
+mkdocs-awesome-pages-plugin
+markdown-include
+
+mock
+autodoc
