@@ -138,7 +138,7 @@ class INPUT_PROCESSOR:
 		elif self.color_mode.upper() == 'RGBA':
 			if img.mode != 'RGBA':
 				img = img.convert('RGBA')
-		elif color_mode.upper() == 'GRAYSCALE':
+		elif self.color_mode.upper() == 'GRAYSCALE':
 			if img.mode != 'L':
 				img = img.convert('L')
 		img = img.resize((self.output_size[0:2]),self.samplingMethod)
