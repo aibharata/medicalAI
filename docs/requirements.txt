@@ -7,4 +7,4 @@ sphinx-autodoc-typehints
 mock
 autodoc
 
-medicalai
+#medicalai

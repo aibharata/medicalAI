@@ -73,7 +73,7 @@ site_description: Medicalai framework - high performance, easy to learn, fast to
   ready for production
 site_dir: _build/site
 site_name: Medicalai
-site_url: https://aibharata.github.io/medicalAI/
+#site_url: https://aibharata.github.io/medicalAI/
 theme:
   favicon: img/logo.png
   font:
