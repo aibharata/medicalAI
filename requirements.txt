@@ -1,3 +1,14 @@
 pandas
-sphinx-rtd-theme
 pytest
+pandas
+tensorflow
+tf_explain
+numpy
+pillow
+tqdm
+matplotlib
+plotly 
+pandas
+seaborn
+sklearn
+pydicom

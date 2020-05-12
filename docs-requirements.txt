@@ -1,5 +1,6 @@
 sphinx
 sphinx-autobuild
+sphinx-rtd-theme
 
 # if using typehints
 sphinx-autodoc-typehints
