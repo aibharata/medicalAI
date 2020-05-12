@@ -5,10 +5,7 @@ from tf_explain.core.grad_cam import GradCAM
 from tf_explain.core.occlusion_sensitivity import OcclusionSensitivity
 from tf_explain.core.smoothgrad import SmoothGrad
 
-'''
-def _gradcam(imgNP,  labels, selected_labels,
-                    layer_name='bn' , expected = None, predictions =None):
-'''
+
 def predict_with_gradcam(model, imgNP,  labels, selected_labels,
                     layer_name='bn' , expected = None, predictions =None, showPlot=False):
     '''

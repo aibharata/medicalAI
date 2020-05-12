@@ -19,9 +19,16 @@
 Medical-AI is a AI framework  for rapid prototyping of AI for Medical Applications.
 
 ## Installation
-```py 
-pip install medicalai
+
+<div class="termy">
+
+```console
+$ pip install medicalai
+
+---> 100%
 ```
+
+</div>
 ## Requirements
 Python Version : 3.5-3.7 (Doesn't Work on 3.8 Since Tensorflow does not support 3.8 yet.
 
