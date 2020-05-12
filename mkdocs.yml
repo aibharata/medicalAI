@@ -1,6 +1,9 @@
 site_name: Medicalai
 site_description: 'Medicalai'
-site_author: 'AiBharata'
+site_url: https://aibharata.github.io/medicalAI/
+site_description: Medicalai framework - high performance, easy to learn, fast to code,
+  ready for production
+site_author: 'Vinayaka Jyothi For AiBharata'
 docs_dir: docs/
 repo_name: 'aibharata/medicalAI'
 repo_url: 'https://github.com/aibharata/medicalAI'
@@ -12,3 +15,15 @@ nav:
     - Model Statistics: medicalai/modelStats.md
 theme:
   name: 'material'
+  favicon: img/logo.png
+  font:
+    code: Roboto Mono
+    text: Roboto
+  icon:
+    repo: fontawesome/brands/github-alt
+  language: en
+  logo: img/logo.png
+
+plugins:
+  - search
+  - awesome-pages
