@@ -687,7 +687,7 @@ def plot_confusion_matrix(model=None, test_data=None, test_labels =None, labelNa
 					 columns = labelNames)
 
 	figure = plt.figure(figsize=(10, 10))
-	sns.heatmap(con_mat_df, annot=True, cmap=plt.get_cmap('PuRd') )
+	sns.heatmap(con_mat_norm_df, annot=True, cmap=plt.get_cmap('PuRd') )
 
 	plt.title("AI-Bharata MedicalAI\n\n", loc='center', fontsize=18,color='grey')
 	
