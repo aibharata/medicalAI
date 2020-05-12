@@ -84,3 +84,6 @@ theme:
   language: en
   logo: img/logo.png
   name: material
+
+- name: Deploy MkDocs
+  uses: mhausenblas/mkdocs-deploy-gh-pages@1.11
