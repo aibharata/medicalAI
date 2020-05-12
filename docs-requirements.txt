@@ -7,6 +7,7 @@
 
 mkdocs-material
 pymdown-extensions
+mkdocs-awesome-pages-plugin
 
 mock
 autodoc
