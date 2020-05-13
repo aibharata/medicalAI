@@ -2,7 +2,7 @@
   <a href="https://aibharata.github.io/medicalAI/"><img src="https://raw.githubusercontent.com/aibharata/medicalAI/master/logo/logo.png" alt="MedicalAI"></a>
 </p>
 <p align="center">
-    <em>Medical-AI is a AI framework specifically for Medical Applications</em>
+    <em>Medical-AI is an AI framework for rapid prototyping/experimentation of AI for Medical Applications</em>
 </p>
 
 
@@ -16,7 +16,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest) [![Gitter](https://badges.gitter.im/aibh-medicalAI/devteam.svg)](https://gitter.im/aibh-medicalAI/devteam?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Medical-AI is a AI framework  for rapid prototyping of AI for Medical Applications.
+Medical-AI is an AI framework  for rapid prototyping of AI for Medical Applications.
 
 ## Installation
 
