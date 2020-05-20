@@ -9,6 +9,7 @@ repo_name: 'aibharata/medicalAI'
 repo_url: 'https://github.com/aibharata/medicalAI'
 nav:
     - Home: index.md
+    - Example: medicalai/Examples.md
     - Data Processing Pipeline: medicalai/dataset_processors.md
     - Core: medicalai/core.md
     - AI Networks: medicalai/networks.md
