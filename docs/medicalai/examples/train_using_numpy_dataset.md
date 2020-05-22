@@ -13,6 +13,7 @@ datasetDWLD = ai.getFile('https://github.com/aibharata/covid19-dataset/archive/v
 datasetFolderPath = datasetDWLD+'/covid19-dataset-1.0/chest-xray-pnumonia-covid19/'
 ```
 
+
 ### Define the hyperparameters of Dataset Processor
 
 A. Specify the dimensions of image to be fed to network
