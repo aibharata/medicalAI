@@ -13,7 +13,7 @@
 #    limitations under the License.
 
 from __future__ import absolute_import
-from urllib.request import urlretrieve
+import requests
 from os.path import isfile, isdir
 from tqdm import tqdm
 import zipfile
@@ -66,7 +66,11 @@ def getFile(url, storePath = None, cacheDir = None, subDir = 'dataset'):
 
 	if not isfile(file):
 		with DLProgress(unit='B', unit_scale=True, miniters=1, desc=subDir) as pbar:
-			urlretrieve(url,file,pbar.hook)
+			#urlretrieve(url,file,pbar.hook)
+			r = requests.get(url)
+			with open(file, 'wb') as f:
+				f.write(r.content)
+
 	typeF = pathlib.Path(file).suffix
 	fileName = pathlib.Path(file).stem.split('.')[0]
 	

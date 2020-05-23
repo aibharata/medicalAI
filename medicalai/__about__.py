@@ -14,5 +14,5 @@
 
 __project__ = "medicalai"
 __author__ = "Vinayaka Jyothi - For AiBharata"
-__version__ = "1.1.45"
+__version__ = "1.1.46"
 __license__ = "Apache"
