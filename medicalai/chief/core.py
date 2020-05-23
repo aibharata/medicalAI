@@ -563,6 +563,13 @@ class INFERENCE_ENGINE(object):
 		img = self.preProcessor.processImage(input)
 		return self.model.predict(img)
 
+	def predict_with_labels(self, input,top_preds=4, retType = 'tuple'):
+		"""
+		Returns Decodes predictions with label/class names with output probabilites
+		"""
+		pred = self.predict(input)
+		return self.decode_predictions( pred, top_preds= top_preds, retType = retType)
+
 	def decode_predictions(self, pred, top_preds=4, retType = 'tuple'):
 		"""
 		Returns Decodes predictions with label/class names with output probabilites. 
