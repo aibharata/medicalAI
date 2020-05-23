@@ -261,7 +261,9 @@ class myDict(dict):
 
 class datasetFromFolder(datasetManager):
 	'''
-	TODO: Fix samplingMethodName assignment
+	Dataset processor based on Numpy. Expects a folder to contain `train` and `test` folder. Each of these folder should
+	have subfolders with class names.
+
 	'''
 	def __init__(self,folder, targetDim=(31,31), normalize=False , name = None, useCache=True , forceCleanCache = False):
 	 super().__init__(folder, targetDim, normalize, name, useCache, forceCleanCache)
@@ -269,17 +271,27 @@ class datasetFromFolder(datasetManager):
 	 self.test = myDict()
 	 (self.train.data, self.train.labels), (self.test.data, self.test.labels) = self.load_data()
 	 self.load_dataset()
+
 	 self.train.network_input_dim= targetDim
 	 self.train.normalize= normalize
 	 self.train.labelMap = self.labelMap
 	 self.train.labelNames = self.labels
+	 self.train.samplingMethodName = self.samplingMethodName
+
+	 self.test.network_input_dim= targetDim
+	 self.test.normalize= normalize
 	 self.test.labelMap = self.labelMap
 	 self.test.labelNames = self.labels
+	 self.test.samplingMethodName = self.samplingMethodName
 
-	 self.train.samplingMethodName = self.samplingMethodName
+	 
 	
 	def load_dataset(self): 
-	 return self.train, self.test, self.labels
+		"""
+		Return a loaded dataset in numpy arrays. 
+		Returns train, test, labelnames 
+		"""
+		return self.train, self.test, self.labels
 
 def datasetManagerFunc(folder,targetDim=(31,31), normalize=False):
 	dirs, labels = getLabelsFromFolder(folder)

@@ -52,8 +52,10 @@ def create_model_output_folder(outputName):
 	if "\\" in outputName:
 		outputName=outputName.replace('\\','/')
 	folder= outputName.replace(outputName.split('/')[-1],'')
-	if not os.path.exists(folder):
-		os.makedirs(folder)	
+	
+	if "/" in folder:
+		if not os.path.exists(folder):
+			os.makedirs(folder)	
 
 def check_model_exists(outputName):
 	"""
