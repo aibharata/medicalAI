@@ -38,6 +38,8 @@ Dependencies: Numpy, Tensorflow, Seaborn, Matplotlib, Pandas
 
 ## Usage
 
+### Getting Started Tutorial: Google Colab 
+ [Google Colab Notebook Link](https://colab.research.google.com/drive/1Wma4i5f11oyYrrkz0Y-3FOyPGmIpwKdD)
 ### Importing the Library
 ```py 
 import medicalai as mai
