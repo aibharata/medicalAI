@@ -755,7 +755,8 @@ class INFERENCE_ENGINE(object):
 
 		"""
 		if predictions is None:
-			predictions = self.predict(input)#.model.predict(input)
+			img = preProcessor.processImage(input)
+			predictions = self.predict(img)#.model.predict(input)
 			
 		if classNames is None and self.labelNames is None:
 			print('[ERROR]: No Labels Provides')
