@@ -755,7 +755,7 @@ class INFERENCE_ENGINE(object):
 
 		"""
 		if predictions is None:
-			img = preProcessor.processImage(input)
+			img = self.preProcessor.processImage(input)
 			predictions = self.predict(img)#.model.predict(input)
 			
 		if classNames is None and self.labelNames is None:
