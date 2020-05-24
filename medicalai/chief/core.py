@@ -70,10 +70,10 @@ def check_model_exists(outputName):
 
 	"""	
 	if not os.path.exists(outputName+'_arch.json'):
-		print("\n\n\n \tModel Doesnt Exist \n\n\n")
+		print("\n\n\n \t[INFO]: Model Doesnt Exist \n\n\n")
 		return False
 	else:
-		print("\n\n\n \tUsing Model: {:}.json \n\n\n".format(outputName))
+		print("\n\n\n \t[INFO]: Using Model: {:}.json \n\n\n".format(outputName))
 		return True
 		
 def save_model_and_weights(model,outputName):
@@ -204,7 +204,7 @@ def train(	model, x_train,
 
 	if saveBestModel is not None and saveBestModel==True:
 		if bestModelCond is not None and bestModelCond.lower() != 'default':
-			print('\n\tENGINE INITIALIZED WITH "SAVING BEST MODEL" and Early Stopping MODE\n')
+			print('\n[INFO]: ENGINE INITIALIZED WITH "SAVING BEST MODEL" and Early Stopping MODE\n')
 			earlystop_callback = tf.keras.callbacks.EarlyStopping(
 			monitor=bestModelCond['monitor'], 
 			min_delta=bestModelCond['min_delta'],
@@ -349,7 +349,7 @@ class INFERENCE_ENGINE(object):
 		try:
 			self.preprocessor_from_meta()
 		except:
-			print('Meta File Not Found - Not Initializing Preprocessor from Meta')
+			print('[INFO]: Meta File Not Found - Not Initializing Preprocessor from Meta')
 	
 	def load_model_and_weights(self, modelName, summary=False):
 		"""
@@ -718,7 +718,7 @@ class INFERENCE_ENGINE(object):
 		if pdfName is None:
 			pdfName = self.modelName
 		_get_metrics_evals(testSet, predictions, printStat = printStat,returnPlot = returnPlot, showPlot= showPlot,modelName=self.modelName, pdfName = pdfName, **kwargs)
-		print('Report Generated at Path:\n\t', os.path.abspath(pdfName)+'_report.pdf')
+		print('[INFO]: Report Generated at Path:\n\t', os.path.abspath(pdfName)+'_report.pdf')
 
 	def explain(self,input, predictions=None, layer_to_explain='CNN3', classNames = None, selectedClasses=None, expectedClass = None, showPlot=False):
 		"""
@@ -758,7 +758,7 @@ class INFERENCE_ENGINE(object):
 			predictions = self.predict(input)#.model.predict(input)
 			
 		if classNames is None and self.labelNames is None:
-			print('Error: No Labels Provides')
+			print('[ERROR]: No Labels Provides')
 		elif classNames is not None:
 			labels = classNames
 		elif self.labelNames is not None:
