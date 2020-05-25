@@ -73,7 +73,7 @@ trainer.train_and_save_model(AI_NAME= 'tinyMedNet', MODEL_SAVE_NAME='PATH_WHERE_
 trainer.plot_train_acc_loss()
 ```
 
-### Plot Generate a comprehensive evaluation PDF report 
+### Generate a comprehensive evaluation PDF report 
 ```py
 trainer.generate_evaluation_report()
 ```
