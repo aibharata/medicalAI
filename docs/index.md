@@ -12,7 +12,8 @@
 
 **Source Code**: <a href="https://github.com/aibharata/medicalai" target="_blank">https://github.com/aibharata/medicalai</a>
 
-**Youtube Tutorial**:<iframe width="560" height="315" src="https://www.youtube.com/embed/V4nCX-kLACg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+**Youtube Tutorial**: 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/V4nCX-kLACg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ---
 
 [![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest) [![Gitter](https://badges.gitter.im/aibh-medicalAI/devteam.svg)](https://gitter.im/aibh-medicalAI/devteam?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
