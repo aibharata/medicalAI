@@ -2,7 +2,7 @@
   <a href="https://aibharata.github.io/medicalAI/"><img src="https://raw.githubusercontent.com/aibharata/medicalAI/master/logo/logo.png" alt="MedicalAI"></a>
 </p>
 <p align="center">
-    <em>Medical-AI is a AI framework specifically for Medical Applications</em>
+    <em>Medical-AI is a AI framework for rapid protyping for Medical Applications</em>
 </p>
 
 
