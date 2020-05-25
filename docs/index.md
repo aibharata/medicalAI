@@ -46,7 +46,7 @@ Dependencies: Numpy, Tensorflow, Seaborn, Matplotlib, Pandas
  
 ### Importing the Library
 ```py 
-import medicalai as mai
+import medicalai as ai
 ```
 
 ## Using Templates
@@ -55,7 +55,7 @@ You can use the following templates to perform specific Tasks
 ### Load Dataset From Folder
 Set the path of the dataset and set the target dimension of image that will be input to AI network.
 ```py 
-trainSet,testSet,labelNames =mai.datasetFromFolder(datasetFolderPath, targetDim = (96,96)).load_dataset()
+trainSet,testSet,labelNames =ai.datasetFromFolder(datasetFolderPath, targetDim = (96,96)).load_dataset()
 ```
     - trainSet contains 'data' and 'labels' accessible by trainSet.data and trainSet.labels
     - testSet contains 'data' and 'labels' accessible by testSet.data and testSet.labels
@@ -69,7 +69,7 @@ print(trainSet.labels.shape)
 
 ### Run Training and Save Model
 ```py
-trainer = mai.TRAIN_ENGINE()
+trainer = ai.TRAIN_ENGINE()
 trainer.train_and_save_model(AI_NAME= 'tinyMedNet', MODEL_SAVE_NAME='PATH_WHERE_MODEL_IS_SAVED_TO', trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL= True, BATCH_SIZE= 32, EPOCHS= 10, LEARNING_RATE= 0.001)
 ```
 
@@ -79,44 +79,57 @@ trainer.train_and_save_model(AI_NAME= 'tinyMedNet', MODEL_SAVE_NAME='PATH_WHERE_
 trainer.plot_train_acc_loss()
 ```
 
-### Plot Confusion matrix of test data
+### Plot Generate a comprehensive evaluation PDF report 
 ```py
-trainer.plot_confusion_matrix(labelNames,title='Confusion Matrix of Trained Model on Test Dataset')
+trainer.generate_evaluation_report()
 ```
+PDF report will be generated with model sensitivity, specificity, accuracy, confidence intervals,
+ROC Curve Plot, Precision Recall Curve Plot, and Confusion Matrix Plot for each class.
+This function can be used when evaluating a model with Test or Validation Data Set.
+
+### Explain the Model on a sample
+```py
+trainer.explain(testSet.data[0:1], layer_to_explain='CNN3')
+```
+
 
 ### Loading Model for Prediction 
 ```py
-model = mai.load_model_and_weights(modelName = 'PATH_WHERE_MODEL_IS_SAVED_TO')
+infEngine = ai.INFERENCE_ENGINE(modelName = 'PATH_WHERE_MODEL_IS_SAVED_TO')
 ```
 
 
 ### Predict With Labels 
 ```py
-mai.predict_labels(model, testSet.data[0:2], expected_output =testSet.labels[0:2], labelNames=labels, top_preds=3)
+infEngine.predict_with_labels(testSet.data[0:2], top_preds=3)
 ```
 ### Get Just Values of Prediction without postprocessing
 ```py
-model.predict(testSet.data[0:2])
+infEngine.predict(testSet.data[0:2])
 ```
 
+### Alternatively, use a faster prediction method in production
+```py
+infEngine.predict_pipeline(testSet.data[0:1])
+```
 ## Advanced Usage
 
 ### Code snippet for Training Using Medical-AI 
 ```py
 ## Setup AI Model Manager with required AI. 
-model = mai.modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = train_data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+model = ai.modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = train_data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
 
 # Start Training
-result = mai.train(model, train_data, train_labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(test_data, test_labels), callbacks=['tensorboard'])
+result = ai.train(model, train_data, train_labels, BATCH_SIZE, EPOCHS, LEARNING_RATE, validation_data=(test_data, test_labels), callbacks=['tensorboard'])
 
 # Evaluate Trained Model on Test Data
 model.evaluate(test_data, test_labels)
 
 # Plot Accuracy vs Loss for Training
-mai.plot_training_metrics(result)
+ai.plot_training_metrics(result)
 
 #Save the Trained Model
-mai.save_model_and_weights(model, outputName= MODEL_SAVE_NAME)
+ai.save_model_and_weights(model, outputName= MODEL_SAVE_NAME)
 ```
 
 ## Automated Tests
