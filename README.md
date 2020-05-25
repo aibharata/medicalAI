@@ -12,8 +12,6 @@
 
 **Source Code**: <a href="https://github.com/aibharata/medicalai" target="_blank">https://github.com/aibharata/medicalai</a>
 
-**Source Code**: <a href="https://github.com/aibharata/medicalai" target="_blank">https://github.com/aibharata/medicalai</a>
-
 **Youtube Tutorial**: <a href="https://www.youtube.com/V4nCX-kLACg" target="_blank">https://www.youtube.com/V4nCX-kLACg</a>
 
 ---
