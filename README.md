@@ -23,10 +23,8 @@ Medical-AI is a AI framework  for rapid prototyping of AI for Medical Applicatio
 
 <div class="termy">
 
-```console
-$ pip install medicalai
-
----> 100%
+```py
+pip install medicalai
 ```
 
 </div>
