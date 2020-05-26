@@ -794,7 +794,7 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 	def __init__(self, modelName=None):
 		super().__init__(modelName)
 
-	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, callbacks=None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], showModel = False,CLASS_WEIGHTS=None):
+	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, callbacks=None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], showModel = False,CLASS_WEIGHTS=None):
 		""""
 		Main function that trains and saves a model. This automatically builds new model for given networks/AI or reload existing AI model. 
 		This function can be used to retrain existing models or create new models.
