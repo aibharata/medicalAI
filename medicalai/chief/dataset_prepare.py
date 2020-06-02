@@ -160,7 +160,7 @@ class INPUT_PROCESSOR:
 		return processedData
 
 
-	def processImage(self,image):
+	def processImage(self,image, targetFolder=None):
 		if isinstance(image,np.ndarray):
 			if len(image.shape)>3:
 				image = np.squeeze(image,0)
@@ -171,15 +171,21 @@ class INPUT_PROCESSOR:
 				fileExt = sep[-1]
 				fileName = sep[0]
 			except: 
-				sep = os.path.splitext(image.path)
+				if targetFolder is not None:
+					head, tail = os.path.split(image.path)
+					sep = os.path.splitext(tail)
+				else:
+					sep = os.path.splitext(image.path)
 				fileExt = sep[-1]
 				fileName = sep[0]
 			if fileExt== '.dcm':
-				ds = dicomProcessor.dcmread(image)
-				img = ds.pixel_array
-				im = Image.fromarray(img)
-				fName = fileName+".png"
-				im.save(fName)
+				with dicomProcessor.dcmread(image) as ds:
+					img = ds.pixel_array
+					im = Image.fromarray(img)
+					fName = fileName+".png"
+					if targetFolder is not None:
+						fName = os.path.join(targetFolder,fName)
+					im.save(fName)
 				img = Image.open(fName)
 			else:
 				img = Image.open(image)
