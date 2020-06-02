@@ -12,6 +12,7 @@ nav:
     - Examples: 
       - Train Using Numpy Method: medicalai/examples/train_using_numpy_dataset.md
       - Train Using Generator Method: medicalai/examples/train_using_generator_dataset.md
+      - Image Segmentation Example: medicalai/examples/train_unet_image_segmentation.md
     - Data Processing Pipeline: medicalai/dataset_processors.md
     - Core: medicalai/core.md
     - AI Networks: medicalai/networks.md
