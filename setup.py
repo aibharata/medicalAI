@@ -39,7 +39,7 @@ setup(name='medicalai',
           'Programming Language :: Python :: 3.7',
       ],
       zip_safe=True,
-	  python_requires='>=3.5, <3.8',
+	  python_requires='>=3.5, <3.9',
       extras_require={
           'test': ['pytest'],
       },
