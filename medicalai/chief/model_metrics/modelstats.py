@@ -354,7 +354,7 @@ def get_roc_curve(labels, predicted_vals, groundTruth= None, generator=None , re
             
             ax.legend(loc='best')
         except Exception as err:
-            print("Error in generating ROC curve for",labels[i], '\n',err)
+            print("[ERROR]: in generating ROC curve for",labels[i], '\n',err)
     #print('showPlot ROC Curve',showPlot)
     if showPlot==True:
         plt.show()

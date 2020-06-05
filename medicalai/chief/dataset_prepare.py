@@ -348,7 +348,7 @@ def metaLoader(metaFile):
     return json_data['config']
 
 
-def metaSaver(labelMap, labels, normalize=None, rescale=None, network_input_dim=None, samplingMethodName=None, outputName=None):
+def metaSaver(labelMap, labels, normalize=None, rescale=None, network_input_dim=None, samplingMethodName=None, outputName=None, **kwargs):
 	import json
 	from collections import OrderedDict
 	meta = OrderedDict()

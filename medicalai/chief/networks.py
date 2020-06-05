@@ -11,8 +11,10 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-
 from __future__ import absolute_import
+
+
+
 from .nnets import resnet,covid_net,densenet,vgg16,mobilenet,mobilenetv2,xception,inceptionv3,inceptionResnet
 
 import os
@@ -24,6 +26,8 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.models import Sequential
 import tensorflow as tf
+
+ 
 class NetworkInit(object):
     """Base class for parameter Network initializers.
 
@@ -31,13 +35,13 @@ class NetworkInit(object):
     to initialize network/model parameters for numerous medical ai networks. It should be
     subclassed when implementing new types of network initializers.
     """
-    def __call__(self, inputSize, OutputSize, convLayers=None):
+    def __call__(self, inputSize, OutputSize, **kwargs):
         """Makes :class:`NetworkInit` instances callable like a function, invoking
         their :meth:`call()` method.
         """
-        return self.call(inputSize, OutputSize, convLayers)
+        return self.call(inputSize, OutputSize, **kwargs)
 
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         """Sample should return model initialized with input and output Sizes.
         
         Parameters
@@ -63,7 +67,7 @@ class tinyMedNet(NetworkInit):
     """tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs. This network can be used to demonstrate the framework working.
        Additionally this acts a starting point for example/tutorial for getting started to know the Medical AI library.
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         try:
             model = Sequential([
                 Conv2D(64, kernel_size=(5, 5), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'),
@@ -94,10 +98,17 @@ class tinyMedNet(NetworkInit):
 
 class tinyMedNet_v2(NetworkInit):
     """tinyMedNet_v2 allows users to configure the number of Conv/CNN layers.
+       Should Pass `convLayers` when initializing.
        tinyMedNet_v2 is a classification network that consumes very less resources and can be trained even on CPUs. This network can be used to demonstrate the framework working.
        Additionally this acts a starting point for example/tutorial for getting started to know the Medical AI library.
     """
-    def call(self, inputSize, OutputSize, convLayers=2):
+    def call(self, inputSize, OutputSize, **kwargs):
+        try:
+            convLayers = kwargs["convLayers"]
+        except:
+            print('convLayers Not Passed in Network Parameters. Pass the parameter using **ai_params')
+            print('Using Default 3 convLayers')
+            convLayers = 3
         try:
             model = Sequential()
             model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'))
@@ -119,8 +130,15 @@ class tinyMedNet_v2(NetworkInit):
         
 class tinyMedNet_v3(NetworkInit):
     """tinyMedNet_v3 has 3 FC layers with Dropout and Configurable number of Conv/CNN Layers.
+       Should Pass `convLayers` when initializing.
     """
-    def call(self, inputSize, OutputSize, convLayers=2):
+    def call(self, inputSize, OutputSize, **kwargs):
+        try:
+            convLayers = kwargs["convLayers"]
+        except:
+            print('convLayers Not Passed in Network Parameters. Pass the parameter using **ai_params')
+            print('Using Default 3 convLayers')
+            convLayers = 3
         try:
             model = Sequential()
             model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'))
@@ -149,28 +167,28 @@ class tinyMedNet_v3(NetworkInit):
 class resNet20(NetworkInit):
     """resnet20
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet20(img_input=img_input,classes=OutputSize)
 
 class resNet32(NetworkInit):
     """resnet32
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet32(img_input=img_input,classes=OutputSize)
 
 class resNet56(NetworkInit):
     """RESNET56
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet56(img_input=img_input,classes=OutputSize)
 
 class resNet110(NetworkInit):
     """resnet110
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         img_input = tf.keras.layers.Input(shape=inputSize)
         return resnet.resnet110(img_input=img_input,classes=OutputSize)
 
@@ -180,7 +198,7 @@ class megaNet(NetworkInit):
     This is a tensorflow 2.0 network variant for COVID-Net described in Paper "COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images" by Linda Wang et al. 
     Reference: https://github.com/busyyang/COVID-19/
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return covid_net.COVIDNET_Keras(img_input=inputSize,classes=OutputSize)
 
 class DenseNet121(NetworkInit):
@@ -189,7 +207,7 @@ class DenseNet121(NetworkInit):
     inputSize: input image size tuple
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return densenet.DenseNet121_Model(img_input=inputSize,classes=OutputSize)
 
 class VGG16(NetworkInit):
@@ -198,7 +216,7 @@ class VGG16(NetworkInit):
     inputSize: input image size tuple,default : (224,223,3)
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return vgg16.VGG16_Model(img_input=inputSize,classes=OutputSize)
 
 class MobileNet(NetworkInit):
@@ -207,7 +225,7 @@ class MobileNet(NetworkInit):
     inputSize: input image size tuple,default : (224,223,3)
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return mobilenet.MobileNet(img_input=inputSize,classes=OutputSize)
 
 class MobileNetV2(NetworkInit):
@@ -216,7 +234,7 @@ class MobileNetV2(NetworkInit):
     inputSize: input image size tuple,default : (224,223,3)
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return mobilenetv2.MobileNetV2(img_input=inputSize,classes=OutputSize)
 
 class Xception(NetworkInit):
@@ -225,7 +243,7 @@ class Xception(NetworkInit):
     inputSize: input image size tuple,default : (224,223,3)
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return xception.Xception(img_input=inputSize,classes=OutputSize)
 
 class InceptionV3(NetworkInit):
@@ -234,7 +252,7 @@ class InceptionV3(NetworkInit):
     inputSize: input image size tuple,default : (224,223,3)
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return inceptionv3.InceptionV3(img_input=inputSize,classes=OutputSize)
 
 class InceptionResNetV2(NetworkInit):
@@ -243,7 +261,7 @@ class InceptionResNetV2(NetworkInit):
     inputSize: input image size tuple,default : (224,223,3)
     outputSize: Number of classes for prediction
     """
-    def call(self, inputSize, OutputSize, convLayers=None):
+    def call(self, inputSize, OutputSize, **kwargs):
         return inceptionResnet.InceptionResNetV2_Model(img_input=inputSize,classes=OutputSize)
 
 def get(networkInitialization):
@@ -276,7 +294,7 @@ def get(networkInitialization):
             return Xception()
         elif networkInitialization in ['inception','InceptionV3','inceptionv3']:
             return InceptionV3()
-        elif networkInitialization in ['inceptionresnet','InceptionResNet','InceptionReset','InceptionResNetV2']:
+        elif networkInitialization in ['inceptionresnet','InceptionResNet','InceptionResNetV2']:
             return InceptionResNetV2()
         raise ValueError('Unknown network Initialization name: {}.'.format(networkInitialization))
 

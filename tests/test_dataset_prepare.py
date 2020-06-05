@@ -6,10 +6,10 @@ import tensorflow as tf
 import pandas as pd
 
 def test_augmentation():
-		v = ai.AUGMENTATION()
-		print('AUG Type:', type(v.trainAug))
-		assert isinstance(v.trainAug, tf.keras.preprocessing.image.ImageDataGenerator) , "augmentation: TrainAug - Default Initialization Failed"
-		assert isinstance(v.testAug, tf.keras.preprocessing.image.ImageDataGenerator) , "augmentation: TestAug - Default Initialization Failed"
+	v = ai.AUGMENTATION()
+	assert isinstance(v.trainAug, tf.keras.preprocessing.image.ImageDataGenerator) , "augmentation: TrainAug - Default Initialization Failed"
+	assert isinstance(v.testAug, tf.keras.preprocessing.image.ImageDataGenerator) , "augmentation: TestAug - Default Initialization Failed"
+	print('augmentation: TrainAug - Default Initialization PASSED')
 
 def test_datasetGenFromFolder():
 	dsfolder = '/home/aditya/AIBH_Intern_09_Aditya/data'

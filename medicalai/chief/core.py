@@ -36,7 +36,12 @@ from .model_metrics import *
 from .xai import *
 from .uFuncs import *
 
-	
+physical_devices = tf.config.list_physical_devices('GPU')
+if len(physical_devices)>1:
+	MULTI_GPU_MODE= True
+else:
+	MULTI_GPU_MODE= False
+GPU_to_Use = 'all'	
 	
 def create_model_output_folder(outputName):
 	"""
@@ -163,6 +168,7 @@ def modelManager(modelName,x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME= 'tin
 		if check_model_exists(modelName):
 			model = load_model_and_weights(modelName = modelName)
 		else:
+			create_model_output_folder(modelName)
 			nw = networks.get(AI_NAME)
 			model = nw(x_train.shape[1:],OUTPUT_CLASSES, convLayers)
 			
@@ -186,15 +192,12 @@ def show_model_details(model):
 
 def train(	model, x_train, 
 			batch_size=1,epochs=1, 
-			learning_rate=0.001, callbacks=None,
+			callbacks=None,
 			class_weights = None, 
 			saveBestModel = False, bestModelCond = None, 
 			validation_data = None, TRAIN_STEPS = None, TEST_STEPS = None, 
-			loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], verbose=None, y_train=None, 
+			verbose=None, y_train=None, 
 		  ):
-	model.compile(optimizer=tf.keras.optimizers.Adam(lr=learning_rate),
-				  loss=loss,
-				  metrics=metrics)
 	if callbacks is not None:
 		if ('tensorboard'in callbacks):
 			logdir=os.path.join('log')
@@ -346,10 +349,12 @@ class INFERENCE_ENGINE(object):
 		if modelName is not None:
 			self.model = load_model_and_weights(modelName = modelName)
 		self.labelNames = classNames
-		try:
-			self.preprocessor_from_meta()
-		except:
-			print('[INFO]: Meta File Not Found - Not Initializing Preprocessor from Meta')
+		print('[INFO]: Initialized -',self.__class__.__name__)
+		if self.__class__.__name__ == 'INFERENCE_ENGINE':
+			try:
+				self.preprocessor_from_meta()
+			except:
+				print('[INFO]: Meta File Not Found - Not Initializing Preprocessor from Meta')
 	
 	def load_model_and_weights(self, modelName, summary=False):
 		"""
@@ -527,7 +532,7 @@ class INFERENCE_ENGINE(object):
 				return self.model.predict(input.data)
 			elif hasattr(input, 'generator'):
 				#self.labelNames =	dataprc.safe_labelmap_converter(input.labelMap) if labelNames is None else labelNames
-				return self.model.predict(input.generator)
+				return self.model.predict(input.generator, steps =input.STEP_SIZE)
 			else:
 				return self.model.predict(input)
 
@@ -874,13 +879,21 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 		self.test_predictions = None
 		if hasattr(trainSet, 'data'):
 			self.labelNames = trainSet.labelNames
-			self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+			if MULTI_GPU_MODE and GPU_to_Use.lower()=='all':
+				mirrored_strategy = tf.distribute.MirroredStrategy()
+				with mirrored_strategy.scope():
+					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)
+				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
+			else:
+					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
-			
-			self.result = train(self.model, trainSet.data, y_train= trainSet.labels, batch_size=BATCH_SIZE, epochs=EPOCHS, learning_rate=LEARNING_RATE, 
+			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)
+			self.result = train(self.model, trainSet.data, y_train= trainSet.labels, batch_size=BATCH_SIZE, epochs=EPOCHS,
 									validation_data=(testSet.data, testSet.labels), callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, 
-									bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = None, TEST_STEPS = None, loss = loss, 
-									metrics = metrics,class_weights=CLASS_WEIGHTS)#['tensorboard'])
+									bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = None, TEST_STEPS = None, 
+									class_weights=CLASS_WEIGHTS)#['tensorboard'])
 			#self.model.evaluate(testSet.data, testSet.labels)
 			
 			dataprc.metaSaver(trainSet.labelMap, trainSet.labelNames,  normalize=trainSet.normalize,
@@ -889,10 +902,19 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 		else:
 			networkDim = np.zeros((1,)+trainSet.generator.image_shape)
 			self.labelNames = dataprc.safe_labelmap_converter(trainSet.labelMap)
-			self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
-			
+			if MULTI_GPU_MODE and GPU_to_Use.lower()=='all':
+				mirrored_strategy = tf.distribute.MirroredStrategy()
+				with mirrored_strategy.scope():
+					mirrored_strategy = tf.distribute.MirroredStrategy()
+					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)
+				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
+			else:
+					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
-			self.result = train(self.model, trainSet.generator, batch_size=None, epochs=EPOCHS, learning_rate=LEARNING_RATE, validation_data=testSet.generator, callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = trainSet.STEP_SIZE, TEST_STEPS = testSet.STEP_SIZE, loss = loss, metrics =metrics, verbose=1,class_weights=CLASS_WEIGHTS)#['tensorboard'])
+			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)
+			self.result = train(self.model, trainSet.generator, batch_size=BATCH_SIZE, epochs=EPOCHS, validation_data=testSet.generator, callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = trainSet.STEP_SIZE, TEST_STEPS = testSet.STEP_SIZE, verbose=1,class_weights=CLASS_WEIGHTS)#['tensorboard'])
 			#self.model.evaluate(testSet.generator,steps =	testSet.STEP_SIZE)
 			dataprc.metaSaver(trainSet.labelMap, self.labelNames, normalize= None,
 							 rescale = trainSet.generator.image_data_generator.rescale,
