@@ -240,6 +240,9 @@ def resnet(num_blocks, img_input=None, classes=10, training=None):
                    stage=4, conv_strides=(2, 2), training=training)
 
   x = tf.keras.layers.GlobalAveragePooling2D(name='avg_pool')(x)
+  x = tf.keras.layers.Flatten(name="flatten")(x)
+  x = tf.keras.layers.Dense(512, activation="relu")(x)
+  x = tf.keras.layers.Dropout(0.25)(x)
   x = tf.keras.layers.Dense(classes, activation='softmax',
                             kernel_initializer='he_normal',
                             kernel_regularizer=

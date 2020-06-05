@@ -137,7 +137,7 @@ def load_model_and_weights(modelName, summary = False):
 	model.load_weights(modelName+'_wgts.h5')
 	return model
 
-def modelManager(modelName,x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME= 'tinyMedNet', convLayers=None):
+def modelManager(modelName,x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME= 'tinyMedNet', **kwargs):
 	"""
 	Model manager is used to build new model for given networks/AI or reload existing AI model. 
 	This function can be used to retrain existing models or create new models.
@@ -170,11 +170,11 @@ def modelManager(modelName,x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME= 'tin
 		else:
 			create_model_output_folder(modelName)
 			nw = networks.get(AI_NAME)
-			model = nw(x_train.shape[1:],OUTPUT_CLASSES, convLayers)
+			model = nw(x_train.shape[1:],OUTPUT_CLASSES, **kwargs)
 			
 	else:
 		nw = networks.get(AI_NAME)
-		model = nw(x_train.shape[1:],OUTPUT_CLASSES, convLayers)
+		model = nw(x_train.shape[1:],OUTPUT_CLASSES, **kwargs)
 	
 	return model
 	
@@ -492,7 +492,7 @@ class INFERENCE_ENGINE(object):
 			self.labelNames = self.preProcessor.labels
 
 	#@timeit
-	def predict(self, input):
+	def predict(self, input, verbose=0):
 		"""
 		Peform prediction on Input. Input can be Numpy Array or Image or Data Generator (in case of Test/Validation). 
 
@@ -519,22 +519,24 @@ class INFERENCE_ENGINE(object):
 		# Returns
 			Numpy.Array: of Predictions. Shape of Output [Number of Inputs, Number of Output Classes in Model]
 		"""
-		if self.preProcessor is not None:
-			input = self.preProcessor.processImage(input)
-			return self.model.predict(input)
+		if hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
+			return self.model.predict(input.generator, steps =input.STEP_SIZE, verbose=verbose)
+		elif hasattr(input, 'image_data_generator'):
+			return self.model.predict(input, steps =(input.n/input.batch_size), verbose=verbose)
+		elif hasattr(input, 'data') and not isinstance(input,np.ndarray):
+			return self.model.predict(input.data, verbose=verbose)
 		else:
-			if self.labelNames is None:
-				if hasattr(input, 'labelNames'):
-					self.labelNames = input.labelNames if self.labelNames is None else self.labelNames
-			if isinstance(input,np.ndarray):
-				return self.model.predict(input)
-			elif hasattr(input, 'data'):
-				return self.model.predict(input.data)
-			elif hasattr(input, 'generator'):
-				#self.labelNames =	dataprc.safe_labelmap_converter(input.labelMap) if labelNames is None else labelNames
-				return self.model.predict(input.generator, steps =input.STEP_SIZE)
+			if self.preProcessor is not None:
+				input = self.preProcessor.processImage(input)
+				return self.model.predict(input, verbose=verbose)
 			else:
-				return self.model.predict(input)
+				if self.labelNames is None:
+					if hasattr(input, 'labelNames'):
+						self.labelNames = input.labelNames if self.labelNames is None else self.labelNames
+				if isinstance(input,np.ndarray):
+					return self.model.predict(input, verbose=verbose)
+				else:
+					return self.model.predict(input, verbose=verbose)
 
 	#@timeit
 	def predict_pipeline(self, input):
@@ -799,7 +801,7 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 	def __init__(self, modelName=None):
 		super().__init__(modelName)
 
-	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, callbacks=None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], showModel = False,CLASS_WEIGHTS=None):
+	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, callbacks=None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], showModel = False,CLASS_WEIGHTS=None, **kwargs):
 		""""
 		Main function that trains and saves a model. This automatically builds new model for given networks/AI or reload existing AI model. 
 		This function can be used to retrain existing models or create new models.
@@ -906,11 +908,11 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 				mirrored_strategy = tf.distribute.MirroredStrategy()
 				with mirrored_strategy.scope():
 					mirrored_strategy = tf.distribute.MirroredStrategy()
-					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)
 				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
 			else:
-					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
 			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)

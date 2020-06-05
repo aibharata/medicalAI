@@ -494,8 +494,8 @@ class datasetGenFromFolder(object):
 				seed = self.seed,
 				shuffle = False,
 				)				
-		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n//self.trainGen.generator.batch_size)
-		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n//self.testGen.generator.batch_size)
+		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n/self.trainGen.generator.batch_size)
+		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n/self.testGen.generator.batch_size)
 		self.labelMap = self.trainGen.generator.class_indices
 		self.trainGen.labelMap = self.trainGen.generator.class_indices
 		self.testGen.labelMap = self.trainGen.generator.class_indices
@@ -605,8 +605,8 @@ class datasetGenFromDataframe(object):
 				validate_filenames = False,
 				shuffle = False
 				)				
-		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n//self.trainGen.generator.batch_size)
-		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n//self.testGen.generator.batch_size)
+		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n/self.trainGen.generator.batch_size)
+		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n/self.testGen.generator.batch_size)
 		self.labelMap = self.trainGen.generator.class_indices
 		self.trainGen.labelMap = self.trainGen.generator.class_indices
 		self.testGen.labelMap = self.trainGen.generator.class_indices
