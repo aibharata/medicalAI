@@ -15,8 +15,8 @@ from __future__ import absolute_import
 
 
 
-from .nnets import resnet,covid_net,densenet,vgg16,mobilenet,mobilenetv2,xception,inceptionv3,inceptionResnet
-
+from .nnets import covid_net,densenet,vgg16,mobilenet,mobilenetv2,xception,inceptionv3,inceptionResnet
+from .nnets.resnet import resnet
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 import sys
