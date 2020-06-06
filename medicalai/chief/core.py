@@ -801,7 +801,11 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 	def __init__(self, modelName=None):
 		super().__init__(modelName)
 
-	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, callbacks=None, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'], showModel = False,CLASS_WEIGHTS=None, **kwargs):
+	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, 
+							BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, 
+							callbacks=None, loss = 'sparse_categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001),
+							metrics = ['accuracy'], showModel = False,
+							CLASS_WEIGHTS=None, **kwargs):
 		""""
 		Main function that trains and saves a model. This automatically builds new model for given networks/AI or reload existing AI model. 
 		This function can be used to retrain existing models or create new models.
@@ -885,11 +889,11 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 				mirrored_strategy = tf.distribute.MirroredStrategy()
 				with mirrored_strategy.scope():
 					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
-					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)
+					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)
 				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
 			else:
 					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
-					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)				
+					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
 			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)
 			self.result = train(self.model, trainSet.data, y_train= trainSet.labels, batch_size=BATCH_SIZE, epochs=EPOCHS,
@@ -909,11 +913,11 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 				with mirrored_strategy.scope():
 					mirrored_strategy = tf.distribute.MirroredStrategy()
 					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
-					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)
+					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)
 				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
 			else:
 					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
-					self.model.compile(optimizer=tf.keras.optimizers.Adam(lr=LEARNING_RATE),loss=loss,metrics=metrics)				
+					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
 			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)
 			self.result = train(self.model, trainSet.generator, batch_size=BATCH_SIZE, epochs=EPOCHS, validation_data=testSet.generator, callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = trainSet.STEP_SIZE, TEST_STEPS = testSet.STEP_SIZE, verbose=1,class_weights=CLASS_WEIGHTS)#['tensorboard'])
