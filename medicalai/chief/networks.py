@@ -164,33 +164,42 @@ class tinyMedNet_v3(NetworkInit):
             print(20*'-')
             sys.exit(1)            
         
-class resNet20(NetworkInit):
-    """resnet20
+class resNet50(NetworkInit):
+    """RESNET50
     """
     def call(self, inputSize, outputSize, **kwargs):
-        img_input = tf.keras.layers.Input(shape=inputSize)
-        return resnet.resnet20(img_input=img_input,classes=outputSize)
+        return resnet(img_input=inputSize,classes=outputSize, name='ResNet50', **kwargs)
 
-class resNet32(NetworkInit):
-    """resnet32
+class resNet50V2(NetworkInit):
+    """RESNET50V2
     """
     def call(self, inputSize, outputSize, **kwargs):
-        img_input = tf.keras.layers.Input(shape=inputSize)
-        return resnet.resnet32(img_input=img_input,classes=outputSize)
+        return resnet(img_input=inputSize,classes=outputSize, name='ResNet50V2', **kwargs)
 
-class resNet56(NetworkInit):
-    """RESNET56
+class resNet101(NetworkInit):
+    """RESNET101
     """
     def call(self, inputSize, outputSize, **kwargs):
-        img_input = tf.keras.layers.Input(shape=inputSize)
-        return resnet.resnet56(img_input=img_input,classes=outputSize)
+        return resnet(img_input=inputSize,classes=outputSize, name='ResNet101', **kwargs)
 
-class resNet110(NetworkInit):
-    """resnet110
+class resNet101V2(NetworkInit):
+    """RESNET101V2
     """
     def call(self, inputSize, outputSize, **kwargs):
-        img_input = tf.keras.layers.Input(shape=inputSize)
-        return resnet.resnet110(img_input=img_input,classes=outputSize)
+        return resnet(img_input=inputSize,classes=outputSize, name='ResNet101V2', **kwargs)
+
+class resNet152V2(NetworkInit):
+    """RESNET152V2
+    """
+    def call(self, inputSize, outputSize, **kwargs):
+        return resnet(img_input=inputSize,classes=outputSize, name='ResNet152V2', **kwargs)
+
+class resNet152(NetworkInit):
+    """RESNET152
+    """
+    def call(self, inputSize, outputSize, **kwargs):
+        return resnet(img_input=inputSize,classes=outputSize, name='ResNet152', **kwargs)
+
 
 class megaNet(NetworkInit):
     """
@@ -272,14 +281,18 @@ def get(networkInitialization):
             return tinyMedNet_v2()
         elif networkInitialization in ['tinyMedNet_v3', 'tiny_Medical_Network_v3']:
             return tinyMedNet_v3()
-        elif networkInitialization in ['resNet20', 'resnet20']:
-            return resNet20()
-        elif networkInitialization in ['resNet32', 'resnet32']:
-            return resNet32()
-        elif networkInitialization in ['resNet56', 'resnet56']:
-            return resNet56()
-        elif networkInitialization in ['resNet110', 'resnet110']:
-            return resNet110()
+        elif networkInitialization in ['resNet50', 'resnet50']:
+            return resNet50()
+        elif networkInitialization in ['resNet50V2', 'resnet50V2']:
+            return resNet50V2()
+        elif networkInitialization in ['resNet101', 'resnet101']:
+            return resNet101()
+        elif networkInitialization in ['resNet101V2', 'resnet101V2']:
+            return resNet101V2()
+        elif networkInitialization in ['resNet152', 'resnet152']:
+            return resNet152()
+        elif networkInitialization in ['resNet152V2', 'resnet152V2']:
+            return resNet152V2()
         elif networkInitialization in ['megaNet', 'meganet']:
             return megaNet()
         elif networkInitialization in ['densenet','DenseNet','DenseNet121']:
