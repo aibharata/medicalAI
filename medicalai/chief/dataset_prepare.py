@@ -491,7 +491,7 @@ class datasetGenFromFolder(object):
 				batch_size=self.batch_size, #1
 				color_mode = self.color_mode,
 				class_mode = self.class_mode,
-				seed = self.seed,
+				#seed = self.seed,
 				shuffle = False,
 				)				
 		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n/self.trainGen.generator.batch_size)

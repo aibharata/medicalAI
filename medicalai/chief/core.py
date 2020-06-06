@@ -520,9 +520,9 @@ class INFERENCE_ENGINE(object):
 			Numpy.Array: of Predictions. Shape of Output [Number of Inputs, Number of Output Classes in Model]
 		"""
 		if hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
-			return self.model.predict(input.generator, steps =input.STEP_SIZE, verbose=verbose)
+			return self.model.predict(input.generator, verbose=1)
 		elif hasattr(input, 'image_data_generator'):
-			return self.model.predict(input, steps =(input.n/input.batch_size), verbose=verbose)
+			return self.model.predict(input,  verbose=1)
 		elif hasattr(input, 'data') and not isinstance(input,np.ndarray):
 			return self.model.predict(input.data, verbose=verbose)
 		else:

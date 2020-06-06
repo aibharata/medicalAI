@@ -216,58 +216,6 @@ def get_npv(expected, preds, threshold=0.5):
     NPV = TN/(TN+FN)
     return NPV
 
-def compute_class_freqs(labels):
-    """
-    Compute positive and negative frequences for each class.
-
-    Args:
-
-        labels (np.array): matrix of labels, size (num_examples, num_classes)
-
-    Returns:
-
-        positive_frequencies (np.array): array of positive frequences for each
-                                         class, size (num_classes)
-        negative_frequencies (np.array): array of negative frequences for each
-                                         class, size (num_classes)
-
-    """
-    N = labels.shape[0] #np.sum(labels,axis=1)
-    positive_frequencies = np.sum(labels == 1,axis=0) / N
-    negative_frequencies = np.sum(labels == 0,axis=0) / N
-    return positive_frequencies, negative_frequencies
-
-def get_weighted_loss(pos_weights, neg_weights, epsilon=1e-7):
-    """
-    Return weighted loss function given negative weights and positive weights.
-
-    Args:
-
-      pos_weights (np.array): array of positive weights for each class, size (num_classes)
-      neg_weights (np.array): array of negative weights for each class, size (num_classes)
-    
-    Returns:
-
-      weighted_loss (function): weighted loss function
-    """
-    from tensorflow.keras import backend as K
-    def weighted_loss(y_true, y_pred):
-        """
-        Return weighted loss value. 
-
-        Args:
-
-            y_true (Tensor): Tensor of true labels, size is (num_examples, num_classes)
-            y_pred (Tensor): Tensor of predicted labels, size is (num_examples, num_classes)
-        Returns:
-
-            loss (Tensor): overall scalar loss summed across all classes
-        """
-        loss = 0.0
-        for i in range(len(pos_weights)):
-            loss += -1*(K.mean(((neg_weights[i] * (1 - y_true[:,i]) * K.log(1 - y_pred[:,i] + epsilon)) + pos_weights[i] * y_true[:,i] * K.log(y_pred[:,i] + epsilon)), axis = 0))
-        return loss 
-    return weighted_loss
 
 def get_curve(gt, pred, target_names, curve='roc',returnPlot = False, showPlot= True, axes=None, **kwargs):
     for i in range(len(target_names)):

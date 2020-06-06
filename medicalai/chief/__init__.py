@@ -22,3 +22,4 @@ from .prettyloss import *
 from . import nnets
 from . import model_metrics
 from . import xai
+from . import dataset_analysis as dataAnalyzer
