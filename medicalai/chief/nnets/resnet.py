@@ -13,6 +13,7 @@ def resnet(img_input=(224,224,3),classes=3,name = 'ResNet50', **kwargs):
 
     Returns : model
   """
+  finalActivation=kwargs['finalActivation'] if 'finalActivation' in kwargs else 'softmax'
   tfAPP = tf.keras.applications
   resnetMethods = [x for x in dir(tfAPP) if 'ResNet' in x and not 'Inception' in x]
   appsLink = 'tf.keras.applications.'
@@ -32,7 +33,7 @@ def resnet(img_input=(224,224,3),classes=3,name = 'ResNet50', **kwargs):
   output = tf.keras.layers.Flatten(name="flatten")(output)
   output = tf.keras.layers.Dense(512, activation="relu")(output)
   output = tf.keras.layers.Dropout(0.25)(output)
-  output = tf.keras.layers.Dense(classes, activation="softmax")(output)
+  output = tf.keras.layers.Dense(classes, activation=finalActivation)(output)
   # place the head FC model on top of the base model (this will become the actual model we will train)
   model_full = tf.keras.Model(inputs=baseModel.input, outputs=output)
   # loop over all layers in the base model and freeze them so they will not be updated during the first training process
@@ -41,5 +42,5 @@ def resnet(img_input=(224,224,3),classes=3,name = 'ResNet50', **kwargs):
   return model_full
 
 if __name__ == '__main__':
-    model = MobileNet()
+    model = resnet()
     model.summary()

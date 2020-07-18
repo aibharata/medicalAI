@@ -14,14 +14,17 @@
 
 from __future__ import absolute_import
 
-from .core import *
-from .networks import *
-from .dataset_prepare import *
-from .download_utils import *
-from .prettyloss import *
-from . import nnets
-from . import model_metrics
-from . import xai
-from . import dataset_analysis as dataAnalyzer
-from . import callbacks as callbacks
-from . import dataloaders as dataloader
+def safe_labelmap_converter(labelMap):
+	labs = [0 for x in list(labelMap.keys())]
+	for k,v in labelMap.items():
+		labs[v]=k
+	return labs
+
+def safe_label_to_labelmap_converter(labels):
+	labelMap = {}
+	for x in range(0,len(labels)):
+		labelMap[labels[x]]=x
+	return labelMap
+
+class myDict(dict):
+    pass

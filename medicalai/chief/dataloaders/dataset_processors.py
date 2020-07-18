@@ -11,17 +11,21 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-
 from __future__ import absolute_import
+import pandas as pd
+import numpy as np
+from PIL import Image
+import os
+from albumentations import Compose
 
-from .core import *
-from .networks import *
-from .dataset_prepare import *
-from .download_utils import *
-from .prettyloss import *
-from . import nnets
-from . import model_metrics
-from . import xai
-from . import dataset_analysis as dataAnalyzer
-from . import callbacks as callbacks
-from . import dataloaders as dataloader
+class aiDataLoader(object):
+    """Base class for aiDataLoader.
+    """
+    def __call__(self, targetDim, color_mode,class_mode, batch_size,shuffle,seed,augmentations, **kwargs):
+        return self.call(targetDim, color_mode,class_mode, batch_size,shuffle,seed,augmentations, **kwargs)
+
+    def call(self, targetDim, color_mode,class_mode, batch_size,shuffle,seed,augmentations, **kwargs):
+        raise NotImplementedError()
+
+    def __str__(self):
+        return self.__class__.__name__

@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-def MobileNetV2(img_input=(224,224,3),classes=3):
+def MobileNetV2(img_input=(224,224,3),classes=3,**kwargs):
   """
   Loaded the MobileNetV2 network, ensuring the head FC layer sets are left off
 
@@ -13,6 +13,8 @@ def MobileNetV2(img_input=(224,224,3),classes=3):
 
     Returns : model
   """
+  finalActivation=kwargs['finalActivation'] if 'finalActivation' in kwargs else 'softmax'
+  trainAllLayers=kwargs['trainAllLayers'] if 'trainAllLayers' in kwargs else False
   baseModel = tf.keras.applications.MobileNetV2(weights="imagenet", include_top=False,
                                                 input_tensor=tf.keras.layers.Input(shape=img_input))
   # construct the head of the model that will be placed on top of the the base model
@@ -21,12 +23,12 @@ def MobileNetV2(img_input=(224,224,3),classes=3):
   output = tf.keras.layers.Flatten(name="flatten")(output)
   output = tf.keras.layers.Dense(512, activation="relu")(output)
   output = tf.keras.layers.Dropout(0.25)(output)
-  output = tf.keras.layers.Dense(classes, activation="softmax")(output)
+  output = tf.keras.layers.Dense(classes, activation=finalActivation)(output)
   # place the head FC model on top of the base model (this will become the actual model we will train)
   model_full = tf.keras.Model(inputs=baseModel.input, outputs=output)
   # loop over all layers in the base model and freeze them so they will not be updated during the first training process
   for layer in baseModel.layers:
-    layer.trainable = False
+    layer.trainable = trainAllLayers
   return model_full
 
 if __name__ == '__main__':
