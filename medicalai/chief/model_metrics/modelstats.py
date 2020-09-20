@@ -576,7 +576,7 @@ def generate_evaluation_report(CLASS_NAMES, predictions, groundTruth=None,  gene
         axs3 = _Plot_Heatmap_from_DF(con_mat_norm_df, title="Confusion Matrix Normalized", ax = axs3, Accuracy=Accuracy, cohenKappaScore=cohenKappaScore) 
     else:
         cm_cols = 4 if OUTPUT_CLASSES>4 else OUTPUT_CLASSES
-        cm_rows =  2
+        cm_rows =  int(np.ceil(OUTPUT_CLASSES/cm_cols))
         numPages = int(np.ceil(OUTPUT_CLASSES/(cm_cols*cm_rows)))
         fig3 = plot_multilabel_confusion_matrix(gt_one_hot_vec,predictions,CLASS_NAMES,numPages=numPages,rows_per_page=cm_rows,ncols=cm_cols)
 
