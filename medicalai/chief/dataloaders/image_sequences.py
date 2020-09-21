@@ -57,7 +57,7 @@ class ImageDatasetSeqFromDF(object):
             self.trainGen.generator = ImageSequenceFromDF(dataFrame=self.trainDF, dataFolder=dataFolder, name ='train',
                  inputCol=inputCol, labelCols=labelCols, batch_size=batch_size, targetDim=targetDim, seed=seed,
                  color_mode=color_mode,shuffle=shuffle, class_mode=class_mode, augmentations=train_augmentations,
-                 output_range=output_range
+                 output_range=output_range, labelMap = self.labelMap
                  )
             self.trainGen = self._update_params(self.trainGen)
         
@@ -65,14 +65,14 @@ class ImageDatasetSeqFromDF(object):
             self.testGen.generator = ImageSequenceFromDF(dataFrame=self.testDF, dataFolder=dataFolder, name ='test',
                 inputCol=inputCol, labelCols=labelCols, batch_size=batch_size, targetDim=targetDim, seed=seed,
                 color_mode=color_mode,shuffle=False, class_mode=class_mode, augmentations=test_val_augmentations,
-                output_range=output_range
+                output_range=output_range, labelMap = self.labelMap
                 ) 
             self.testGen = self._update_params(self.testGen)
         if isinstance(self.valDF, pd.DataFrame) or isinstance(self.valDF, str):
             self.valGen.generator = ImageSequenceFromDF(dataFrame=self.valDF, dataFolder=dataFolder, name ='val',
                 inputCol=inputCol, labelCols=labelCols, batch_size=batch_size, targetDim=targetDim, seed=seed,
                 color_mode=color_mode,shuffle=False, class_mode=class_mode, augmentations=test_val_augmentations,
-                output_range=output_range
+                output_range=output_range, labelMap = self.labelMap
                 )  
             self.valGen = self._update_params(self.valGen)
 
@@ -89,7 +89,7 @@ class ImageDatasetSeqFromDF(object):
         return self.trainGen, self.testGen, self.valGen
 
 class ImageSequenceFromDF(Sequence):
-    def __init__(self, dataFrame, dataFolder='', name ='train',
+    def __init__(self, dataFrame, dataFolder='', name ='train', labelMap = '',
                  inputCol="files", labelCols=['labels'], batch_size=16, 
                  targetDim=(96,96),color_mode="rgb",shuffle=True, seed=21, output_range=None,
                  class_mode="raw", augmentations=Compose([AUG.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))])
@@ -102,7 +102,8 @@ class ImageSequenceFromDF(Sequence):
         self.class_mode = class_mode
         self.augment = augmentations
         self.output_range = output_range
-        
+        self.labelMap = labelMap
+
         self.convertCSVFile2DF(dataFrame)
         self._validateDF(self.dataFrame, self.name)
         self._dfConvertFilePath()
@@ -113,9 +114,17 @@ class ImageSequenceFromDF(Sequence):
         self.STEP_SIZE = self.__len__()
         self.shuffleDataFrame = self.dataFrame
         self._add_info()
-        if class_mode == 'raw':
+        if class_mode in ['raw', 'multi_output']:
           self._calculate_class_weights()
+        else:
+          self.dataFrame['convertedLabels']= self.dataFrame.apply(lambda x:self.convertLabelsFromLabelMap(x[labelCols[0]]), axis=1)
+        #print(self.dataFrame.head(2))
         self.on_epoch_end()
+
+    def convertLabelsFromLabelMap(self,inlabel):
+      outLabel = self.labelMap[inlabel]
+      #print('Inlabel:{} Outlabel:{}'.format(inlabel,outLabel))
+      return outLabel
 
     def img_processor(self, image):
         img = Image.open(image)
@@ -150,10 +159,11 @@ class ImageSequenceFromDF(Sequence):
     def __getitem__(self, idx):
         batchDF = self.shuffleDataFrame[idx * self.batch_size:(idx + 1) * self.batch_size]
         batch_x = batchDF[self.inputCol].to_numpy()
-        batch_y = batchDF[self.labelCols].to_numpy()
-        print(self.labelMap)
+        
         if self.class_mode in ['binary', 'sparse', 'categorical']:
-          batch_y = np.array(safe_labelmap_converter(batch_y))
+          batch_y =batchDF['convertedLabels'].to_numpy()
+        else:
+          batch_y = batchDF[self.labelCols].to_numpy()
         if self.augment != None:
             if self.output_range == None or isinstance(self.output_range, str):
                 return np.stack(
