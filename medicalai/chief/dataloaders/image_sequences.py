@@ -46,7 +46,13 @@ class ImageDatasetSeqFromDF(object):
         self.class_weights = myDict()
         self.output_range = output_range
 
-        self.labelMap = safe_label_to_labelmap_converter(self.labelCols)
+        if class_mode=='raw':
+          self.labelMap = safe_label_to_labelmap_converter(self.labelCols)
+        else:
+          conv_labels = self.trainDF[self.labelCols[0]].unique()
+          self.labelMap = safe_label_to_labelmap_converter(conv_labels)
+
+        print('Label Map: {}\n labelCols: {}'.format(self.labelMap,self.labelCols))
         if isinstance(self.trainDF, pd.DataFrame) or isinstance(self.trainDF, str):
             self.trainGen.generator = ImageSequenceFromDF(dataFrame=self.trainDF, dataFolder=dataFolder, name ='train',
                  inputCol=inputCol, labelCols=labelCols, batch_size=batch_size, targetDim=targetDim, seed=seed,
@@ -73,7 +79,7 @@ class ImageDatasetSeqFromDF(object):
     def _update_params(self, thisGen):
         thisGen.STEP_SIZE = thisGen.generator.STEP_SIZE
         if self.class_mode in ['binary', 'sparse', 'categorical']:
-            thisGen.labelNames = safe_labelmap_converter(thisGen.labelMap)
+            thisGen.labelNames = safe_labelmap_converter(self.labelMap)
         elif self.class_mode in ['raw', 'multi_output']:
             thisGen.labelNames = self.labelCols
         thisGen.labelMap = self.labelMap
@@ -107,7 +113,8 @@ class ImageSequenceFromDF(Sequence):
         self.STEP_SIZE = self.__len__()
         self.shuffleDataFrame = self.dataFrame
         self._add_info()
-        self._calculate_class_weights()
+        if class_mode == 'raw':
+          self._calculate_class_weights()
         self.on_epoch_end()
 
     def img_processor(self, image):
@@ -144,6 +151,9 @@ class ImageSequenceFromDF(Sequence):
         batchDF = self.shuffleDataFrame[idx * self.batch_size:(idx + 1) * self.batch_size]
         batch_x = batchDF[self.inputCol].to_numpy()
         batch_y = batchDF[self.labelCols].to_numpy()
+        print(self.labelMap)
+        if self.class_mode in ['binary', 'sparse', 'categorical']:
+          batch_y = np.array(safe_labelmap_converter(batch_y))
         if self.augment != None:
             if self.output_range == None or isinstance(self.output_range, str):
                 return np.stack(
