@@ -37,6 +37,7 @@ from .xai import *
 from .uFuncs import *
 from albumentations import Compose
 import albumentations.augmentations.transforms as augmentations
+from .dataloaders import *
 
 physical_devices = tf.config.list_physical_devices('GPU')
 if len(physical_devices)>1:
@@ -524,19 +525,23 @@ class INFERENCE_ENGINE(object):
 		# Returns
 			Numpy.Array: of Predictions. Shape of Output [Number of Inputs, Number of Output Classes in Model]
 		"""
+		
 		if hasattr(self, 'workers'):
 			workers = self.workers  
 		else:
 			workers = workers
 		if safe:
-			if hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
+			if isinstance(input,ImageSequenceFromDF):
+				return self.model.predict(input,  steps =(input.n/input.batch_size), verbose=1, workers=workers)
+			elif hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
 				return self.model.predict(input.generator, steps=input.STEP_SIZE, verbose=1, workers=workers)
 			elif hasattr(input, 'image_data_generator'):
 				return self.model.predict(input,  steps =(input.n/input.batch_size), verbose=1, workers=workers)
 		else:			
 			if hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
 				return self.model.predict(input.generator, verbose=1, workers=workers)
-			elif hasattr(input, 'image_data_generator'):
+			elif hasattr(input, 'image_data_generator') or isinstance(input,ImageSequenceFromDF):
+				#print('\n\nUsing INPUT For Predict:{}\n\n'.format(type(input)))
 				return self.model.predict(input,  verbose=1, workers=workers)
 			elif hasattr(input, 'data') and not isinstance(input,np.ndarray):
 				return self.model.predict(input.data, verbose=verbose, workers=workers)
@@ -739,6 +744,7 @@ class INFERENCE_ENGINE(object):
 			predictions = self.predict(testSet)
 		if pdfName is None:
 			pdfName = self.modelName
+		
 		_get_metrics_evals(testSet, predictions, printStat = printStat,returnPlot = returnPlot, showPlot= showPlot,modelName=self.modelName, pdfName = pdfName, **kwargs)
 		print('[INFO]: Report Generated at Path:\n\t', os.path.abspath(pdfName)+'_report.pdf')
 
@@ -817,10 +823,10 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 		super().__init__(modelName)
 		
 	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, 
-							BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, 
+							BATCH_SIZE=32, LEARNING_RATE=0.0001, SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, 
 							callbacks=None, loss = 'sparse_categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001),
 							metrics = ['accuracy'], showModel = False, workers = 1,
-							CLASS_WEIGHTS=None, **kwargs,):
+							CLASS_WEIGHTS=None, **kwargs):
 		""""
 		Main function that trains and saves a model. This automatically builds new model for given networks/AI or reload existing AI model. 
 		This function can be used to retrain existing models or create new models.
@@ -905,11 +911,11 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 			if MULTI_GPU_MODE and GPU_to_Use.lower()=='all':
 				mirrored_strategy = tf.distribute.MirroredStrategy()
 				with mirrored_strategy.scope():
-					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)
 				#BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
 			else:
-					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
 			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)

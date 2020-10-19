@@ -503,18 +503,31 @@ def generate_evaluation_report(CLASS_NAMES, predictions, groundTruth=None,  gene
     """    
     OUTPUT_CLASSES = len(CLASS_NAMES)
     if groundTruth is not None and generator is None:
-        if len(groundTruth.shape)==1 and groundTruth.shape[-1] != OUTPUT_CLASSES:
-            gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[groundTruth[:,0]]
-            gt = groundTruth#[:,0]
+        if  groundTruth.shape[-1] != OUTPUT_CLASSES:
+            if len(groundTruth.shape)==1:
+                gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[groundTruth[:,0]]
+                gt = groundTruth#[:,0]
+            else:
+                gt_one_hot_vec = groundTruth
+                gt = groundTruth
         else:
-            gt_one_hot_vec = groundTruth
+            gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[groundTruth[:,0]] 
             gt = groundTruth
+            #Wprint('Trigger GT 2 ', groundTruth.shape, predictions.shape,gt_one_hot_vec.shape )
 
     elif generator is not None and groundTruth is None:
-        if len(generator.labels.shape)==1 and generator.labels.shape[-1] != OUTPUT_CLASSES:
-            gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[generator.labels]
-            gt = generator.labels
+        if generator.labels.shape[-1] != OUTPUT_CLASSES:
+            if len(generator.labels.shape)==1:
+                gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[generator.labels]
+                gt = generator.labels
+                # print('Trigger F 1 ', generator.labels.shape, predictions.shape,gt_one_hot_vec.shape )
+            else:
+                flatLabels = generator.labels.flatten()
+                gt_one_hot_vec = np.identity(OUTPUT_CLASSES)[flatLabels]
+                gt = flatLabels
+                # print('Trigger F 1 Sub', generator.labels.shape, predictions.shape,gt.shape,gt_one_hot_vec.shape  )
         else:
+            # print('Trigger F 2', generator.labels.shape, generator.labels.shape[-1] )
             gt_one_hot_vec = generator.labels
             gt = generator.labels
 
@@ -522,6 +535,10 @@ def generate_evaluation_report(CLASS_NAMES, predictions, groundTruth=None,  gene
     if len(gt_one_hot_vec)>1:
         v= np.count_nonzero(gt_one_hot_vec, axis=1)
         multiLabelClass = (v>1).any()
+    if multiLabelClass:
+        print('\n [INFO] Using MultiLabel Classification Reporting\n\n')
+    else:
+        print('\n [INFO] Using MultiClass Classification Reporting\n\n')
 
     if multiLabelClass:
         try:
@@ -530,6 +547,7 @@ def generate_evaluation_report(CLASS_NAMES, predictions, groundTruth=None,  gene
             thresholds = _gen_proper_threshold_settings(thresholds, CLASS_NAMES)
             print('[WARN]: Raw Prediction Values Passed. Binarizing predictions with threshold={} to calculate confusion matrix.'.format(thresholds[0]))
             predictions = (predictions > thresholds[0]).astype('int')
+
     nrows=kwargs['nrows'] if 'nrows' in kwargs else 2
     ncols=kwargs['ncols'] if 'ncols' in kwargs else 1
     pad = kwargs['pad'] if 'pad' in kwargs else 10

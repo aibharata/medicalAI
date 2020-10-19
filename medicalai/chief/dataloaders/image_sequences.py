@@ -12,7 +12,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 from __future__ import absolute_import
+import warnings
 import pandas as pd
+from pandas.core.common import SettingWithCopyWarning
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+
 import numpy as np
 from PIL import Image
 from tensorflow.keras.utils import Sequence
@@ -22,6 +26,7 @@ from albumentations import Compose
 from .data_utils import *
 from ..dataset_analysis import compute_class_freqs
 from .dataset_visualize import *
+
 
 class ImageDatasetSeqFromDF(object):
     def __init__(self, trainDF=None, testDF=None, valDF=None, dataFolder='',
@@ -46,7 +51,7 @@ class ImageDatasetSeqFromDF(object):
         self.class_weights = myDict()
         self.output_range = output_range
 
-        if class_mode=='raw':
+        if class_mode in ['raw','multi-output']:
           self.labelMap = safe_label_to_labelmap_converter(self.labelCols)
         else:
           conv_labels = self.trainDF[self.labelCols[0]].unique()
@@ -110,21 +115,28 @@ class ImageSequenceFromDF(Sequence):
         self.N = self.dataFrame.shape[0]
         self.n = 0
         self.classes = labelCols
-        self.num_classes = len(list(labelCols))
+        
         self.STEP_SIZE = self.__len__()
         self.shuffleDataFrame = self.dataFrame
-        self._add_info()
+        
         if class_mode in ['raw', 'multi_output']:
-          self._calculate_class_weights()
+            self.num_classes = len(list(labelCols))
         else:
-          self.dataFrame['convertedLabels']= self.dataFrame.apply(lambda x:self.convertLabelsFromLabelMap(x[labelCols[0]]), axis=1)
-        #print(self.dataFrame.head(2))
+            self.num_classes = len(self.labelMap.keys())
+            self.dataFrame['convertedLabels']= self.dataFrame.apply(lambda x:self.convertLabelsFromLabelMap(x[labelCols[0]]), axis=1)
+        
+        self._add_info()
+
+        if class_mode in ['raw', 'multi_output']:
+            self._calculate_class_weights()
+            
         self.on_epoch_end()
 
     def convertLabelsFromLabelMap(self,inlabel):
-      outLabel = self.labelMap[inlabel]
-      #print('Inlabel:{} Outlabel:{}'.format(inlabel,outLabel))
-      return outLabel
+        if self.class_mode in ['sparse','categorical', 'binary']:
+            outLabel = self.labelMap[inlabel]
+        return outLabel
+            
 
     def img_processor(self, image):
         img = Image.open(image)
@@ -156,12 +168,16 @@ class ImageSequenceFromDF(Sequence):
     def __len__(self):
         return int(np.ceil(self.dataFrame.shape[0] / float(self.batch_size)))
 
-    def __getitem__(self, idx):
-        batchDF = self.shuffleDataFrame[idx * self.batch_size:(idx + 1) * self.batch_size]
+    def __getitem__(self, idx, batch = True):
+        if batch:
+            batchDF = self.shuffleDataFrame[idx * self.batch_size:(idx + 1) * self.batch_size]
+        else:
+            batchDF = self.shuffleDataFrame
         batch_x = batchDF[self.inputCol].to_numpy()
         
         if self.class_mode in ['binary', 'sparse', 'categorical']:
-          batch_y =batchDF['convertedLabels'].to_numpy()
+          batch_y =np.asarray(batchDF['convertedLabels'].to_list())
+          #print('batch_y.shape {} {}'.format(batch_y.shape, batch_y[0].shape))
         else:
           batch_y = batchDF[self.labelCols].to_numpy()
         if self.augment != None:
@@ -186,6 +202,11 @@ class ImageSequenceFromDF(Sequence):
             self.n = 0
         return batch_x, batch_y
 
+    def __unbatch__(self):
+        batch_x, batch_y = self.__getitem__(self.n, batch = False)
+        self.on_epoch_end()
+        return batch_x, batch_y
+
     def on_epoch_end(self):
         if self.shuffle == True:
             self.shuffleDataFrame = self.dataFrame.sample(n=self.N, random_state=self.seed).reset_index(drop=True)
@@ -198,7 +219,10 @@ class ImageSequenceFromDF(Sequence):
             self.image_shape= self.targetDim+ (4,)
         elif self.color_mode.upper() == 'GRAYSCALE':
             self.image_shape= self.targetDim+ (2,)
-        self.labels = self.dataFrame[self.labelCols].values
+        if self.class_mode in ['raw', 'multi_output']:
+            self.labels = self.dataFrame[self.labelCols].values
+        else:
+            self.labels = self.dataFrame[['convertedLabels']].values
 
     def check_imbalanced_dataset(self):
         dfC = self.dataFrame[self.labelCols].apply(pd.value_counts)
