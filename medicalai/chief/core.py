@@ -27,8 +27,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from  . import networks 
 from  . import dataset_prepare as dataprc 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+try:
+	import plotly.graph_objects as go
+	from plotly.subplots import make_subplots
+except:
+	print('[WARNING]: Plotly Not Installed. Plot Training Metrics wont work PLease install the library.')
 import pandas as pd
 import seaborn as sns
 from sklearn.metrics import accuracy_score,classification_report,cohen_kappa_score
