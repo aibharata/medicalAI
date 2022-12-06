@@ -27,18 +27,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 from  . import networks 
 from  . import dataset_prepare as dataprc 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+try:
+	import plotly.graph_objects as go
+	from plotly.subplots import make_subplots
+except:
+	print('[WARNING]: Plotly Not Installed. Plot Training Metrics wont work PLease install the library.')
 import pandas as pd
 import seaborn as sns
 from sklearn.metrics import accuracy_score,classification_report,cohen_kappa_score
 from .model_metrics import *
 from .xai import *
 from .uFuncs import *
+from albumentations import Compose
+import albumentations.augmentations.transforms as augmentations
+from .dataloaders import *
 
 physical_devices = tf.config.list_physical_devices('GPU')
 if len(physical_devices)>1:
 	MULTI_GPU_MODE= True
+	print('[INFO]: Medicalai activated with MultiGPU Mode')
 else:
 	MULTI_GPU_MODE= False
 GPU_to_Use = 'all'	
@@ -196,7 +203,7 @@ def train(	model, x_train,
 			class_weights = None, 
 			saveBestModel = False, bestModelCond = None, 
 			validation_data = None, TRAIN_STEPS = None, TEST_STEPS = None, 
-			verbose=None, y_train=None, 
+			verbose=None, y_train=None, workers = 1 
 		  ):
 	if callbacks is not None:
 		if ('tensorboard'in callbacks):
@@ -224,7 +231,8 @@ def train(	model, x_train,
 				epochs=epochs,
 				validation_data=validation_data,
 				callbacks=callbacks,
-				class_weight = class_weights
+				class_weight = class_weights,
+				workers =workers
 				)
 	else:
 		result = model.fit(x_train,
@@ -233,7 +241,8 @@ def train(	model, x_train,
 				validation_data=validation_data,
 				callbacks=callbacks,
 				verbose = verbose,
-				class_weight = class_weights
+				class_weight = class_weights,
+				workers = workers
 				)		
 	return result.history
 
@@ -492,7 +501,7 @@ class INFERENCE_ENGINE(object):
 			self.labelNames = self.preProcessor.labels
 
 	#@timeit
-	def predict(self, input, verbose=0):
+	def predict(self, input, verbose=1, safe=False  , workers= 1):
 		"""
 		Peform prediction on Input. Input can be Numpy Array or Image or Data Generator (in case of Test/Validation). 
 
@@ -519,24 +528,38 @@ class INFERENCE_ENGINE(object):
 		# Returns
 			Numpy.Array: of Predictions. Shape of Output [Number of Inputs, Number of Output Classes in Model]
 		"""
-		if hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
-			return self.model.predict(input.generator, verbose=1)
-		elif hasattr(input, 'image_data_generator'):
-			return self.model.predict(input,  verbose=1)
-		elif hasattr(input, 'data') and not isinstance(input,np.ndarray):
-			return self.model.predict(input.data, verbose=verbose)
+		
+		if hasattr(self, 'workers'):
+			workers = self.workers  
 		else:
-			if self.preProcessor is not None:
-				input = self.preProcessor.processImage(input)
-				return self.model.predict(input, verbose=verbose)
+			workers = workers
+		if safe:
+			if isinstance(input,ImageSequenceFromDF):
+				return self.model.predict(input,  steps =(input.n/input.batch_size), verbose=1, workers=workers)
+			elif hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
+				return self.model.predict(input.generator, steps=input.STEP_SIZE, verbose=1, workers=workers)
+			elif hasattr(input, 'image_data_generator'):
+				return self.model.predict(input,  steps =(input.n/input.batch_size), verbose=1, workers=workers)
+		else:			
+			if hasattr(input, 'generator') and hasattr(input, 'STEP_SIZE'):
+				return self.model.predict(input.generator, verbose=1, workers=workers)
+			elif hasattr(input, 'image_data_generator') or isinstance(input,ImageSequenceFromDF):
+				#print('\n\nUsing INPUT For Predict:{}\n\n'.format(type(input)))
+				return self.model.predict(input,  verbose=1, workers=workers)
+			elif hasattr(input, 'data') and not isinstance(input,np.ndarray):
+				return self.model.predict(input.data, verbose=verbose, workers=workers)
 			else:
-				if self.labelNames is None:
-					if hasattr(input, 'labelNames'):
-						self.labelNames = input.labelNames if self.labelNames is None else self.labelNames
-				if isinstance(input,np.ndarray):
-					return self.model.predict(input, verbose=verbose)
+				if self.preProcessor is not None:
+					input = self.preProcessor.processImage(input)
+					return self.model.predict(input, verbose=verbose, workers=workers)
 				else:
-					return self.model.predict(input, verbose=verbose)
+					if self.labelNames is None:
+						if hasattr(input, 'labelNames'):
+							self.labelNames = input.labelNames if self.labelNames is None else self.labelNames
+					if isinstance(input,np.ndarray):
+						return self.model.predict(input, verbose=verbose, workers=workers)
+					else:
+						return self.model.predict(input, verbose=verbose, workers=workers)
 
 	#@timeit
 	def predict_pipeline(self, input):
@@ -670,7 +693,7 @@ class INFERENCE_ENGINE(object):
 		"""	
 		return self.model.summary()
 
-	def generate_evaluation_report(self, testSet = None, predictions = None, printStat = False,returnPlot = False, showPlot= False, pdfName =None, **kwargs):
+	def generate_evaluation_report(self, testSet = None, predictions = None, printStat = True,returnPlot = False, showPlot= False, pdfName =None, **kwargs):
 		"""
 		Generate a comprehensive PDF report with model sensitivity, specificity, accuracy, confidence intervals,
 		ROC Curve Plot, Precision Recall Curve Plot, and Confusion Matrix Plot for each class.
@@ -724,6 +747,7 @@ class INFERENCE_ENGINE(object):
 			predictions = self.predict(testSet)
 		if pdfName is None:
 			pdfName = self.modelName
+		
 		_get_metrics_evals(testSet, predictions, printStat = printStat,returnPlot = returnPlot, showPlot= showPlot,modelName=self.modelName, pdfName = pdfName, **kwargs)
 		print('[INFO]: Report Generated at Path:\n\t', os.path.abspath(pdfName)+'_report.pdf')
 
@@ -800,11 +824,11 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 	"""
 	def __init__(self, modelName=None):
 		super().__init__(modelName)
-
+		
 	def train_and_save_model(self,AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL,  EPOCHS, 
-							BATCH_SIZE=32, LEARNING_RATE=0.0001, convLayers=None,SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, 
+							BATCH_SIZE=32, LEARNING_RATE=0.0001, SAVE_BEST_MODEL=False, BEST_MODEL_COND=None, 
 							callbacks=None, loss = 'sparse_categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=0.0001),
-							metrics = ['accuracy'], showModel = False,
+							metrics = ['accuracy'], showModel = False, workers = 1,
 							CLASS_WEIGHTS=None, **kwargs):
 		""""
 		Main function that trains and saves a model. This automatically builds new model for given networks/AI or reload existing AI model. 
@@ -880,25 +904,27 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 			None: On successful completion saves the trained model.
 
 		"""
+		self.workers = workers
 		self.testSet = testSet
 		self.modelName = MODEL_SAVE_NAME
 		self.test_predictions = None
+		global MULTI_GPU_MODE, GPU_to_Use
 		if hasattr(trainSet, 'data'):
 			self.labelNames = trainSet.labelNames
 			if MULTI_GPU_MODE and GPU_to_Use.lower()=='all':
 				mirrored_strategy = tf.distribute.MirroredStrategy()
 				with mirrored_strategy.scope():
-					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)
-				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
+				#BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
 			else:
-					self.model = modelManager(AI_NAME= AI_NAME, convLayers= convLayers, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL)
+					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = trainSet.data, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
 			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)
 			self.result = train(self.model, trainSet.data, y_train= trainSet.labels, batch_size=BATCH_SIZE, epochs=EPOCHS,
 									validation_data=(testSet.data, testSet.labels), callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, 
-									bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = None, TEST_STEPS = None, 
+									bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = None, TEST_STEPS = None, workers = self.workers,
 									class_weights=CLASS_WEIGHTS)#['tensorboard'])
 			#self.model.evaluate(testSet.data, testSet.labels)
 			
@@ -906,25 +932,40 @@ class TRAIN_ENGINE(INFERENCE_ENGINE):
 							  rescale =None,
 							  network_input_dim =trainSet.network_input_dim, samplingMethodName=trainSet.samplingMethodName, outputName= MODEL_SAVE_NAME)
 		else:
-			networkDim = np.zeros((1,)+trainSet.generator.image_shape)
+			from tensorflow.python.data.ops.dataset_ops import PrefetchDataset
+			if isinstance(trainSet.generator, PrefetchDataset):
+				for f,l in trainSet.generator.take(1):
+					inpSize = f.numpy().shape
+				networkDim = np.zeros((1,)+inpSize[1:])
+				networkInputSize = inpSize[1:]
+				rescaleValue = 1./255
+			else:
+				networkDim = np.zeros((1,)+trainSet.generator.image_shape)
+				networkInputSize = trainSet.generator.image_shape
+				try:
+					rescaleValue = trainSet.generator.image_data_generator.rescale
+				except:
+					rescaleValue = 1./255
+
 			self.labelNames = dataprc.safe_labelmap_converter(trainSet.labelMap)
 			if MULTI_GPU_MODE and GPU_to_Use.lower()=='all':
 				mirrored_strategy = tf.distribute.MirroredStrategy()
 				with mirrored_strategy.scope():
-					mirrored_strategy = tf.distribute.MirroredStrategy()
 					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)
-				BATCH_SIZE *= mirrored_strategy.num_replicas_in_sync
 			else:
 					self.model = modelManager(AI_NAME= AI_NAME, modelName = MODEL_SAVE_NAME, x_train = networkDim, OUTPUT_CLASSES = OUTPUT_CLASSES, RETRAIN_MODEL= RETRAIN_MODEL, **kwargs)
 					self.model.compile(optimizer=optimizer,loss=loss,metrics=metrics)				
 			print(self.model.summary()) if showModel else None
 			print('[INFO]: BATCH_SIZE -',BATCH_SIZE)
-			self.result = train(self.model, trainSet.generator, batch_size=BATCH_SIZE, epochs=EPOCHS, validation_data=testSet.generator, callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = trainSet.STEP_SIZE, TEST_STEPS = testSet.STEP_SIZE, verbose=1,class_weights=CLASS_WEIGHTS)#['tensorboard'])
+			self.result = train(self.model, trainSet.generator, batch_size=BATCH_SIZE, epochs=EPOCHS, validation_data=testSet.generator, 
+					callbacks=callbacks, saveBestModel= SAVE_BEST_MODEL, bestModelCond = BEST_MODEL_COND, TRAIN_STEPS = trainSet.STEP_SIZE, 
+					TEST_STEPS = testSet.STEP_SIZE, verbose=1,class_weights=CLASS_WEIGHTS, workers = self.workers
+					)
 			#self.model.evaluate(testSet.generator,steps =	testSet.STEP_SIZE)
 			dataprc.metaSaver(trainSet.labelMap, self.labelNames, normalize= None,
-							 rescale = trainSet.generator.image_data_generator.rescale,
-							 network_input_dim =trainSet.generator.image_shape, samplingMethodName=None, outputName= MODEL_SAVE_NAME)
+							 rescale = rescaleValue,
+							 network_input_dim =networkInputSize, samplingMethodName=None, outputName= MODEL_SAVE_NAME)
 
 		save_model_and_weights(self.model, outputName= MODEL_SAVE_NAME)
 

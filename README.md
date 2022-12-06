@@ -16,7 +16,9 @@
 
 ---
 
+
 [![Downloads](https://pepy.tech/badge/medicalai)](https://pepy.tech/project/medicalai) [![Downloads](https://pepy.tech/badge/medicalai/month)](https://pepy.tech/project/medicalai/month) [![Documentation Status](https://readthedocs.org/projects/medicalai/badge/?version=latest)](https://medicalai.readthedocs.io/en/latest/?badge=latest) [![Gitter](https://badges.gitter.im/aibh-medicalAI/devteam.svg)](https://gitter.im/aibh-medicalAI/devteam?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) 
+
 
 Medical-AI is a AI framework  for rapid prototyping of AI for Medical Applications.
 

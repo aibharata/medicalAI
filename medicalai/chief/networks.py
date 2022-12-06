@@ -69,6 +69,11 @@ class tinyMedNet(NetworkInit):
     """
     def call(self, inputSize, outputSize, **kwargs):
         try:
+            finalActivation = kwargs["finalActivation"]
+            print('[INFO]: {} Final Activation Set to {}'.format(self.__class__.__name__,finalActivation))
+        except:
+            finalActivation = 'softmax'
+        try:
             model = Sequential([
                 Conv2D(64, kernel_size=(5, 5), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'),
                 MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
@@ -79,7 +84,7 @@ class tinyMedNet(NetworkInit):
                 Flatten(),
                 Dense(384, activation='relu', name='FC1'),
                 Dense(192, activation='relu', name='FC2'),
-                Dense(outputSize, activation='softmax', name='FC3')
+                Dense(outputSize, activation=finalActivation, name='FC3')
             ])
         except ValueError:
             model = Sequential([
@@ -110,6 +115,11 @@ class tinyMedNet_v2(NetworkInit):
             print('Using Default 3 convLayers')
             convLayers = 3
         try:
+            finalActivation = kwargs["finalActivation"]
+            print('[INFO]: {} Final Activation Set to {}'.format(self.__class__.__name__,finalActivation))
+        except:
+            finalActivation = 'softmax'
+        try:
             model = Sequential()
             model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'))
             model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
@@ -119,7 +129,7 @@ class tinyMedNet_v2(NetworkInit):
             model.add(Flatten())
             model.add(Dense(384, activation='relu', name='FC1'))
             model.add(Dense(192, activation='relu', name='FC2'))
-            model.add(Dense(outputSize, activation='softmax', name='FC3'))
+            model.add(Dense(outputSize, activation=finalActivation, name='FC3'))
             return model
         except ValueError:
             print(20*'-')
@@ -140,6 +150,12 @@ class tinyMedNet_v3(NetworkInit):
             print('Using Default 3 convLayers')
             convLayers = 3
         try:
+            finalActivation = kwargs["finalActivation"]
+            print('[INFO]: {} Final Activation Set to {}'.format(self.__class__.__name__,finalActivation))
+        except:
+            finalActivation = 'softmax'
+
+        try:
             model = Sequential()
             model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1),activation='relu', padding = 'valid',input_shape=inputSize, name='CNN1'))
             model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
@@ -154,7 +170,7 @@ class tinyMedNet_v3(NetworkInit):
             model.add(Dropout(rate=0.5))
             model.add(Dense(192, activation='relu', name='FC3'))
             model.add(Dropout(rate=0.5))
-            model.add(Dense(outputSize, activation='softmax', name='FC4'))
+            model.add(Dense(outputSize, activation=finalActivation, name='FC4'))
             return model
         except ValueError as err:
             print(err)
@@ -217,7 +233,8 @@ class DenseNet121(NetworkInit):
     outputSize: Number of classes for prediction
     """
     def call(self, inputSize, outputSize, **kwargs):
-        return densenet.DenseNet121_Model(img_input=inputSize,classes=outputSize)
+        finalActivation = kwargs["finalActivation"] if 'finalActivation' in kwargs else "softmax"
+        return densenet.DenseNet121_Model(img_input=inputSize,classes=outputSize,finalActivation=finalActivation)
 
 class VGG16(NetworkInit):
     """

@@ -103,7 +103,7 @@ class INPUT_PROCESSOR:
 		self.dtype 				= dtype
 		self.color_mode			= color_mode
 		self.samplingMethodName = 'nearest' if samplingMethod==None else samplingMethod
-		if samplingMethod: 
+		if samplingMethod and isinstance(samplingMethod,str): 
 			if samplingMethod.lower()=='box':
 				self.samplingMethod =Image.BOX
 			elif samplingMethod.lower()=='nearest':
@@ -118,6 +118,8 @@ class INPUT_PROCESSOR:
 				self.samplingMethod =Image.LANCZOS		
 			else:
 				self.samplingMethod =Image.NEAREST
+		elif samplingMethod and isinstance(samplingMethod,int):
+			self.samplingMethod = samplingMethod
 		else:
 			self.samplingMethod =Image.NEAREST
 
@@ -166,22 +168,39 @@ class INPUT_PROCESSOR:
 
 	def processImage(self,image, targetFolder=None):
 		if isinstance(image,np.ndarray):
-			if len(image.shape)>3:
-				image = np.squeeze(image,0)
-			img = Image.fromarray(np.uint8((image)*255))
+			if image.shape!=self.output_size:
+				if len(image.shape)>3:
+					image = np.squeeze(image,0)
+				try:
+					img = Image.fromarray(image)
+				except:
+					img = Image.fromarray(np.uint8((image)*255.0))
+			else:
+				if image.dtype !='uint8':
+					return np.expand_dims(image, axis=0)
+				else:
+					if self.normalize:
+						image = image*(1./255)
+					if self.rescale is not None:
+						image = image*self.rescale
+					return np.expand_dims(image, axis=0)
 		else:
 			try:
 				sep = os.path.splitext(image)
 				fileExt = sep[-1]
 				fileName = sep[0]
 			except: 
-				if targetFolder is not None:
-					head, tail = os.path.split(image.path)
-					sep = os.path.splitext(tail)
-				else:
-					sep = os.path.splitext(image.path)
-				fileExt = sep[-1]
-				fileName = sep[0]
+				try:
+					if targetFolder is not None:
+						head, tail = os.path.split(image.path)
+						sep = os.path.splitext(tail)
+					else:
+						sep = os.path.splitext(image.path)
+					fileExt = sep[-1]
+					fileName = sep[0]
+				except:
+					#print('[ERROR]: Failed to Aquiring File path Name ')
+					fileExt = 'CANT GET IT'
 			if fileExt== '.dcm':
 				with dicomProcessor.dcmread(image) as ds:
 					img = ds.pixel_array
@@ -429,6 +448,12 @@ def safe_labelmap_converter(labelMap):
 		labs[v]=k
 	return labs
 
+def safe_label_to_labelmap_converter(labels):
+	labelMap = {}
+	for x in range(0,len(labels)):
+		labelMap[labels[x]]=x
+	return labelMap
+
 class datasetGenFromFolder(object):
 	"""
 	Create a dataset generator from dataset present in Folder. 
@@ -638,7 +663,139 @@ class datasetGenFromDataframe(object):
 
 #############################################################################################
 
+#############################################################################################
+#Data from data frame implementation
+class datasetGenFromDF(object):
+	"""Creates Keras Dataset Generator for Handling Large Datasets from DataFrame.
+	
+	# Arguments
+		csv_path: folder containing train.csv and test.csv.
+		folder: The directory must be set to the path where your training images are present.
+		x_col: Name of column containing image name, `default = name`.
+		y_col: Name of column for labels, `default = labels`.
+		targetDim: The target_size is the size of your input images to the neural network.
+		class_mode: Set `binary` if classifying only two classes, if not set to `categorical`, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to `input`.
+		color_mode: `grayscale` for black and white or grayscale, `rgb` for three color channels.
+		batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.
+		augmentation: : [Optional] : `Default = True`: Perform augmentation on Dataset
+		shuffle: : [Optional] : `Default = True`: Shuffle Dataset
+		seed: : [Optional] : `Default = 23`: Initialize Random Seed
+
+	# Returns
+		None: Initializes Test and Train Data Generators
+	"""
+
+	def __init__(self, folder, trainDF=None, testDF=None, x_col = "name", y_col = "labels", targetDim=(224,224), normalize=False , batch_size = 16, augmentation = True, 
+					color_mode="rgb", class_mode="sparse", shuffle=True, seed=17):
+		if isinstance(trainDF,str):
+			self.trainDF = pd.read_csv(trainDF)
+			print("[INFO]: Succesfully read Train Dataframe from CSV" )
+		else:
+			self.trainDF = trainDF
+			print("[INFO]: Succesfully read Train Dataframe" )
+
+		if isinstance(testDF,str):
+			self.testDF = pd.read_csv(testDF)
+			print("[INFO]: Succesfully read Test Dataframe from CSV" )
+		else:
+			self.testDF = testDF	
+			print("[INFO]: Succesfully read Test Dataframe" )
+		
+		self.folder = folder
+		self.x_col = x_col
+		self.y_col = y_col
+		self.targetDim = targetDim
+		self.normalize = normalize
+		self.batch_size = batch_size
+		
+		self.color_mode = color_mode
+		self.class_mode = class_mode
+		self.seed = seed
+		self.shuffle = shuffle
+		self.trainGen = myDict()
+		self.testGen = myDict()
+		self.class_weights = myDict()
+
+		if isinstance(augmentation, AUGMENTATION):
+			self.augmentation = augmentation
+			self.augmentation.testAug = tf.keras.preprocessing.image.ImageDataGenerator()
+		else:
+			if augmentation==True or augmentation=='True' or augmentation=='Default':
+				self.augmentation  = AUGMENTATION()
+			else:
+				self.augmentation = myDict()
+				self.augmentation.trainAug = tf.keras.preprocessing.image.ImageDataGenerator()
+				self.augmentation.testAug = tf.keras.preprocessing.image.ImageDataGenerator()
+
+		
+		
+		print("[INFO]: Gathering images for generator")
+		self.trainGen.generator = self.augmentation.trainAug.flow_from_dataframe(
+				dataframe = self.trainDF,
+				directory=self.folder,
+				x_col = self.x_col,
+				y_col = self.y_col,
+				target_size=targetDim,
+				batch_size=self.batch_size,
+				color_mode = self.color_mode,
+				class_mode = self.class_mode,
+				seed = self.seed,
+				shuffle = self.shuffle,
+				validate_filenames = False
+				)
+
+		self.testGen.generator = self.augmentation.testAug.flow_from_dataframe(
+				dataframe = self.testDF,
+				directory=self.folder,
+				x_col = self.x_col,
+				y_col = self.y_col,
+				target_size=targetDim,
+				batch_size=self.batch_size,
+				color_mode = self.color_mode,
+				class_mode = self.class_mode,
+				validate_filenames = False,
+				shuffle = False
+				)				
+		self.trainGen.STEP_SIZE= np.ceil(self.trainGen.generator.n/self.trainGen.generator.batch_size)
+		self.testGen.STEP_SIZE= np.ceil(self.testGen.generator.n/self.testGen.generator.batch_size)
+		
+		if class_mode in ['binary', 'sparse', 'categorical']:
+			self.labelMap = self.trainGen.generator.class_indices
+			self.trainGen.labelNames = safe_labelmap_converter(self.trainGen.labelMap)
+			self.testGen.labelNames = safe_labelmap_converter(self.testGen.labelMap)
+		elif class_mode in ['raw', 'multi_output']:
+			self.trainGen.labelNames = self.y_col
+			self.testGen.labelNames = self.y_col
+			self.labelMap = safe_label_to_labelmap_converter(self.y_col)
+
+		self.trainGen.labelMap = self.labelMap
+		self.testGen.labelMap = self.labelMap
+		if len(np.asarray(self.trainGen.generator.labels).shape)==1:
+			print("[INFO]: Converting labes to one_hot_labels")
+			self.trainGen.generator.one_hot_labels = to_categorical(self.trainGen.generator.labels)
+			self.testGen.generator.one_hot_labels = to_categorical(self.testGen.generator.labels)
+		else:
+			self.trainGen.generator.one_hot_labels = self.trainGen.generator.labels
+			self.testGen.generator.one_hot_labels = self.testGen.generator.labels
+
+	def load_generator(self):
+		return self.trainGen, self.testGen
+
+	def get_class_weights(self):
+		self.pos = np.sum(np.array(self.trainGen.generator.one_hot_labels)==1, axis=0)
+		for i in range(len(self.pos)):
+			self.class_weights[i]=(np.sum(self.pos))/(len(self.pos)*self.pos[i])
+		return self.class_weights
+	
+	def get_numpy(self, generator):
+		prevBSize =generator.generator.batch_size
+		generator.generator.batch_size  = generator.generator.samples
+		dataset_as_tuple = next(generator.generator)
+		generator.generator.batch_size = prevBSize
+		return dataset_as_tuple
+
+#############################################################################################
 if __name__ == "__main__":
-	mainFolder = "chest-xray-pnumonia-covid19"
+	mainFolder = "test"
 	v = datasetManager(mainFolder,targetDim=(96,96), normalize=False)	 
 
