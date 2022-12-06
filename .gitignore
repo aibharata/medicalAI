@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 mkdocs/
 GH_TOKEN.txt
+how-to-push.md
