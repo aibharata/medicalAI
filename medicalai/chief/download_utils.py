@@ -37,6 +37,9 @@ def unzip(zip_file, destination):
 def untar(tar_file, destination):
 	if not isdir(destination):
 		with tarfile.open(tar_file) as tar:
+			safe_extract(tar, path=destination)
+			tar.close()
+			
 def is_within_directory(directory, target):
 	
 	abs_directory = os.path.abspath(directory)
@@ -55,9 +58,6 @@ def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
 
 	tar.extractall(path, members, numeric_owner=numeric_owner) 
 	
-
-safe_extract(tar, path=destination)
-			tar.close()
 			
 def getFile(url, storePath = None, cacheDir = None, subDir = 'dataset'):
 	if cacheDir is None:
