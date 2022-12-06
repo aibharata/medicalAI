@@ -134,7 +134,7 @@ class ImageSequenceFromDF(Sequence):
 
     def convertLabelsFromLabelMap(self,inlabel):
         if self.class_mode in ['sparse','categorical', 'binary']:
-            outLabel = self.labelMap[inlabel]
+            outLabel = self.labelMap[str(inlabel)]
         return outLabel
             
 

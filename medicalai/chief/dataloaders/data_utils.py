@@ -23,7 +23,7 @@ def safe_labelmap_converter(labelMap):
 def safe_label_to_labelmap_converter(labels):
 	labelMap = {}
 	for x in range(0,len(labels)):
-		labelMap[labels[x]]=x
+		labelMap[str(labels[x])]=x
 	return labelMap
 
 class myDict(dict):
