@@ -1,0 +1,1397 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Medicalai framework - high performance, easy to learn, fast to code, ready for production">
+      
+      
+        <meta name="author" content="Vinayaka Jyothi For AiBharata">
+      
+      
+        <link rel="canonical" href="https://aibharata.github.io/medicalAI/medicalai/core/">
+      
+      
+        <link rel="prev" href="../dataset_processors/">
+      
+      
+        <link rel="next" href="../networks/">
+      
+      <link rel="icon" href="../../img/logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Core - Medicalai</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/termynal.css">
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#medicalaichiefcore" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Medicalai" class="md-header__button md-logo" aria-label="Medicalai" data-md-component="logo">
+      
+  <img src="../../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Medicalai
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Core
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aibharata/medicalAI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aibharata/medicalAI
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Medicalai" class="md-nav__button md-logo" aria-label="Medicalai" data-md-component="logo">
+      
+  <img src="../../img/logo.png" alt="logo">
+
+    </a>
+    Medicalai
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aibharata/medicalAI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aibharata/medicalAI
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_using_numpy_dataset/" class="md-nav__link">
+        Train Using Numpy Method
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_using_generator_dataset/" class="md-nav__link">
+        Train Using Generator Method
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_unet_image_segmentation/" class="md-nav__link">
+        Image Segmentation Example
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset_processors/" class="md-nav__link">
+        Data Processing Pipeline
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Core
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create_model_output_folder" class="md-nav__link">
+    create_model_output_folder
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check_model_exists" class="md-nav__link">
+    check_model_exists
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#save_model_and_weights" class="md-nav__link">
+    save_model_and_weights
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load_model_and_weights" class="md-nav__link">
+    load_model_and_weights
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelmanager" class="md-nav__link">
+    modelManager
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#show_model_details" class="md-nav__link">
+    show_model_details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predict_labels" class="md-nav__link">
+    predict_labels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inference_engine" class="md-nav__link">
+    INFERENCE_ENGINE
+  </a>
+  
+    <nav class="md-nav" aria-label="INFERENCE_ENGINE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_model_and_weights_1" class="md-nav__link">
+    load_model_and_weights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_network" class="md-nav__link">
+    load_network
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_weights" class="md-nav__link">
+    load_weights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preprocessor_from_meta" class="md-nav__link">
+    preprocessor_from_meta
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict" class="md-nav__link">
+    predict
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict_pipeline" class="md-nav__link">
+    predict_pipeline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decode_predictions" class="md-nav__link">
+    decode_predictions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getlayernames" class="md-nav__link">
+    getLayerNames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    summary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate_evaluation_report" class="md-nav__link">
+    generate_evaluation_report
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explain" class="md-nav__link">
+    explain
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train_engine" class="md-nav__link">
+    TRAIN_ENGINE
+  </a>
+  
+    <nav class="md-nav" aria-label="TRAIN_ENGINE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#train_and_save_model" class="md-nav__link">
+    train_and_save_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_train_acc_loss" class="md-nav__link">
+    plot_train_acc_loss
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networks/" class="md-nav__link">
+        AI Networks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelStats/" class="md-nav__link">
+        Model Statistics
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create_model_output_folder" class="md-nav__link">
+    create_model_output_folder
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check_model_exists" class="md-nav__link">
+    check_model_exists
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#save_model_and_weights" class="md-nav__link">
+    save_model_and_weights
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load_model_and_weights" class="md-nav__link">
+    load_model_and_weights
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelmanager" class="md-nav__link">
+    modelManager
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#show_model_details" class="md-nav__link">
+    show_model_details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predict_labels" class="md-nav__link">
+    predict_labels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inference_engine" class="md-nav__link">
+    INFERENCE_ENGINE
+  </a>
+  
+    <nav class="md-nav" aria-label="INFERENCE_ENGINE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_model_and_weights_1" class="md-nav__link">
+    load_model_and_weights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_network" class="md-nav__link">
+    load_network
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_weights" class="md-nav__link">
+    load_weights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preprocessor_from_meta" class="md-nav__link">
+    preprocessor_from_meta
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict" class="md-nav__link">
+    predict
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict_pipeline" class="md-nav__link">
+    predict_pipeline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decode_predictions" class="md-nav__link">
+    decode_predictions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getlayernames" class="md-nav__link">
+    getLayerNames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    summary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate_evaluation_report" class="md-nav__link">
+    generate_evaluation_report
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explain" class="md-nav__link">
+    explain
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train_engine" class="md-nav__link">
+    TRAIN_ENGINE
+  </a>
+  
+    <nav class="md-nav" aria-label="TRAIN_ENGINE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#train_and_save_model" class="md-nav__link">
+    train_and_save_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_train_acc_loss" class="md-nav__link">
+    plot_train_acc_loss
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="medicalaichiefcore">medicalai.chief.core<a class="headerlink" href="#medicalaichiefcore" title="Permanent link">&para;</a></h1>
+<h2 id="create_model_output_folder">create_model_output_folder<a class="headerlink" href="#create_model_output_folder" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">create_model_output_folder</span><span class="p">(</span><span class="n">outputName</span><span class="p">)</span>
+</code></pre></div>
+<p>Creates model output folder if model doesn't exist.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>outputName</strong>: (Type - <code>filepath</code>): name of the folder where model needs to be created.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: None</p>
+<h2 id="check_model_exists">check_model_exists<a class="headerlink" href="#check_model_exists" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">check_model_exists</span><span class="p">(</span><span class="n">outputName</span><span class="p">)</span>
+</code></pre></div>
+<p>Checks if the given model's network file exists or not.
+Model name expected is <code>modelName + _arch.json</code>.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>outputName</strong>: (Type - <code>filepath</code>): model name to check.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>Bool</code>: If model network exists returns <code>True</code> else <code>False</code>.</p>
+<h2 id="save_model_and_weights">save_model_and_weights<a class="headerlink" href="#save_model_and_weights" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">save_model_and_weights</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">outputName</span><span class="p">)</span>
+</code></pre></div>
+<p>Saves the passed model to MedicalAI Format. Accepts a model and converts to MedicalAI Format.
+Produces weight file (<code>outputName + _wgts.h5</code>) and network file (<code>outputName + _arch.json</code>)</p>
+<div class="admonition danger">
+<p class="admonition-title">IMPORTANT</p>
+</div>
+<p>DO NOT PASS ANY EXTENTION TO <code>outputName</code> argument</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>model</strong>: (Type - <code>model</code> class): MedicalAI/Keras/Tensorflow 2.0+ model class.</li>
+<li><strong>outputName</strong>: (Type - <code>filepath</code>): model path/name to save.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: None</p>
+<h2 id="load_model_and_weights">load_model_and_weights<a class="headerlink" href="#load_model_and_weights" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>Loads model from the given filepath.
+Function Expects weight file (<code>modelName + _wgts.h5</code>) and network file (<code>modelName + _arch.json</code>).</p>
+<div class="admonition danger">
+<p class="admonition-title">NOTE</p>
+</div>
+<p>DO NOT PASS ANY EXTENTION TO <code>outputName</code> argument</p>
+<p>For Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+<span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">,</span> <span class="n">summary</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="o">=</span><span class="s1">&#39;devModel/testmodel1&#39;</span><span class="p">)</span>
+
+<span class="n">load_model_and_weights</span><span class="p">(</span><span class="s1">&#39;devModel/testmodel1&#39;</span><span class="p">,</span> <span class="n">summary</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modelName</strong>: (Type - <code>filepath</code>): model path/name to save.</li>
+<li><strong>summary</strong>: (Type - <code>Bool</code>): Show loaded network architecture and parameter summary.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>model</code>: (Type - <code>model</code> class): MedicalAI/Keras/Tensorflow 2.0+ model class.</p>
+<h2 id="modelmanager">modelManager<a class="headerlink" href="#modelmanager" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">modelManager</span><span class="p">(</span><span class="n">modelName</span><span class="p">,</span>
+             <span class="n">x_train</span><span class="p">,</span>
+             <span class="n">OUTPUT_CLASSES</span><span class="p">,</span>
+             <span class="n">RETRAIN_MODEL</span><span class="p">,</span>
+             <span class="n">AI_NAME</span><span class="o">=</span><span class="s1">&#39;tinyMedNet&#39;</span><span class="p">,</span>
+             <span class="n">convLayers</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Model manager is used to build new model for given networks/AI or reload existing AI model.
+This function can be used to retrain existing models or create new models.</p>
+<div class="admonition danger">
+<p class="admonition-title">IMPORTANT</p>
+</div>
+<p>DO NOT PASS ANY EXTENTION TO <code>modelName</code> argument</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modelName</strong>: (Type - <code>filepath</code>): model path/name to load existing model or create new model.</li>
+<li><strong>x_train</strong>: (Type - <code>numpy.array</code>): training dataset - expected shape [num_samples*dimension_of_input].</li>
+<li><strong>OUTPUT_CLASSES</strong>: (Type - <code>Int</code>): Number of unique classes in dataset.</li>
+<li><strong>RETRAIN_MODEL</strong>: (Type - <code>Bool</code>): Whether to retrain existing model. If set to <code>True</code> and model does not
+         exist, then it creates a new model and subsequent runs will retrain model.</li>
+<li><strong>AI_NAME</strong>: (Type - <code>String</code> or <code>Custom Network Class</code>): Select AI Networks from existing catalogue in MedicalAI.
+         See AI_NAME Page for More Details.</li>
+<li><strong>convLayers</strong>: (Type - <code>Int</code>): [Optional] Default is None. Only applicable for certain networks where convolution
+         layers are reconfigurable. This parameter can be used to change the num of conv
+         layers in Network. See AI_NAME Page for More Details.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>model</code>: (Type - <code>model</code> class): MedicalAI/Keras/Tensorflow 2.0+ model class.</p>
+<p>See Also:
+ TRAIN_ENGINE, INFERENCE_ENGINE</p>
+<h2 id="show_model_details">show_model_details<a class="headerlink" href="#show_model_details" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">show_model_details</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div>
+<p>Show model network structure and print parameters summary.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>model</strong>: (Type - <code>model</code> class): MedicalAI/Keras/Tensorflow 2.0+ model class.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: None; Prints the model summary</p>
+<h2 id="predict_labels">predict_labels<a class="headerlink" href="#predict_labels" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">predict_labels</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+               <span class="nb">input</span><span class="p">,</span>
+               <span class="n">expected_output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">labelNames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">top_preds</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">predict_labels</span><span class="p">(</span><span class="n">model</span> <span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">expected_output</span> <span class="o">=</span> <span class="n">expected_output</span><span class="p">,</span> <span class="n">labelNames</span><span class="o">=</span><span class="n">classNames</span><span class="p">,</span><span class="n">top_preds</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="inference_engine">INFERENCE_ENGINE<a class="headerlink" href="#inference_engine" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">testSet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classNames</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Initializes Inference Engine to perform inference/prediction on a trained model.
+Can be used during production.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modelName</strong>: (Type - <code>filepath</code>): model path/name to load existing model or create new model.</li>
+<li><strong>testSet</strong>: (Type - <code>numpy.array</code> or <code>generator</code>): [Optional] : Test/Validation Dataset either as generator
+         or numpy array. Only passed if performing evaluation. No need to set
+         this during production.</li>
+<li><strong>classNames</strong>: (Type - <code>list</code> or <code>numpy.array</code>): [Optional] : classNames or labelNames for the dataset.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>INFERENCE_ENGINE Object</code>: If <code>modelName</code> is supplied, returns an object with loaded model.</p>
+<h3 id="load_model_and_weights_1">load_model_and_weights<a class="headerlink" href="#load_model_and_weights_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>Loads model from the given filepath.
+Function Expects path to weight file (<code>modelName + _wgts.h5</code>) and network file (<code>modelName + _arch.json</code>).</p>
+<div class="admonition info">
+<p class="admonition-title">NOTE</p>
+</div>
+<p>You can use <code>load_network</code> and <code>load_weights</code> if the model files are in MedicalAI Format.</p>
+<div class="admonition danger">
+<p class="admonition-title">WARNING</p>
+</div>
+<p>DO NOT PASS ANY EXTENTION TO <code>outputName</code> argument</p>
+<p>For Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">)</span>
+
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">,</span> <span class="n">summary</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modelName</strong>: (Type - <code>filepath</code>): model path/name to load.</li>
+<li><strong>summary</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = False</code>. Show loaded network architecture
+        and parameter summary.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: Intializes Object with model.</p>
+<h3 id="load_network">load_network<a class="headerlink" href="#load_network" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
+</code></pre></div>
+<p>Loads network from given filepath. Function Expects path to network file with <code>.json</code> extension.</p>
+<div class="admonition info">
+<p class="admonition-title">NOTE</p>
+</div>
+<p>Use this function only if the model files are not in MedicalAI Format.</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="n">networkFile</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1.json&#39;</span>
+
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">networkFile</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modelName</strong>: (Type - <code>filepath</code>): model network path/name to load. File should have <code>.json</code> extension.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: Intializes Object with model network initialized. After this model weights can be loaded.</p>
+<h3 id="load_weights">load_weights<a class="headerlink" href="#load_weights" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">wgtfileName</span><span class="p">)</span>
+</code></pre></div>
+<p>Loads weight from given filepath. Function Expects path to weight file with <code>.h5</code> extension.</p>
+<div class="admonition danger">
+<p class="admonition-title">NOTE</p>
+</div>
+<p>Use this function only if the model files are not in MedicalAI Format.
+ Before calling this function, network needs to loaded using <code>load_network</code> function.</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="n">networkFile</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1.json&#39;</span>
+<span class="n">wgtFile</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1.h5&#39;</span>
+
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">networkFile</span><span class="p">)</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">wgtFile</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>wgtfileName</strong>: (Type - <code>filepath</code>): model weight filepath/name to load. File should have <code>.h5</code> extension.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: Intializes Object with model loaded with weights.</p>
+<h3 id="preprocessor_from_meta">preprocessor_from_meta<a class="headerlink" href="#preprocessor_from_meta" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">preprocessor_from_meta</span><span class="p">(</span><span class="n">metaFile</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Loads preprocessor parameter and initializes preprocessor from meta file generated by MedicalAI.</p>
+<p>If the model is trained using this framework, then the metafile is automatically available and initialized.</p>
+<div class="admonition danger">
+<p class="admonition-title">WARNING</p>
+</div>
+<p>If model is not trained using this framework, then one can use this engine by creating metafile
+ similar to one generated by this framework. Please see repo for more details.</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">)</span>
+
+<span class="c1"># There is no need to perform this op if model trained using this framework. It is automatically Initialized.</span>
+<span class="c1"># There is no need to pass modelName if the model is trained using framework</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">preprocessor_from_meta</span><span class="p">()</span>
+
+<span class="n">infEngine</span><span class="o">.</span><span class="n">preprocessor_from_meta</span><span class="p">(</span><span class="n">metaFile</span><span class="o">=</span><span class="s1">&#39;myMetaFile.json&#39;</span><span class="p">)</span> <span class="p">[</span><span class="err">`</span><span class="n">Else</span><span class="err">`</span><span class="p">](</span><span class="c1">#Else) pass the metafile</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>metaFile</strong>: (Type - <code>filepath</code>): [Optional] : if no parameter is passed, then it will look for
+         <code>modelname + _meta.json</code> file. If modelname is set during
+         INFERENCE_ENGINE initialization, then it automatically handles this.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: Intializes Object with Preprocessor into process pipeline.</p>
+<h3 id="predict">predict<a class="headerlink" href="#predict" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</code></pre></div>
+<p>Peform prediction on Input. Input can be Numpy Array or Image or Data Generator (in case of Test/Validation).</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">)</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">preprocessor_from_meta</span><span class="p">()</span>
+
+<span class="c1"># Predict an input image</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span> <span class="o">=</span> <span class="s1">&#39;test.jpg&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>input</strong>: (Type - <code>numpy.array</code>|<code>imagePath</code>|<code>generator</code> ): Can be single image file or numpy array of multiple
+         images or data generator class.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>Numpy.Array</code>: of Predictions. Shape of Output [Number of Inputs, Number of Output Classes in Model]</p>
+<h3 id="predict_pipeline">predict_pipeline<a class="headerlink" href="#predict_pipeline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">predict_pipeline</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</code></pre></div>
+<p>Slightly Faster version of predict. Useful for deployment. Do not use <code>INFERENCE_ENGINE.predict</code> in production.
+Peform prediction on Input. Input can be Numpy Array or Image or Data Generator (in case of Test/Validation).</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">)</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">preprocessor_from_meta</span><span class="p">()</span>
+
+<span class="c1"># Predict an input image</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">predict_pipeline</span><span class="p">(</span><span class="nb">input</span> <span class="o">=</span> <span class="s1">&#39;test.jpg&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>input</strong>: (Type - <code>numpy.array</code>|<code>imagePath</code>|<code>generator</code> ): Can be single image file or numpy array of multiple
+         images or data generator class.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>Numpy.Array</code>: of Predictions. Shape of Output [Number of Inputs, Number of Output Classes in Model]</p>
+<h3 id="decode_predictions">decode_predictions<a class="headerlink" href="#decode_predictions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">decode_predictions</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">top_preds</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">retType</span><span class="o">=</span><span class="s1">&#39;tuple&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Returns Decodes predictions with label/class names with output probabilites.
+During production this can be used to return a json serializable dictionary instead of tuple.</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">)</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">preprocessor_from_meta</span><span class="p">()</span>
+
+<span class="c1"># Predict an input image</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">infEngine</span><span class="o">.</span><span class="n">predict_pipeline</span><span class="p">(</span><span class="nb">input</span> <span class="o">=</span> <span class="s1">&#39;test.jpg&#39;</span><span class="p">)</span>
+<span class="n">pred_tuple</span> <span class="o">=</span> <span class="n">infEngine</span><span class="o">.</span><span class="n">decode_predictions</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">top_preds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Get a json serializable dictionary instead of tuple</span>
+<span class="n">pred_dict</span>  <span class="o">=</span> <span class="n">infEngine</span><span class="o">.</span><span class="n">decode_predictions</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">top_preds</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">retType</span> <span class="o">=</span> <span class="s1">&#39;dict&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>pred</strong>: (Type - <code>numpy.array</code>): Prediction output of either <code>INFERENCE_ENGINE.predict</code> or
+         <code>INFERENCE_ENGINE.predict_pipleline</code>.</li>
+<li><strong>top_preds</strong>: (Type - <code>Integer</code>): [Optional] : <code>Default = 4</code> - Number of top prediction to return. If the number is
+          set to higher than number of classes in network, it returns all predictions.</li>
+<li><strong>retType</strong>: (Type - <code>String</code>): [Optional] : <code>Default = tuple</code>. Options - [<code>dict</code> or <code>tuple</code>]. <code>Dict</code> helpful in production.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>Tuple or Dict</code>: of Predictions with probabilities. Shape of Output [Number of Inputs, Max(top_preds,Number of Output Classes in Model)]</p>
+<h3 id="getlayernames">getLayerNames<a class="headerlink" href="#getlayernames" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">getLayerNames</span><span class="p">()</span>
+</code></pre></div>
+<p>Get the layer names of the network. Useful for when using Explainable-AI function as it expects <code>layer name</code> as argument.</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># If Model files are `devModel/testmodel1_wgts.h5` and `devModel/testmodel1_arch.json`</span>
+<span class="c1"># Then `modelName=devModel/testmodel1`</span>
+
+<span class="n">modelName</span> <span class="o">=</span> <span class="s1">&#39;devModel/testmodel1&#39;</span>
+
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">INFERENCE_ENGINE</span><span class="p">()</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">load_model_and_weights</span><span class="p">(</span><span class="n">modelName</span><span class="p">)</span>
+
+<span class="c1"># Print the Layer Names</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span>
+<span class="s1">&#39;.join(infEngine.getLayerNames()))</span>
+</code></pre></div></p>
+<h3 id="summary">summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div>
+<p>Show model network structure and print parameters summary.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>None</strong>: None</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: None; Prints the model summary</p>
+<h3 id="generate_evaluation_report">generate_evaluation_report<a class="headerlink" href="#generate_evaluation_report" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">generate_evaluation_report</span><span class="p">(</span><span class="n">testSet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                            <span class="n">predictions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                            <span class="n">printStat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">returnPlot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">showPlot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">pdfName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Generate a comprehensive PDF report with model sensitivity, specificity, accuracy, confidence intervals,
+ROC Curve Plot, Precision Recall Curve Plot, and Confusion Matrix Plot for each class.
+This function can be used when evaluating a model with Test or Validation Data Set.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load Dataset</span>
+<span class="n">trainSet</span><span class="p">,</span><span class="n">testSet</span><span class="p">,</span><span class="n">labelNames</span> <span class="o">=</span><span class="n">ai</span><span class="o">.</span><span class="n">datasetFromFolder</span><span class="p">(</span><span class="n">datasetFolderPath</span><span class="p">,</span> <span class="n">targetDim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">))</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">()</span>
+
+<span class="c1"># Intialize Inference Engine</span>
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">INFERENCE_ENGINE</span><span class="p">(</span><span class="n">MODEL_SAVE_NAME</span><span class="p">)</span>
+
+<span class="c1"># Preform Prediction on DataSet</span>
+<span class="n">predsG</span> <span class="o">=</span> <span class="n">infEngine</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testSet</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Generate Report</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">generate_evaluation_report</span><span class="p">(</span><span class="n">testSet</span><span class="p">,</span><span class="n">predictions</span> <span class="o">=</span> <span class="n">predsG</span> <span class="p">,</span> <span class="n">pdfName</span> <span class="o">=</span> <span class="s2">&quot;expt_evaluation_report.pdf&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Alternatively:
+<div class="highlight"><pre><span></span><code><span class="c1"># Load Dataset</span>
+<span class="n">trainSet</span><span class="p">,</span><span class="n">testSet</span><span class="p">,</span><span class="n">labelNames</span> <span class="o">=</span><span class="n">ai</span><span class="o">.</span><span class="n">datasetFromFolder</span><span class="p">(</span><span class="n">datasetFolderPath</span><span class="p">,</span> <span class="n">targetDim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">))</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">()</span>
+
+<span class="c1"># Intialize Inference Engine</span>
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">INFERENCE_ENGINE</span><span class="p">(</span><span class="n">MODEL_SAVE_NAME</span><span class="p">)</span>
+
+<span class="c1"># Generate Report - If predictions are not passed, then automatically prediction is performed.</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">generate_evaluation_report</span><span class="p">(</span><span class="n">testSet</span><span class="p">,</span> <span class="n">pdfName</span> <span class="o">=</span> <span class="s2">&quot;expt_evaluation_report.pdf&quot;</span><span class="p">)</span>
+</code></pre></div>
+<strong>Arguments</strong></p>
+<ul>
+<li><strong>testSet</strong>: (Type - <code>numpy.array</code> or <code>generator</code>) : Test Data Set to perform evaluation on.</li>
+<li><strong>predictions</strong>: (Type - <code>numpy.array</code>): [Optional] : Prediction output of either <code>INFERENCE_ENGINE.predict</code> or
+         <code>INFERENCE_ENGINE.predict_pipleline</code>. If this parameter is not set, then prediction
+         is perfomred internally and evaluation report is generated.</li>
+<li><strong>pdfName</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = ModelName + _report.pdf</code> - Pdf Output Name.</li>
+<li><strong>printStat</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = False</code> - Print Statistics on console.</li>
+<li><strong>returnPlot</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = False</code> - Return Plot Figure Handle.</li>
+<li><strong>showPlot</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = False</code> - Show Plot figure.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None or Plot Handle</code>: If <code>returnPlot = True</code> then Plot Handle will be returned else None.</p>
+<h3 id="explain">explain<a class="headerlink" href="#explain" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INFERENCE_ENGINE</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
+                         <span class="n">predictions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">layer_to_explain</span><span class="o">=</span><span class="s1">&#39;CNN3&#39;</span><span class="p">,</span>
+                         <span class="n">classNames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">selectedClasses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">expectedClass</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">showPlot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>Explains a model layer with respect to Input and Output using Grad-cam. Basically, see what the AI is seeing to arrive at
+a certain prediction. More methods to be updated in next versions.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load a sample</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">Image</span><span class="p">)</span>
+
+<span class="c1"># Intialize Inference Engine</span>
+<span class="n">infEngine</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">INFERENCE_ENGINE</span><span class="p">(</span><span class="n">MODEL_SAVE_NAME</span><span class="p">)</span>
+
+<span class="c1"># Print Layer Names</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span>
+<span class="s1">&#39;.join(infEngine.getLayerNames()))</span>
+
+<span class="c1"># If predictions are not passed, then automatically prediction is performed. You can perform prediction first then pass</span>
+  <span class="n">to</span> <span class="n">the</span> <span class="n">below</span> <span class="n">function</span><span class="o">.</span> <span class="n">Pass</span> <span class="n">one</span> <span class="n">of</span> <span class="n">the</span> <span class="n">layer</span> <span class="n">name</span> <span class="kn">from</span> <span class="nn">above</span> <span class="n">output</span> <span class="n">to</span> <span class="err">`</span><span class="n">layer_to_explain</span><span class="err">`</span><span class="o">.</span>
+<span class="n">infEngine</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">layer_to_explain</span><span class="o">=</span><span class="s1">&#39;CNN3&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>input</strong>: (Type - <code>numpy.array</code> or <code>image</code>) : Input to perform explanation on. For safety, pass single or few samples only.</li>
+<li><strong>predictions</strong>: (Type - <code>numpy.array</code>): [Optional] : Prediction output of either <code>INFERENCE_ENGINE.predict</code> or
+         <code>INFERENCE_ENGINE.predict_pipleline</code>. If this parameter is not set, then prediction
+         is perfomred internally and explanation is generated.</li>
+<li><strong>layer_to_explain</strong>: (Type - <code>String</code>):  Layer to explain.</li>
+<li><strong>classNames</strong>: (Type - <code>Numpy.Array</code> or <code>List</code>): [Optional] : <code>Default = None| Loaded from Meta File</code> - Class Names or Label Names of Dataset.</li>
+<li><strong>selectedClasses</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = None</code> - Explain only few subset of Class Names. If <code>None</code> then all classes will be explained.</li>
+<li><strong>expectedClass</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default = None</code> - Expected Label/Class Name for the Input.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: Shows a plot figure with explanations.</p>
+<h2 id="train_engine">TRAIN_ENGINE<a class="headerlink" href="#train_engine" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">TRAIN_ENGINE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Initializes Training Engine to perform training/prediction. TRAIN_ENGINE is a superclass of INFERENCE_ENGINE.
+Meaning, all the methods and functions of INFERENCE_ENGINE are available with TRAIN_ENGINE with additional methods of
+its own.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modelName</strong>: (Type - <code>filepath</code>): [Optional] model path/name to load existing model or create new model.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>TRAIN_ENGINE Object</code>: Ready to Train a given dataset.</p>
+<h3 id="train_and_save_model">train_and_save_model<a class="headerlink" href="#train_and_save_model" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="n">TRAIN_ENGINE</span><span class="o">.</span><span class="n">train_and_save_model</span><span class="p">(</span><span class="n">AI_NAME</span><span class="p">,</span>
+                                  <span class="n">MODEL_SAVE_NAME</span><span class="p">,</span>
+                                  <span class="n">trainSet</span><span class="p">,</span>
+                                  <span class="n">testSet</span><span class="p">,</span>
+                                  <span class="n">OUTPUT_CLASSES</span><span class="p">,</span>
+                                  <span class="n">RETRAIN_MODEL</span><span class="p">,</span>
+                                  <span class="n">BATCH_SIZE</span><span class="p">,</span>
+                                  <span class="n">EPOCHS</span><span class="p">,</span>
+                                  <span class="n">LEARNING_RATE</span><span class="p">,</span>
+                                  <span class="n">convLayers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">SAVE_BEST_MODEL</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">BEST_MODEL_COND</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">callbacks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;sparse_categorical_crossentropy&#39;</span><span class="p">,</span>
+                                  <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">],</span>
+                                  <span class="n">showModel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">CLASS_WEIGHTS</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+"
+Main function that trains and saves a model. This automatically builds new model for given networks/AI or reload existing AI model.
+This function can be used to retrain existing models or create new models.</p>
+<div class="admonition danger">
+<p class="admonition-title">IMPORTANT</p>
+</div>
+<p>DO NOT PASS ANY EXTENTION TO <code>MODEL_SAVE_NAME</code> argument</p>
+<p>USAGE:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Set Parameters</span>
+<span class="n">AI_NAME</span> <span class="o">=</span> <span class="s1">&#39;MobileNet_X&#39;</span>
+<span class="n">MODEL_SAVE_NAME</span> <span class="o">=</span> <span class="s1">&#39;testModel1&#39;</span>
+
+<span class="n">OUTPUT_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">RETRAIN_MODEL</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">LEARNING_RATE</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">SAVE_BEST_MODEL</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">BEST_MODEL_COND</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">callbacks</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Initialize Train Engine</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">TRAIN_ENGINE</span><span class="p">()</span>
+
+<span class="c1"># Train and Save Model</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">train_and_save_model</span><span class="p">(</span><span class="n">AI_NAME</span><span class="o">=</span><span class="n">AI_NAME</span><span class="p">,</span>                                                       <span class="c1"># AI/Network to Use</span>
+       <span class="n">MODEL_SAVE_NAME</span> <span class="o">=</span> <span class="n">MODEL_SAVE_NAME</span><span class="p">,</span>                                       <span class="c1"># Target MODEL To Save/Load/Retrain</span>
+       <span class="n">trainSet</span><span class="o">=</span><span class="n">trainGen</span><span class="p">,</span> <span class="n">testSet</span><span class="o">=</span><span class="n">testGen</span><span class="p">,</span> <span class="n">OUTPUT_CLASSES</span><span class="o">=</span><span class="n">OUTPUT_CLASSES</span><span class="p">,</span>       <span class="c1"># From Dataset Loader</span>
+       <span class="n">RETRAIN_MODEL</span><span class="o">=</span> <span class="n">RETRAIN_MODEL</span><span class="p">,</span> <span class="n">BATCH_SIZE</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">EPOCHS</span><span class="o">=</span> <span class="n">EPOCHS</span><span class="p">,</span>    <span class="c1"># Training Settings</span>
+       <span class="n">SAVE_BEST_MODEL</span> <span class="o">=</span> <span class="n">SAVE_BEST_MODEL</span><span class="p">,</span>   <span class="n">BEST_MODEL_COND</span><span class="o">=</span> <span class="n">BEST_MODEL_COND</span><span class="p">,</span>   <span class="c1"># Early Stopping Settings</span>
+       <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>                                     <span class="c1"># Loss Function</span>
+       <span class="n">showModel</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>                                                       <span class="c1"># Show Network Summary</span>
+       <span class="n">callbacks</span> <span class="o">=</span> <span class="n">callbacks</span><span class="p">,</span>                                                   <span class="c1"># Additional/Advanced Hooks</span>
+       <span class="p">)</span>
+</code></pre></div>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>AI_NAME</strong>: (Type - <code>string</code> or <code>NetworkInit() class</code>): Select Network from catalogue (string) or create your own network and pass the class.</li>
+<li><strong>MODEL_SAVE_NAME</strong>: (Type - <code>filepath</code>): [Optional] model path/name to load existing model or create new model.</li>
+<li><strong>trainSet</strong>: (Type - <code>numpy.array</code> or <code>generator</code>): [Optional] : Training Dataset either as generator or numpy array from <code>DataLoader</code> class.</li>
+<li><strong>testSet</strong>: (Type - <code>numpy.array</code> or <code>generator</code>): [Optional] : Test/Validation Dataset either as generator or numpy array
+      from <code>DataLoader</code> class.</li>
+<li><strong>OUTPUT_CLASSES</strong>: (Type - <code>Int</code>): Number of unique classes in dataset.</li>
+<li><strong>RETRAIN_MODEL</strong>: (Type - <code>Bool</code>): Whether to retrain existing model. If set to True and model does not exist,
+      then it creates a new model and subsequent runs will retrain model.</li>
+<li><strong>BATCH_SIZE</strong>: (Type - <code>Int</code>): Batch size for Training. If Training fails when using large datasets, try reducing this number.</li>
+<li><strong>EPOCHS</strong>: (Type - <code>Int</code>): Number of Epochs to train.</li>
+<li><strong>LEARNING_RATE</strong>: (Type - <code>Float</code>): [Optional] : Set Learning rate. If not set, optimizer default will be used.</li>
+<li><strong>convLayers</strong>: (Type - <code>Int</code>): [Optional] Default is None. Only applicable for certain networks where convolution
+         layers are reconfigurable. This parameter can be used to change the num of conv
+         layers in Network. See AI_NAME Page for More Details.</li>
+<li><strong>SAVE_BEST_MODEL</strong>: (Type - <code>Bool</code>): [Optional] : <code>Default: False</code> - Initializes Training Engine with saving best model feature.</li>
+<li><strong>BEST_MODEL_COND</strong>: (Type - <code>String</code> or <code>Dict</code>): [Optional] : <code>Default: None</code> - Initializes Training Engine with early stopping feature.
+     [Options] -&gt; <code>Default</code> or <code>Dict</code>.</li>
+<li><strong>Dict Values Expected</strong>:</li>
+<li><strong>'monitor'</strong>: (Type - <code>String</code>): Which Parameter to Monitor. [Options] -&gt; ('val_accuracy', 'val_loss', 'accuracy'),</li>
+<li><strong>'min_delta'</strong>: (Type - <code>Float</code>): minimum change in the monitored quantity to qualify as an improvement,
+       i.e. an absolute change of less than min_delta, will count as no improvement.</li>
+<li><strong>'patience'</strong>: (Type - <code>Int</code>): number of epochs with no improvement after which training will be stopped.</li>
+<li><strong>loss</strong>: (Type - <code>String</code>) : <code>Default: sparse_categorical_crossentropy</code>, Loss function to apply. Depends on dataprocessor.
+        If dataloaders has one-hot encoded labels then use <code>sparse_categorical_crossentropy</code> else if
+        labers are encoded then -&gt; <code>categorical_crossentropy</code>.</li>
+<li><strong>metrics</strong>: (Type - <code>List</code>): [Optional] : <code>Default: ['accuracy']</code>. Metrics to Monitor during Training.</li>
+<li><strong>showModel</strong>: (Type - <code>Bool</code>): [Optional] : Whether to show the network summary before start of training.</li>
+<li><strong>CLASS_WEIGHTS</strong>: (Type - <code>Dict</code>) [Optional] : Dictionary containing class weights for model.fit()</li>
+<li><strong>callbacks</strong>: (Type - <code>Tensorflow Callbacks</code>): Tensorflow Callbacks can be attacked.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: On successful completion saves the trained model.</p>
+<h3 id="plot_train_acc_loss">plot_train_acc_loss<a class="headerlink" href="#plot_train_acc_loss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">TRAIN_ENGINE</span><span class="o">.</span><span class="n">plot_train_acc_loss</span><span class="p">()</span>
+</code></pre></div>
+<p>Plot training accuracy and loss graph vs epoch. Generates an interactive graph for inspection.</p>
+<p>USAGE:</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># Set Parameters</span>
+<span class="n">AI_NAME</span> <span class="o">=</span> <span class="s1">&#39;MobileNet_X&#39;</span>
+<span class="n">MODEL_SAVE_NAME</span> <span class="o">=</span> <span class="s1">&#39;testModel1&#39;</span>
+
+<span class="n">OUTPUT_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">RETRAIN_MODEL</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">LEARNING_RATE</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">SAVE_BEST_MODEL</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">BEST_MODEL_COND</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">callbacks</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Initialize Train Engine</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">TRAIN_ENGINE</span><span class="p">()</span>
+
+<span class="c1"># Train and Save Model</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">train_and_save_model</span><span class="p">(</span><span class="n">AI_NAME</span><span class="o">=</span><span class="n">AI_NAME</span><span class="p">,</span>                                                       <span class="c1"># AI/Network to Use</span>
+       <span class="n">MODEL_SAVE_NAME</span> <span class="o">=</span> <span class="n">MODEL_SAVE_NAME</span><span class="p">,</span>                                       <span class="c1"># Target MODEL To Save/Load/Retrain</span>
+       <span class="n">trainSet</span><span class="o">=</span><span class="n">trainGen</span><span class="p">,</span> <span class="n">testSet</span><span class="o">=</span><span class="n">testGen</span><span class="p">,</span> <span class="n">OUTPUT_CLASSES</span><span class="o">=</span><span class="n">OUTPUT_CLASSES</span><span class="p">,</span>       <span class="c1"># From Dataset Loader</span>
+       <span class="n">RETRAIN_MODEL</span><span class="o">=</span> <span class="n">RETRAIN_MODEL</span><span class="p">,</span> <span class="n">BATCH_SIZE</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">EPOCHS</span><span class="o">=</span> <span class="n">EPOCHS</span><span class="p">,</span>    <span class="c1"># Training Settings</span>
+       <span class="n">SAVE_BEST_MODEL</span> <span class="o">=</span> <span class="n">SAVE_BEST_MODEL</span><span class="p">,</span>   <span class="n">BEST_MODEL_COND</span><span class="o">=</span> <span class="n">BEST_MODEL_COND</span><span class="p">,</span>   <span class="c1"># Early Stopping Settings</span>
+       <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>                                     <span class="c1"># Loss Function</span>
+       <span class="n">showModel</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>                                                       <span class="c1"># Show Network Summary</span>
+       <span class="n">callbacks</span> <span class="o">=</span> <span class="n">callbacks</span><span class="p">,</span>                                                   <span class="c1"># Additional/Advanced Hooks</span>
+       <span class="p">)</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">plot_training_metrics</span><span class="p">()</span>
+</code></pre></div>
+<strong>Arguments</strong></p>
+<ul>
+<li><strong>None</strong>: None</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>None</code>: Opens accuracy vs loss vs epoch plot.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      
+        <script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script>
+      
+        <script src="../../js/termynal.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+        <script src="../../js/chat.js"></script>
+      
+    
+  </body>
+</html>

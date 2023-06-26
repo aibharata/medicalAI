@@ -1,0 +1,2068 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Medicalai framework - high performance, easy to learn, fast to code, ready for production">
+      
+      
+        <meta name="author" content="Vinayaka Jyothi For AiBharata">
+      
+      
+        <link rel="canonical" href="https://aibharata.github.io/medicalAI/medicalai/medicalai.chief/">
+      
+      
+      
+      <link rel="icon" href="../../img/logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>medicalai.chief package - Medicalai</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/termynal.css">
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#medicalaichief-package" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Medicalai" class="md-header__button md-logo" aria-label="Medicalai" data-md-component="logo">
+      
+  <img src="../../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Medicalai
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              medicalai.chief package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aibharata/medicalAI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aibharata/medicalAI
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Medicalai" class="md-nav__button md-logo" aria-label="Medicalai" data-md-component="logo">
+      
+  <img src="../../img/logo.png" alt="logo">
+
+    </a>
+    Medicalai
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aibharata/medicalAI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aibharata/medicalAI
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_using_numpy_dataset/" class="md-nav__link">
+        Train Using Numpy Method
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_using_generator_dataset/" class="md-nav__link">
+        Train Using Generator Method
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_unet_image_segmentation/" class="md-nav__link">
+        Image Segmentation Example
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset_processors/" class="md-nav__link">
+        Data Processing Pipeline
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        Core
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networks/" class="md-nav__link">
+        AI Networks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelStats/" class="md-nav__link">
+        Model Statistics
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#subpackages" class="md-nav__link">
+    Subpackages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#submodules" class="md-nav__link">
+    Submodules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefcore-module" class="md-nav__link">
+    medicalai.chief.core module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.core module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefcoreinference_enginemodelname-testsetnone-classnamesnone" class="md-nav__link">
+    class medicalai.chief.core.INFERENCE_ENGINE(modelName, testSet=None, classNames=None)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.core.INFERENCE_ENGINE(modelName, testSet=None, classNames=None)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decode_predictionspred-top_preds4-rettypetuple" class="md-nav__link">
+    decode_predictions(pred, top_preds=4, retType='tuple')
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explaininput-predictionsnone-layer_to_explaincnn3-classnamesnone-selectedclassesnone-expectedclassnone-showplotfalse" class="md-nav__link">
+    explain(input, predictions=None, layer_to_explain='CNN3', classNames=None, selectedClasses=None, expectedClass=None, showPlot=False)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate_evaluation_reporttestsetnone-predictionsnone-printstatfalse-returnplotfalse-showplotfalse-pdfnamenone-kwargs" class="md-nav__link">
+    generate_evaluation_report(testSet=None, predictions=None, printStat=False, returnPlot=False, showPlot=False, pdfName=None, **kwargs)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getlayernames" class="md-nav__link">
+    getLayerNames()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_model_and_weightsmodelname" class="md-nav__link">
+    load_model_and_weights(modelName)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_networkfilename" class="md-nav__link">
+    load_network(fileName)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_weightswgtfilename" class="md-nav__link">
+    load_weights(wgtfileName)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predictinput" class="md-nav__link">
+    predict(input)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predict_pipelineinput" class="md-nav__link">
+    predict_pipeline(input)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preprocessor_from_metametafilenone" class="md-nav__link">
+    preprocessor_from_meta(metaFile=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    summary()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefcoretrain_enginemodelnamenone" class="md-nav__link">
+    class medicalai.chief.core.TRAIN_ENGINE(modelName=None)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.core.TRAIN_ENGINE(modelName=None)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plot_train_acc_loss" class="md-nav__link">
+    plot_train_acc_loss()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train_and_save_modelai_name-model_save_name-trainset-testset-output_classes-retrain_model-batch_size-epochs-learning_rate-convlayersnone-save_best_modeltrue-best_model_condnone-callbacksnone-losssparse_categorical_crossentropy-metricsaccuracy-showmodelfalse-class_weightsnone" class="md-nav__link">
+    train_and_save_model(AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None, SAVE_BEST_MODEL=True, BEST_MODEL_COND=None, callbacks=None, loss='sparse_categorical_crossentropy', metrics=['accuracy'], showModel=False, CLASS_WEIGHTS=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcorecheck_model_existsoutputname" class="md-nav__link">
+    medicalai.chief.core.check_model_exists(outputName)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcorecreate_model_output_folderoutputname" class="md-nav__link">
+    medicalai.chief.core.create_model_output_folder(outputName)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoredecode_predictionspred-labelnames-top_preds4-rettypetuple" class="md-nav__link">
+    medicalai.chief.core.decode_predictions(pred, labelNames, top_preds=4, retType='tuple')
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoreload_model_and_weightsmodelname-summaryfalse" class="md-nav__link">
+    medicalai.chief.core.load_model_and_weights(modelName, summary=False)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoremodelmanagermodelname-x_train-output_classes-retrain_model-ai_nametinymednet-convlayersnone" class="md-nav__link">
+    medicalai.chief.core.modelManager(modelName, x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME='tinyMedNet', convLayers=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoreplot_training_metricsresult-themelight" class="md-nav__link">
+    medicalai.chief.core.plot_training_metrics(result, theme='light')
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcorepredict_labelsmodel-input-expected_outputnone-labelnamesnone-top_preds4" class="md-nav__link">
+    medicalai.chief.core.predict_labels(model, input, expected_output=None, labelNames=None, top_preds=4)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoresave_model_and_weightsmodel-outputname" class="md-nav__link">
+    medicalai.chief.core.save_model_and_weights(model, outputName)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoreshow_model_detailsmodel" class="md-nav__link">
+    medicalai.chief.core.show_model_details(model)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefcoretrainmodel-x_train-batch_size1-epochs1-learning_rate0001-callbacksnone-class_weightsnone-savebestmodelfalse-bestmodelcondnone-validation_datanone-train_stepsnone-test_stepsnone-losssparse_categorical_crossentropy-metricsaccuracy-verbosenone-y_trainnone" class="md-nav__link">
+    medicalai.chief.core.train(model, x_train, batch_size=1, epochs=1, learning_rate=0.001, callbacks=None, class_weights=None, saveBestModel=False, bestModelCond=None, validation_data=None, TRAIN_STEPS=None, TEST_STEPS=None, loss='sparse_categorical_crossentropy', metrics=['accuracy'], verbose=None, y_train=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_prepare-module" class="md-nav__link">
+    medicalai.chief.dataset_prepare module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.dataset_prepare module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_prepareaugmentationrotation_range12-fill_modeconstant-width_shift_range01-height_shift_range01-horizontal_flipfalse-vertical_flipfalse-brightness_range09-11-zoom_range085-115-rescale000392156862745098-shear_range0-channel_shift_range0-samplewise_centerfalse-samplewise_std_normalizationfalse-featurewise_centerfalse-featurewise_std_normalizationfalse-cval0-preprocessing_functionnone" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.AUGMENTATION(rotation_range=12, fill_mode='constant', width_shift_range=0.1, height_shift_range=0.1, horizontal_flip=False, vertical_flip=False, brightness_range=(0.9, 1.1), zoom_range=(0.85, 1.15), rescale=0.00392156862745098, shear_range=0, channel_shift_range=0, samplewise_center=False, samplewise_std_normalization=False, featurewise_center=False, featurewise_std_normalization=False, cval=0, preprocessing_function=None)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.dataset_prepare.AUGMENTATION(rotation_range=12, fill_mode='constant', width_shift_range=0.1, height_shift_range=0.1, horizontal_flip=False, vertical_flip=False, brightness_range=(0.9, 1.1), zoom_range=(0.85, 1.15), rescale=0.00392156862745098, shear_range=0, channel_shift_range=0, samplewise_center=False, samplewise_std_normalization=False, featurewise_center=False, featurewise_std_normalization=False, cval=0, preprocessing_function=None)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_aug" class="md-nav__link">
+    create_aug()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_prepareinput_processortargetdim31-31-samplingmethodnone-normalizefalse-color_modergb-rescalenone-dtypefloat32" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.INPUT_PROCESSOR(targetDim=(31, 31), samplingMethod=None, normalize=False, color_mode='RGB', rescale=None, dtype='float32')
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.dataset_prepare.INPUT_PROCESSOR(targetDim=(31, 31), samplingMethod=None, normalize=False, color_mode='RGB', rescale=None, dtype='float32')">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#processimageimage" class="md-nav__link">
+    processImage(image)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resizedatasetdataset" class="md-nav__link">
+    resizeDataSet(dataset)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resizedatasetfromfolderfolder" class="md-nav__link">
+    resizeDataSetfromFolder(folder)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_prepareinputprocessorfrommetametafile" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.InputProcessorFromMeta(metaFile)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_prepareconvertlist2tuplelst" class="md-nav__link">
+    medicalai.chief.dataset_prepare.convertlist2tuple(lst)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_preparedatasetfolderstructurevalidatefolder" class="md-nav__link">
+    medicalai.chief.dataset_prepare.datasetFolderStructureValidate(folder)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_preparedatasetfromfolderfolder-targetdim31-31-normalizefalse-namenone-usecachetrue-forcecleancachefalse" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.datasetFromFolder(folder, targetDim=(31, 31), normalize=False, name=None, useCache=True, forceCleanCache=False)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.dataset_prepare.datasetFromFolder(folder, targetDim=(31, 31), normalize=False, name=None, useCache=True, forceCleanCache=False)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_dataset" class="md-nav__link">
+    load_dataset()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_preparedatasetgenfromdataframefolder-csv_path-x_colname-y_collabels-targetdim224-224-normalizefalse-batch_size16-augmentationtrue-color_modergb-class_modesparse-shuffletrue-seed17" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.datasetGenFromDataframe(folder, csv_path='.', x_col='name', y_col='labels', targetDim=(224, 224), normalize=False, batch_size=16, augmentation=True, color_mode='rgb', class_mode='sparse', shuffle=True, seed=17)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.dataset_prepare.datasetGenFromDataframe(folder, csv_path='.', x_col='name', y_col='labels', targetDim=(224, 224), normalize=False, batch_size=16, augmentation=True, color_mode='rgb', class_mode='sparse', shuffle=True, seed=17)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_class_weights" class="md-nav__link">
+    get_class_weights()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_numpygenerator" class="md-nav__link">
+    get_numpy(generator)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_generator" class="md-nav__link">
+    load_generator()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_preparedatasetgenfromfolderfolder-targetdim224-224-normalizefalse-batch_size16-augmentationtrue-color_modergb-class_modesparse-shuffletrue-seed17" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.datasetGenFromFolder(folder, targetDim=(224, 224), normalize=False, batch_size=16, augmentation=True, color_mode='rgb', class_mode='sparse', shuffle=True, seed=17)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.dataset_prepare.datasetGenFromFolder(folder, targetDim=(224, 224), normalize=False, batch_size=16, augmentation=True, color_mode='rgb', class_mode='sparse', shuffle=True, seed=17)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_class_weights_1" class="md-nav__link">
+    get_class_weights()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_numpygenerator_1" class="md-nav__link">
+    get_numpy(generator)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_generator_1" class="md-nav__link">
+    load_generator()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_preparedatasetmanagerfolder-targetdim31-31-normalizefalse-namenone-usecachetrue-forcecleancachefalse" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.datasetManager(folder, targetDim=(31, 31), normalize=False, name=None, useCache=True, forceCleanCache=False)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.dataset_prepare.datasetManager(folder, targetDim=(31, 31), normalize=False, name=None, useCache=True, forceCleanCache=False)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compress_and_cache_datakw" class="md-nav__link">
+    compress_and_cache_data(**kw)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert_datasetkw" class="md-nav__link">
+    convert_dataset(**kw)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_data" class="md-nav__link">
+    load_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process_dataset" class="md-nav__link">
+    process_dataset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reload_datakw" class="md-nav__link">
+    reload_data(**kw)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_preparedatasetmanagerfuncfolder-targetdim31-31-normalizefalse" class="md-nav__link">
+    medicalai.chief.dataset_prepare.datasetManagerFunc(folder, targetDim=(31, 31), normalize=False)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_preparegetlabelsfromfolderfolder" class="md-nav__link">
+    medicalai.chief.dataset_prepare.getLabelsFromFolder(folder)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_preparemedicalai_generator" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.medicalai_generator()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_preparemetaloadermetafile" class="md-nav__link">
+    medicalai.chief.dataset_prepare.metaLoader(metaFile)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_preparemetasaverlabelmap-labels-normalizenone-rescalenone-network_input_dimnone-samplingmethodnamenone-outputnamenone" class="md-nav__link">
+    medicalai.chief.dataset_prepare.metaSaver(labelMap, labels, normalize=None, rescale=None, network_input_dim=None, samplingMethodName=None, outputName=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdataset_preparemydict" class="md-nav__link">
+    class medicalai.chief.dataset_prepare.myDict()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdataset_preparesafe_labelmap_converterlabelmap" class="md-nav__link">
+    medicalai.chief.dataset_prepare.safe_labelmap_converter(labelMap)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefdownload_utils-module" class="md-nav__link">
+    medicalai.chief.download_utils module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.download_utils module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefdownload_utilsdlprogressiterablenone-descnone-totalnone-leavetrue-filenone-ncolsnone-mininterval01-maxinterval100-minitersnone-asciinone-disablefalse-unitit-unit_scalefalse-dynamic_ncolsfalse-smoothing03-bar_formatnone-initial0-positionnone-postfixnone-unit_divisor1000-write_bytesnone-guifalse-kwargs" class="md-nav__link">
+    class medicalai.chief.download_utils.DLProgress(iterable=None, desc=None, total=None, leave=True, file=None, ncols=None, mininterval=0.1, maxinterval=10.0, miniters=None, ascii=None, disable=False, unit='it', unit_scale=False, dynamic_ncols=False, smoothing=0.3, bar_format=None, initial=0, position=None, postfix=None, unit_divisor=1000, write_bytes=None, gui=False, **kwargs)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.download_utils.DLProgress(iterable=None, desc=None, total=None, leave=True, file=None, ncols=None, mininterval=0.1, maxinterval=10.0, miniters=None, ascii=None, disable=False, unit='it', unit_scale=False, dynamic_ncols=False, smoothing=0.3, bar_format=None, initial=0, position=None, postfix=None, unit_divisor=1000, write_bytes=None, gui=False, **kwargs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hookblock_num1-block_size1-total_sizenone" class="md-nav__link">
+    hook(block_num=1, block_size=1, total_size=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#last_block-0" class="md-nav__link">
+    last_block( = 0)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdownload_utilscheck_if_urlx" class="md-nav__link">
+    medicalai.chief.download_utils.check_if_url(x)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdownload_utilsgetfileurl-storepathnone-cachedirnone-subdirdataset" class="md-nav__link">
+    medicalai.chief.download_utils.getFile(url, storePath=None, cacheDir=None, subDir='dataset')
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdownload_utilsload_imagelink-target_size32-32-storepathnone-cachedirnone-subdirimages" class="md-nav__link">
+    medicalai.chief.download_utils.load_image(link, target_size=(32, 32), storePath=None, cacheDir=None, subDir='images')
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdownload_utilsuntartar_file-destination" class="md-nav__link">
+    medicalai.chief.download_utils.untar(tar_file, destination)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefdownload_utilsunzipzip_file-destination" class="md-nav__link">
+    medicalai.chief.download_utils.unzip(zip_file, destination)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnetworks-module" class="md-nav__link">
+    medicalai.chief.networks module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.networks module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksdensenet121" class="md-nav__link">
+    class medicalai.chief.networks.DenseNet121()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.DenseNet121()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksinceptionresnetv2" class="md-nav__link">
+    class medicalai.chief.networks.InceptionResNetV2()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.InceptionResNetV2()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_1" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksinceptionv3" class="md-nav__link">
+    class medicalai.chief.networks.InceptionV3()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.InceptionV3()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_2" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksmobilenet" class="md-nav__link">
+    class medicalai.chief.networks.MobileNet()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.MobileNet()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_3" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksmobilenetv2" class="md-nav__link">
+    class medicalai.chief.networks.MobileNetV2()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.MobileNetV2()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_4" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksnetworkinit" class="md-nav__link">
+    class medicalai.chief.networks.NetworkInit()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.NetworkInit()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_5" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksvgg16" class="md-nav__link">
+    class medicalai.chief.networks.VGG16()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.VGG16()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_6" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksxception" class="md-nav__link">
+    class medicalai.chief.networks.Xception()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.Xception()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_7" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnetworksgetnetworkinitialization" class="md-nav__link">
+    medicalai.chief.networks.get(networkInitialization)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksmeganet" class="md-nav__link">
+    class medicalai.chief.networks.megaNet()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.megaNet()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_8" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksresnet110" class="md-nav__link">
+    class medicalai.chief.networks.resNet110()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.resNet110()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_9" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksresnet20" class="md-nav__link">
+    class medicalai.chief.networks.resNet20()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.resNet20()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_10" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksresnet32" class="md-nav__link">
+    class medicalai.chief.networks.resNet32()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.resNet32()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_11" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworksresnet56" class="md-nav__link">
+    class medicalai.chief.networks.resNet56()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.resNet56()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_12" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworkstinymednet" class="md-nav__link">
+    class medicalai.chief.networks.tinyMedNet()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.tinyMedNet()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayersnone_13" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworkstinymednet_v2" class="md-nav__link">
+    class medicalai.chief.networks.tinyMedNet_v2()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.tinyMedNet_v2()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayers2" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=2)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefnetworkstinymednet_v3" class="md-nav__link">
+    class medicalai.chief.networks.tinyMedNet_v3()
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.networks.tinyMedNet_v3()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callinputsize-outputsize-convlayers2_1" class="md-nav__link">
+    call(inputSize, OutputSize, convLayers=2)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefprettyloss-module" class="md-nav__link">
+    medicalai.chief.prettyloss module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.prettyloss module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-medicalaichiefprettylossprettylossshow_percentagefalse" class="md-nav__link">
+    class medicalai.chief.prettyloss.prettyLoss(show_percentage=False)
+  </a>
+  
+    <nav class="md-nav" aria-label="class medicalai.chief.prettyloss.prettyLoss(show_percentage=False)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#style-bold-x1b1m-green-x1b32m-red-x1b91m" class="md-nav__link">
+    STYLE( = {'bold': '\x1b[1m', 'green': '\x1b[32m', 'red': '\x1b[91m'})
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#style_end-x1b0m" class="md-nav__link">
+    STYLE_END( = '\x1b[0m')
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefufuncs-module" class="md-nav__link">
+    medicalai.chief.uFuncs module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.uFuncs module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefufuncstimeitfunc" class="md-nav__link">
+    medicalai.chief.uFuncs.timeit(func)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-contents" class="md-nav__link">
+    Module contents
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="medicalaichief-package">medicalai.chief package<a class="headerlink" href="#medicalaichief-package" title="Permanent link">&para;</a></h1>
+<h2 id="subpackages">Subpackages<a class="headerlink" href="#subpackages" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>medicalai.chief.model_metrics package</p>
+<ul>
+<li>
+<p>Submodules</p>
+</li>
+<li>
+<p>medicalai.chief.model_metrics.modelstats module</p>
+</li>
+<li>
+<p>Module contents</p>
+</li>
+</ul>
+</li>
+<li>
+<p>medicalai.chief.nnets package</p>
+<ul>
+<li>
+<p>Submodules</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.covid_net module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.densenet module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.inceptionResnet module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.inceptionv3 module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.mobilenet module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.mobilenetv2 module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.resnet module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.vgg16 module</p>
+</li>
+<li>
+<p>medicalai.chief.nnets.xception module</p>
+</li>
+<li>
+<p>Module contents</p>
+</li>
+</ul>
+</li>
+<li>
+<p>medicalai.chief.xai package</p>
+<ul>
+<li>
+<p>Submodules</p>
+</li>
+<li>
+<p>medicalai.chief.xai.xcams module</p>
+</li>
+<li>
+<p>Module contents</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permanent link">&para;</a></h2>
+<h2 id="medicalaichiefcore-module">medicalai.chief.core module<a class="headerlink" href="#medicalaichiefcore-module" title="Permanent link">&para;</a></h2>
+<h3 id="class-medicalaichiefcoreinference_enginemodelname-testsetnone-classnamesnone">class medicalai.chief.core.INFERENCE_ENGINE(modelName, testSet=None, classNames=None)<a class="headerlink" href="#class-medicalaichiefcoreinference_enginemodelname-testsetnone-classnamesnone" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<p>TODO: Need to add Metaloader support</p>
+<h4 id="decode_predictionspred-top_preds4-rettypetuple">decode_predictions(pred, top_preds=4, retType='tuple')<a class="headerlink" href="#decode_predictionspred-top_preds4-rettypetuple" title="Permanent link">&para;</a></h4>
+<h4 id="explaininput-predictionsnone-layer_to_explaincnn3-classnamesnone-selectedclassesnone-expectedclassnone-showplotfalse">explain(input, predictions=None, layer_to_explain='CNN3', classNames=None, selectedClasses=None, expectedClass=None, showPlot=False)<a class="headerlink" href="#explaininput-predictionsnone-layer_to_explaincnn3-classnamesnone-selectedclassesnone-expectedclassnone-showplotfalse" title="Permanent link">&para;</a></h4>
+<h4 id="generate_evaluation_reporttestsetnone-predictionsnone-printstatfalse-returnplotfalse-showplotfalse-pdfnamenone-kwargs">generate_evaluation_report(testSet=None, predictions=None, printStat=False, returnPlot=False, showPlot=False, pdfName=None, **kwargs)<a class="headerlink" href="#generate_evaluation_reporttestsetnone-predictionsnone-printstatfalse-returnplotfalse-showplotfalse-pdfnamenone-kwargs" title="Permanent link">&para;</a></h4>
+<h4 id="getlayernames">getLayerNames()<a class="headerlink" href="#getlayernames" title="Permanent link">&para;</a></h4>
+<h4 id="load_model_and_weightsmodelname">load_model_and_weights(modelName)<a class="headerlink" href="#load_model_and_weightsmodelname" title="Permanent link">&para;</a></h4>
+<h4 id="load_networkfilename">load_network(fileName)<a class="headerlink" href="#load_networkfilename" title="Permanent link">&para;</a></h4>
+<h4 id="load_weightswgtfilename">load_weights(wgtfileName)<a class="headerlink" href="#load_weightswgtfilename" title="Permanent link">&para;</a></h4>
+<h4 id="predictinput">predict(input)<a class="headerlink" href="#predictinput" title="Permanent link">&para;</a></h4>
+<h4 id="predict_pipelineinput">predict_pipeline(input)<a class="headerlink" href="#predict_pipelineinput" title="Permanent link">&para;</a></h4>
+<p>Slightly Faster version of predict. Useful for deployment.</p>
+<h4 id="preprocessor_from_metametafilenone">preprocessor_from_meta(metaFile=None)<a class="headerlink" href="#preprocessor_from_metametafilenone" title="Permanent link">&para;</a></h4>
+<h4 id="summary">summary()<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h4>
+<h3 id="class-medicalaichiefcoretrain_enginemodelnamenone">class medicalai.chief.core.TRAIN_ENGINE(modelName=None)<a class="headerlink" href="#class-medicalaichiefcoretrain_enginemodelnamenone" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.core.INFERENCE_ENGINE</code></p>
+<h4 id="plot_train_acc_loss">plot_train_acc_loss()<a class="headerlink" href="#plot_train_acc_loss" title="Permanent link">&para;</a></h4>
+<h4 id="train_and_save_modelai_name-model_save_name-trainset-testset-output_classes-retrain_model-batch_size-epochs-learning_rate-convlayersnone-save_best_modeltrue-best_model_condnone-callbacksnone-losssparse_categorical_crossentropy-metricsaccuracy-showmodelfalse-class_weightsnone">train_and_save_model(AI_NAME, MODEL_SAVE_NAME, trainSet, testSet, OUTPUT_CLASSES, RETRAIN_MODEL, BATCH_SIZE, EPOCHS, LEARNING_RATE, convLayers=None, SAVE_BEST_MODEL=True, BEST_MODEL_COND=None, callbacks=None, loss='sparse_categorical_crossentropy', metrics=['accuracy'], showModel=False, CLASS_WEIGHTS=None)<a class="headerlink" href="#train_and_save_modelai_name-model_save_name-trainset-testset-output_classes-retrain_model-batch_size-epochs-learning_rate-convlayersnone-save_best_modeltrue-best_model_condnone-callbacksnone-losssparse_categorical_crossentropy-metricsaccuracy-showmodelfalse-class_weightsnone" title="Permanent link">&para;</a></h4>
+<p>”
+CLASS_WEIGHTS: Dictionary containing class weights for model.fit()</p>
+<h3 id="medicalaichiefcorecheck_model_existsoutputname">medicalai.chief.core.check_model_exists(outputName)<a class="headerlink" href="#medicalaichiefcorecheck_model_existsoutputname" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcorecreate_model_output_folderoutputname">medicalai.chief.core.create_model_output_folder(outputName)<a class="headerlink" href="#medicalaichiefcorecreate_model_output_folderoutputname" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcoredecode_predictionspred-labelnames-top_preds4-rettypetuple">medicalai.chief.core.decode_predictions(pred, labelNames, top_preds=4, retType='tuple')<a class="headerlink" href="#medicalaichiefcoredecode_predictionspred-labelnames-top_preds4-rettypetuple" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcoreload_model_and_weightsmodelname-summaryfalse">medicalai.chief.core.load_model_and_weights(modelName, summary=False)<a class="headerlink" href="#medicalaichiefcoreload_model_and_weightsmodelname-summaryfalse" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcoremodelmanagermodelname-x_train-output_classes-retrain_model-ai_nametinymednet-convlayersnone">medicalai.chief.core.modelManager(modelName, x_train, OUTPUT_CLASSES, RETRAIN_MODEL, AI_NAME='tinyMedNet', convLayers=None)<a class="headerlink" href="#medicalaichiefcoremodelmanagermodelname-x_train-output_classes-retrain_model-ai_nametinymednet-convlayersnone" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcoreplot_training_metricsresult-themelight">medicalai.chief.core.plot_training_metrics(result, theme='light')<a class="headerlink" href="#medicalaichiefcoreplot_training_metricsresult-themelight" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcorepredict_labelsmodel-input-expected_outputnone-labelnamesnone-top_preds4">medicalai.chief.core.predict_labels(model, input, expected_output=None, labelNames=None, top_preds=4)<a class="headerlink" href="#medicalaichiefcorepredict_labelsmodel-input-expected_outputnone-labelnamesnone-top_preds4" title="Permanent link">&para;</a></h3>
+<p>predict(x, batch_size=None, verbose=0, steps=None, callbacks=None, max_queue_size=10, workers=1, use_multiprocessing=False)</p>
+<h3 id="medicalaichiefcoresave_model_and_weightsmodel-outputname">medicalai.chief.core.save_model_and_weights(model, outputName)<a class="headerlink" href="#medicalaichiefcoresave_model_and_weightsmodel-outputname" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcoreshow_model_detailsmodel">medicalai.chief.core.show_model_details(model)<a class="headerlink" href="#medicalaichiefcoreshow_model_detailsmodel" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefcoretrainmodel-x_train-batch_size1-epochs1-learning_rate0001-callbacksnone-class_weightsnone-savebestmodelfalse-bestmodelcondnone-validation_datanone-train_stepsnone-test_stepsnone-losssparse_categorical_crossentropy-metricsaccuracy-verbosenone-y_trainnone">medicalai.chief.core.train(model, x_train, batch_size=1, epochs=1, learning_rate=0.001, callbacks=None, class_weights=None, saveBestModel=False, bestModelCond=None, validation_data=None, TRAIN_STEPS=None, TEST_STEPS=None, loss='sparse_categorical_crossentropy', metrics=['accuracy'], verbose=None, y_train=None)<a class="headerlink" href="#medicalaichiefcoretrainmodel-x_train-batch_size1-epochs1-learning_rate0001-callbacksnone-class_weightsnone-savebestmodelfalse-bestmodelcondnone-validation_datanone-train_stepsnone-test_stepsnone-losssparse_categorical_crossentropy-metricsaccuracy-verbosenone-y_trainnone" title="Permanent link">&para;</a></h3>
+<h2 id="medicalaichiefdataset_prepare-module">medicalai.chief.dataset_prepare module<a class="headerlink" href="#medicalaichiefdataset_prepare-module" title="Permanent link">&para;</a></h2>
+<h3 id="class-medicalaichiefdataset_prepareaugmentationrotation_range12-fill_modeconstant-width_shift_range01-height_shift_range01-horizontal_flipfalse-vertical_flipfalse-brightness_range09-11-zoom_range085-115-rescale000392156862745098-shear_range0-channel_shift_range0-samplewise_centerfalse-samplewise_std_normalizationfalse-featurewise_centerfalse-featurewise_std_normalizationfalse-cval0-preprocessing_functionnone">class medicalai.chief.dataset_prepare.AUGMENTATION(rotation_range=12, fill_mode='constant', width_shift_range=0.1, height_shift_range=0.1, horizontal_flip=False, vertical_flip=False, brightness_range=(0.9, 1.1), zoom_range=(0.85, 1.15), rescale=0.00392156862745098, shear_range=0, channel_shift_range=0, samplewise_center=False, samplewise_std_normalization=False, featurewise_center=False, featurewise_std_normalization=False, cval=0, preprocessing_function=None)<a class="headerlink" href="#class-medicalaichiefdataset_prepareaugmentationrotation_range12-fill_modeconstant-width_shift_range01-height_shift_range01-horizontal_flipfalse-vertical_flipfalse-brightness_range09-11-zoom_range085-115-rescale000392156862745098-shear_range0-channel_shift_range0-samplewise_centerfalse-samplewise_std_normalizationfalse-featurewise_centerfalse-featurewise_std_normalizationfalse-cval0-preprocessing_functionnone" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<h4 id="create_aug">create_aug()<a class="headerlink" href="#create_aug" title="Permanent link">&para;</a></h4>
+<h3 id="class-medicalaichiefdataset_prepareinput_processortargetdim31-31-samplingmethodnone-normalizefalse-color_modergb-rescalenone-dtypefloat32">class medicalai.chief.dataset_prepare.INPUT_PROCESSOR(targetDim=(31, 31), samplingMethod=None, normalize=False, color_mode='RGB', rescale=None, dtype='float32')<a class="headerlink" href="#class-medicalaichiefdataset_prepareinput_processortargetdim31-31-samplingmethodnone-normalizefalse-color_modergb-rescalenone-dtypefloat32" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<h4 id="processimageimage">processImage(image)<a class="headerlink" href="#processimageimage" title="Permanent link">&para;</a></h4>
+<h4 id="resizedatasetdataset">resizeDataSet(dataset)<a class="headerlink" href="#resizedatasetdataset" title="Permanent link">&para;</a></h4>
+<h4 id="resizedatasetfromfolderfolder">resizeDataSetfromFolder(folder)<a class="headerlink" href="#resizedatasetfromfolderfolder" title="Permanent link">&para;</a></h4>
+<h3 id="class-medicalaichiefdataset_prepareinputprocessorfrommetametafile">class medicalai.chief.dataset_prepare.InputProcessorFromMeta(metaFile)<a class="headerlink" href="#class-medicalaichiefdataset_prepareinputprocessorfrommetametafile" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.dataset_prepare.INPUT_PROCESSOR</code></p>
+<h3 id="medicalaichiefdataset_prepareconvertlist2tuplelst">medicalai.chief.dataset_prepare.convertlist2tuple(lst)<a class="headerlink" href="#medicalaichiefdataset_prepareconvertlist2tuplelst" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdataset_preparedatasetfolderstructurevalidatefolder">medicalai.chief.dataset_prepare.datasetFolderStructureValidate(folder)<a class="headerlink" href="#medicalaichiefdataset_preparedatasetfolderstructurevalidatefolder" title="Permanent link">&para;</a></h3>
+<h3 id="class-medicalaichiefdataset_preparedatasetfromfolderfolder-targetdim31-31-normalizefalse-namenone-usecachetrue-forcecleancachefalse">class medicalai.chief.dataset_prepare.datasetFromFolder(folder, targetDim=(31, 31), normalize=False, name=None, useCache=True, forceCleanCache=False)<a class="headerlink" href="#class-medicalaichiefdataset_preparedatasetfromfolderfolder-targetdim31-31-normalizefalse-namenone-usecachetrue-forcecleancachefalse" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.dataset_prepare.datasetManager</code></p>
+<p>TODO: Fix samplingMethodName assignment</p>
+<h4 id="load_dataset">load_dataset()<a class="headerlink" href="#load_dataset" title="Permanent link">&para;</a></h4>
+<h3 id="class-medicalaichiefdataset_preparedatasetgenfromdataframefolder-csv_path-x_colname-y_collabels-targetdim224-224-normalizefalse-batch_size16-augmentationtrue-color_modergb-class_modesparse-shuffletrue-seed17">class medicalai.chief.dataset_prepare.datasetGenFromDataframe(folder, csv_path='.', x_col='name', y_col='labels', targetDim=(224, 224), normalize=False, batch_size=16, augmentation=True, color_mode='rgb', class_mode='sparse', shuffle=True, seed=17)<a class="headerlink" href="#class-medicalaichiefdataset_preparedatasetgenfromdataframefolder-csv_path-x_colname-y_collabels-targetdim224-224-normalizefalse-batch_size16-augmentationtrue-color_modergb-class_modesparse-shuffletrue-seed17" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<p>Creates Keras Dataset Generator for Handling Large Datasets from DataFrame.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>csv_path</strong> – folder containing train.csv and test.csv.</p>
+</li>
+<li>
+<p><strong>folder</strong> – The directory must be set to the path where your training images are present.</p>
+</li>
+<li>
+<p><strong>x_col</strong> – Name of column containing image name, default = name.</p>
+</li>
+<li>
+<p><strong>y_col</strong> – Name of column for labels, default = labels.</p>
+</li>
+<li>
+<p><strong>targetDim</strong> – The target_size is the size of your input images to the neural network.</p>
+</li>
+<li>
+<p><strong>class_mode</strong> – Set binary if classifying only two classes, if not set to categorical, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to input.</p>
+</li>
+<li>
+<p><strong>color_mode</strong> – grayscale for black and white or grayscale, rgb for three color channels.</p>
+</li>
+<li>
+<p><strong>batch_size</strong> – Number of images to be yielded from the generator per batch. If training fails lower this number.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="get_class_weights">get_class_weights()<a class="headerlink" href="#get_class_weights" title="Permanent link">&para;</a></h4>
+<h4 id="get_numpygenerator">get_numpy(generator)<a class="headerlink" href="#get_numpygenerator" title="Permanent link">&para;</a></h4>
+<h4 id="load_generator">load_generator()<a class="headerlink" href="#load_generator" title="Permanent link">&para;</a></h4>
+<h3 id="class-medicalaichiefdataset_preparedatasetgenfromfolderfolder-targetdim224-224-normalizefalse-batch_size16-augmentationtrue-color_modergb-class_modesparse-shuffletrue-seed17">class medicalai.chief.dataset_prepare.datasetGenFromFolder(folder, targetDim=(224, 224), normalize=False, batch_size=16, augmentation=True, color_mode='rgb', class_mode='sparse', shuffle=True, seed=17)<a class="headerlink" href="#class-medicalaichiefdataset_preparedatasetgenfromfolderfolder-targetdim224-224-normalizefalse-batch_size16-augmentationtrue-color_modergb-class_modesparse-shuffletrue-seed17" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<p>folder : The directory must be set to the path where your n classes of folders are present.
+targetDim : The target_size is the size of your input images to the neural network.
+class_mode : Set binary if classifying only two classes, if not set to categorical, in case of an Autoencoder system, both input and the output would probably be the same image, for this case set to input.
+color_mode: grayscale for black and white or grayscale, rgb for three color channels.
+batch_size: Number of images to be yielded from the generator per batch. If training fails lower this number.</p>
+<h4 id="get_class_weights_1">get_class_weights()<a class="headerlink" href="#get_class_weights_1" title="Permanent link">&para;</a></h4>
+<h4 id="get_numpygenerator_1">get_numpy(generator)<a class="headerlink" href="#get_numpygenerator_1" title="Permanent link">&para;</a></h4>
+<h4 id="load_generator_1">load_generator()<a class="headerlink" href="#load_generator_1" title="Permanent link">&para;</a></h4>
+<h3 id="class-medicalaichiefdataset_preparedatasetmanagerfolder-targetdim31-31-normalizefalse-namenone-usecachetrue-forcecleancachefalse">class medicalai.chief.dataset_prepare.datasetManager(folder, targetDim=(31, 31), normalize=False, name=None, useCache=True, forceCleanCache=False)<a class="headerlink" href="#class-medicalaichiefdataset_preparedatasetmanagerfolder-targetdim31-31-normalizefalse-namenone-usecachetrue-forcecleancachefalse" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.dataset_prepare.INPUT_PROCESSOR</code></p>
+<h4 id="compress_and_cache_datakw">compress_and_cache_data(**kw)<a class="headerlink" href="#compress_and_cache_datakw" title="Permanent link">&para;</a></h4>
+<h4 id="convert_datasetkw">convert_dataset(**kw)<a class="headerlink" href="#convert_datasetkw" title="Permanent link">&para;</a></h4>
+<h4 id="load_data">load_data()<a class="headerlink" href="#load_data" title="Permanent link">&para;</a></h4>
+<h4 id="process_dataset">process_dataset()<a class="headerlink" href="#process_dataset" title="Permanent link">&para;</a></h4>
+<h4 id="reload_datakw">reload_data(**kw)<a class="headerlink" href="#reload_datakw" title="Permanent link">&para;</a></h4>
+<h3 id="medicalaichiefdataset_preparedatasetmanagerfuncfolder-targetdim31-31-normalizefalse">medicalai.chief.dataset_prepare.datasetManagerFunc(folder, targetDim=(31, 31), normalize=False)<a class="headerlink" href="#medicalaichiefdataset_preparedatasetmanagerfuncfolder-targetdim31-31-normalizefalse" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdataset_preparegetlabelsfromfolderfolder">medicalai.chief.dataset_prepare.getLabelsFromFolder(folder)<a class="headerlink" href="#medicalaichiefdataset_preparegetlabelsfromfolderfolder" title="Permanent link">&para;</a></h3>
+<h3 id="class-medicalaichiefdataset_preparemedicalai_generator">class medicalai.chief.dataset_prepare.medicalai_generator()<a class="headerlink" href="#class-medicalaichiefdataset_preparemedicalai_generator" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>tensorflow.python.keras.preprocessing.image.ImageDataGenerator</code></p>
+<h3 id="medicalaichiefdataset_preparemetaloadermetafile">medicalai.chief.dataset_prepare.metaLoader(metaFile)<a class="headerlink" href="#medicalaichiefdataset_preparemetaloadermetafile" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdataset_preparemetasaverlabelmap-labels-normalizenone-rescalenone-network_input_dimnone-samplingmethodnamenone-outputnamenone">medicalai.chief.dataset_prepare.metaSaver(labelMap, labels, normalize=None, rescale=None, network_input_dim=None, samplingMethodName=None, outputName=None)<a class="headerlink" href="#medicalaichiefdataset_preparemetasaverlabelmap-labels-normalizenone-rescalenone-network_input_dimnone-samplingmethodnamenone-outputnamenone" title="Permanent link">&para;</a></h3>
+<h3 id="class-medicalaichiefdataset_preparemydict">class medicalai.chief.dataset_prepare.myDict()<a class="headerlink" href="#class-medicalaichiefdataset_preparemydict" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>dict</code></p>
+<h3 id="medicalaichiefdataset_preparesafe_labelmap_converterlabelmap">medicalai.chief.dataset_prepare.safe_labelmap_converter(labelMap)<a class="headerlink" href="#medicalaichiefdataset_preparesafe_labelmap_converterlabelmap" title="Permanent link">&para;</a></h3>
+<h2 id="medicalaichiefdownload_utils-module">medicalai.chief.download_utils module<a class="headerlink" href="#medicalaichiefdownload_utils-module" title="Permanent link">&para;</a></h2>
+<h3 id="class-medicalaichiefdownload_utilsdlprogressiterablenone-descnone-totalnone-leavetrue-filenone-ncolsnone-mininterval01-maxinterval100-minitersnone-asciinone-disablefalse-unitit-unit_scalefalse-dynamic_ncolsfalse-smoothing03-bar_formatnone-initial0-positionnone-postfixnone-unit_divisor1000-write_bytesnone-guifalse-kwargs">class medicalai.chief.download_utils.DLProgress(iterable=None, desc=None, total=None, leave=True, file=None, ncols=None, mininterval=0.1, maxinterval=10.0, miniters=None, ascii=None, disable=False, unit='it', unit_scale=False, dynamic_ncols=False, smoothing=0.3, bar_format=None, initial=0, position=None, postfix=None, unit_divisor=1000, write_bytes=None, gui=False, **kwargs)<a class="headerlink" href="#class-medicalaichiefdownload_utilsdlprogressiterablenone-descnone-totalnone-leavetrue-filenone-ncolsnone-mininterval01-maxinterval100-minitersnone-asciinone-disablefalse-unitit-unit_scalefalse-dynamic_ncolsfalse-smoothing03-bar_formatnone-initial0-positionnone-postfixnone-unit_divisor1000-write_bytesnone-guifalse-kwargs" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>tqdm._tqdm.tqdm</code></p>
+<h4 id="hookblock_num1-block_size1-total_sizenone">hook(block_num=1, block_size=1, total_size=None)<a class="headerlink" href="#hookblock_num1-block_size1-total_sizenone" title="Permanent link">&para;</a></h4>
+<h4 id="last_block-0">last_block( = 0)<a class="headerlink" href="#last_block-0" title="Permanent link">&para;</a></h4>
+<h3 id="medicalaichiefdownload_utilscheck_if_urlx">medicalai.chief.download_utils.check_if_url(x)<a class="headerlink" href="#medicalaichiefdownload_utilscheck_if_urlx" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdownload_utilsgetfileurl-storepathnone-cachedirnone-subdirdataset">medicalai.chief.download_utils.getFile(url, storePath=None, cacheDir=None, subDir='dataset')<a class="headerlink" href="#medicalaichiefdownload_utilsgetfileurl-storepathnone-cachedirnone-subdirdataset" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdownload_utilsload_imagelink-target_size32-32-storepathnone-cachedirnone-subdirimages">medicalai.chief.download_utils.load_image(link, target_size=(32, 32), storePath=None, cacheDir=None, subDir='images')<a class="headerlink" href="#medicalaichiefdownload_utilsload_imagelink-target_size32-32-storepathnone-cachedirnone-subdirimages" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdownload_utilsuntartar_file-destination">medicalai.chief.download_utils.untar(tar_file, destination)<a class="headerlink" href="#medicalaichiefdownload_utilsuntartar_file-destination" title="Permanent link">&para;</a></h3>
+<h3 id="medicalaichiefdownload_utilsunzipzip_file-destination">medicalai.chief.download_utils.unzip(zip_file, destination)<a class="headerlink" href="#medicalaichiefdownload_utilsunzipzip_file-destination" title="Permanent link">&para;</a></h3>
+<h2 id="medicalaichiefnetworks-module">medicalai.chief.networks module<a class="headerlink" href="#medicalaichiefnetworks-module" title="Permanent link">&para;</a></h2>
+<h3 id="class-medicalaichiefnetworksdensenet121">class medicalai.chief.networks.DenseNet121()<a class="headerlink" href="#class-medicalaichiefnetworksdensenet121" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>DenseNet121 model, with weights pre-trained on ImageNet
+inputSize: input image size tuple
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksinceptionresnetv2">class medicalai.chief.networks.InceptionResNetV2()<a class="headerlink" href="#class-medicalaichiefnetworksinceptionresnetv2" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>InceptionResNetV2 model, with weights pre-trained on ImageNet
+inputSize: input image size tuple,default : (224,223,3)
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone_1">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_1" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksinceptionv3">class medicalai.chief.networks.InceptionV3()<a class="headerlink" href="#class-medicalaichiefnetworksinceptionv3" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>InceptionV3 model, with weights pre-trained on ImageNet
+inputSize: input image size tuple,default : (224,223,3)
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone_2">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_2" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksmobilenet">class medicalai.chief.networks.MobileNet()<a class="headerlink" href="#class-medicalaichiefnetworksmobilenet" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>MobileNet model, with weights pre-trained on ImageNet
+inputSize: input image size tuple,default : (224,223,3)
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone_3">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_3" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksmobilenetv2">class medicalai.chief.networks.MobileNetV2()<a class="headerlink" href="#class-medicalaichiefnetworksmobilenetv2" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>MobileNet model, with weights pre-trained on ImageNet
+inputSize: input image size tuple,default : (224,223,3)
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone_4">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_4" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksnetworkinit">class medicalai.chief.networks.NetworkInit()<a class="headerlink" href="#class-medicalaichiefnetworksnetworkinit" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<p>Base class for parameter Network initializers.</p>
+<p>The <code>NetworkInit</code> class represents a network initializer used
+to initialize network/model parameters for numerous medical ai networks. It should be
+subclassed when implementing new types of network initializers.</p>
+<h4 id="callinputsize-outputsize-convlayersnone_5">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_5" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksvgg16">class medicalai.chief.networks.VGG16()<a class="headerlink" href="#class-medicalaichiefnetworksvgg16" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>VGG16 model, with weights pre-trained on ImageNet
+inputSize: input image size tuple,default : (224,223,3)
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone_6">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_6" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksxception">class medicalai.chief.networks.Xception()<a class="headerlink" href="#class-medicalaichiefnetworksxception" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>Xception model, with weights pre-trained on ImageNet
+inputSize: input image size tuple,default : (224,223,3)
+outputSize: Number of classes for prediction</p>
+<h4 id="callinputsize-outputsize-convlayersnone_7">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_7" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnetworksgetnetworkinitialization">medicalai.chief.networks.get(networkInitialization)<a class="headerlink" href="#medicalaichiefnetworksgetnetworkinitialization" title="Permanent link">&para;</a></h3>
+<h3 id="class-medicalaichiefnetworksmeganet">class medicalai.chief.networks.megaNet()<a class="headerlink" href="#class-medicalaichiefnetworksmeganet" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>megaNet is based on COVID-NET.
+This is a tensorflow 2.0 network variant for COVID-Net described in Paper “COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images” by Linda Wang et al.
+Reference: <a href="https://github.com/busyyang/COVID-19/">https://github.com/busyyang/COVID-19/</a></p>
+<h4 id="callinputsize-outputsize-convlayersnone_8">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_8" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksresnet110">class medicalai.chief.networks.resNet110()<a class="headerlink" href="#class-medicalaichiefnetworksresnet110" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>resnet110</p>
+<h4 id="callinputsize-outputsize-convlayersnone_9">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_9" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksresnet20">class medicalai.chief.networks.resNet20()<a class="headerlink" href="#class-medicalaichiefnetworksresnet20" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>resnet20</p>
+<h4 id="callinputsize-outputsize-convlayersnone_10">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_10" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksresnet32">class medicalai.chief.networks.resNet32()<a class="headerlink" href="#class-medicalaichiefnetworksresnet32" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>resnet32</p>
+<h4 id="callinputsize-outputsize-convlayersnone_11">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_11" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworksresnet56">class medicalai.chief.networks.resNet56()<a class="headerlink" href="#class-medicalaichiefnetworksresnet56" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>RESNET56</p>
+<h4 id="callinputsize-outputsize-convlayersnone_12">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_12" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworkstinymednet">class medicalai.chief.networks.tinyMedNet()<a class="headerlink" href="#class-medicalaichiefnetworkstinymednet" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>tinyMedNet is a classification network that consumes very less resources and can be trained even on CPUs. This network can be used to demonstrate the framework working.
+Additionally this acts a starting point for example/tutorial for getting started to know the Medical AI library.</p>
+<h4 id="callinputsize-outputsize-convlayersnone_13">call(inputSize, OutputSize, convLayers=None)<a class="headerlink" href="#callinputsize-outputsize-convlayersnone_13" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworkstinymednet_v2">class medicalai.chief.networks.tinyMedNet_v2()<a class="headerlink" href="#class-medicalaichiefnetworkstinymednet_v2" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>tinyMedNet_v2 allows users to configure the number of Conv/CNN layers.
+tinyMedNet_v2 is a classification network that consumes very less resources and can be trained even on CPUs. This network can be used to demonstrate the framework working.
+Additionally this acts a starting point for example/tutorial for getting started to know the Medical AI library.</p>
+<h4 id="callinputsize-outputsize-convlayers2">call(inputSize, OutputSize, convLayers=2)<a class="headerlink" href="#callinputsize-outputsize-convlayers2" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h3 id="class-medicalaichiefnetworkstinymednet_v3">class medicalai.chief.networks.tinyMedNet_v3()<a class="headerlink" href="#class-medicalaichiefnetworkstinymednet_v3" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>medicalai.chief.networks.NetworkInit</code></p>
+<p>tinyMedNet_v3 has 3 FC layers with Dropout and Configurable number of Conv/CNN Layers.</p>
+<h4 id="callinputsize-outputsize-convlayers2_1">call(inputSize, OutputSize, convLayers=2)<a class="headerlink" href="#callinputsize-outputsize-convlayers2_1" title="Permanent link">&para;</a></h4>
+<p>Sample should return model initialized with input and output Sizes.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>inputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the input of network.</p>
+</li>
+<li>
+<p><strong>OutputSize</strong> (<em>tuple** or **int.</em>) – Integer or tuple specifying the output classes of network.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Initialized Model.</p>
+</li>
+<li>
+<p><strong>Return type</strong></p>
+<p>numpy.array.</p>
+</li>
+</ul>
+<h2 id="medicalaichiefprettyloss-module">medicalai.chief.prettyloss module<a class="headerlink" href="#medicalaichiefprettyloss-module" title="Permanent link">&para;</a></h2>
+<h3 id="class-medicalaichiefprettylossprettylossshow_percentagefalse">class medicalai.chief.prettyloss.prettyLoss(show_percentage=False)<a class="headerlink" href="#class-medicalaichiefprettylossprettylossshow_percentagefalse" title="Permanent link">&para;</a></h3>
+<p>Bases: <code>object</code></p>
+<h4 id="style-bold-x1b1m-green-x1b32m-red-x1b91m">STYLE( = {'bold': '\x1b[1m', 'green': '\x1b[32m', 'red': '\x1b[91m'})<a class="headerlink" href="#style-bold-x1b1m-green-x1b32m-red-x1b91m" title="Permanent link">&para;</a></h4>
+<h4 id="style_end-x1b0m">STYLE_END( = '\x1b[0m')<a class="headerlink" href="#style_end-x1b0m" title="Permanent link">&para;</a></h4>
+<h2 id="medicalaichiefufuncs-module">medicalai.chief.uFuncs module<a class="headerlink" href="#medicalaichiefufuncs-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefufuncstimeitfunc">medicalai.chief.uFuncs.timeit(func)<a class="headerlink" href="#medicalaichiefufuncstimeitfunc" title="Permanent link">&para;</a></h3>
+<h2 id="module-contents">Module contents<a class="headerlink" href="#module-contents" title="Permanent link">&para;</a></h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      
+        <script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script>
+      
+        <script src="../../js/termynal.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+        <script src="../../js/chat.js"></script>
+      
+    
+  </body>
+</html>

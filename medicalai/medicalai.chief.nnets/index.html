@@ -1,0 +1,1124 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Medicalai framework - high performance, easy to learn, fast to code, ready for production">
+      
+      
+        <meta name="author" content="Vinayaka Jyothi For AiBharata">
+      
+      
+        <link rel="canonical" href="https://aibharata.github.io/medicalAI/medicalai/medicalai.chief.nnets/">
+      
+      
+      
+      <link rel="icon" href="../../img/logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>medicalai.chief.nnets package - Medicalai</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/termynal.css">
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#medicalaichiefnnets-package" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Medicalai" class="md-header__button md-logo" aria-label="Medicalai" data-md-component="logo">
+      
+  <img src="../../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Medicalai
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              medicalai.chief.nnets package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aibharata/medicalAI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aibharata/medicalAI
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Medicalai" class="md-nav__button md-logo" aria-label="Medicalai" data-md-component="logo">
+      
+  <img src="../../img/logo.png" alt="logo">
+
+    </a>
+    Medicalai
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aibharata/medicalAI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aibharata/medicalAI
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_using_numpy_dataset/" class="md-nav__link">
+        Train Using Numpy Method
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_using_generator_dataset/" class="md-nav__link">
+        Train Using Generator Method
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/train_unet_image_segmentation/" class="md-nav__link">
+        Image Segmentation Example
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset_processors/" class="md-nav__link">
+        Data Processing Pipeline
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        Core
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networks/" class="md-nav__link">
+        AI Networks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelStats/" class="md-nav__link">
+        Model Statistics
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#submodules" class="md-nav__link">
+    Submodules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetscovid_net-module" class="md-nav__link">
+    medicalai.chief.nnets.covid_net module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.covid_net module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetscovid_netcovidnet_kerasimg_input224-224-3-classes4" class="md-nav__link">
+    medicalai.chief.nnets.covid_net.COVIDNET_Keras(img_input=(224, 224, 3), classes=4)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetscovid_netpepxmodelinput_tensor-filters-name" class="md-nav__link">
+    medicalai.chief.nnets.covid_net.PEPXModel(input_tensor, filters, name)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsdensenet-module" class="md-nav__link">
+    medicalai.chief.nnets.densenet module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.densenet module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsdensenetdensenet121_modelimg_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.densenet.DenseNet121_Model(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsinceptionresnet-module" class="md-nav__link">
+    medicalai.chief.nnets.inceptionResnet module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.inceptionResnet module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsinceptionresnetinceptionresnetv2_modelimg_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.inceptionResnet.InceptionResNetV2_Model(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsinceptionv3-module" class="md-nav__link">
+    medicalai.chief.nnets.inceptionv3 module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.inceptionv3 module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsinceptionv3inceptionv3img_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.inceptionv3.InceptionV3(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsmobilenet-module" class="md-nav__link">
+    medicalai.chief.nnets.mobilenet module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.mobilenet module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsmobilenetmobilenetimg_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.mobilenet.MobileNet(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsmobilenetv2-module" class="md-nav__link">
+    medicalai.chief.nnets.mobilenetv2 module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.mobilenetv2 module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsmobilenetv2mobilenetv2img_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.mobilenetv2.MobileNetV2(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnet-module" class="md-nav__link">
+    medicalai.chief.nnets.resnet module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.resnet module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetconv_building_blockinput_tensor-kernel_size-filters-stage-block-strides2-2-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.conv_building_block(input_tensor, kernel_size, filters, stage, block, strides=(2, 2), training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetidentity_building_blockinput_tensor-kernel_size-filters-stage-block-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.identity_building_block(input_tensor, kernel_size, filters, stage, block, training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetresnetnum_blocks-img_inputnone-classes10-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.resnet(num_blocks, img_input=None, classes=10, training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetresnet110-num_blocks110-img_inputnone-classes10-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.resnet110(*, num_blocks=110, img_input=None, classes=10, training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetresnet20-num_blocks3-img_inputnone-classes10-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.resnet20(*, num_blocks=3, img_input=None, classes=10, training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetresnet32-num_blocks5-img_inputnone-classes10-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.resnet32(*, num_blocks=5, img_input=None, classes=10, training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetresnet56-num_blocks9-img_inputnone-classes10-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.resnet56(*, num_blocks=9, img_input=None, classes=10, training=None)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsresnetresnet_blockinput_tensor-size-kernel_size-filters-stage-conv_strides2-2-trainingnone" class="md-nav__link">
+    medicalai.chief.nnets.resnet.resnet_block(input_tensor, size, kernel_size, filters, stage, conv_strides=(2, 2), training=None)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsvgg16-module" class="md-nav__link">
+    medicalai.chief.nnets.vgg16 module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.vgg16 module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsvgg16vgg16_modelimg_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.vgg16.VGG16_Model(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsxception-module" class="md-nav__link">
+    medicalai.chief.nnets.xception module
+  </a>
+  
+    <nav class="md-nav" aria-label="medicalai.chief.nnets.xception module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#medicalaichiefnnetsxceptionxceptionimg_input224-224-3-classes3" class="md-nav__link">
+    medicalai.chief.nnets.xception.Xception(img_input=(224, 224, 3), classes=3)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-contents" class="md-nav__link">
+    Module contents
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="medicalaichiefnnets-package">medicalai.chief.nnets package<a class="headerlink" href="#medicalaichiefnnets-package" title="Permanent link">&para;</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permanent link">&para;</a></h2>
+<h2 id="medicalaichiefnnetscovid_net-module">medicalai.chief.nnets.covid_net module<a class="headerlink" href="#medicalaichiefnnetscovid_net-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetscovid_netcovidnet_kerasimg_input224-224-3-classes4">medicalai.chief.nnets.covid_net.COVIDNET_Keras(img_input=(224, 224, 3), classes=4)<a class="headerlink" href="#medicalaichiefnnetscovid_netcovidnet_kerasimg_input224-224-3-classes4" title="Permanent link">&para;</a></h3>
+<p>This is a tensorflow 2.0 network variant for COVID-Net described in Paper “COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images” by Linda Wang et al.
+Reference: <a href="https://github.com/busyyang/COVID-19/">https://github.com/busyyang/COVID-19/</a></p>
+<h3 id="medicalaichiefnnetscovid_netpepxmodelinput_tensor-filters-name">medicalai.chief.nnets.covid_net.PEPXModel(input_tensor, filters, name)<a class="headerlink" href="#medicalaichiefnnetscovid_netpepxmodelinput_tensor-filters-name" title="Permanent link">&para;</a></h3>
+<h2 id="medicalaichiefnnetsdensenet-module">medicalai.chief.nnets.densenet module<a class="headerlink" href="#medicalaichiefnnetsdensenet-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsdensenetdensenet121_modelimg_input224-224-3-classes3">medicalai.chief.nnets.densenet.DenseNet121_Model(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsdensenetdensenet121_modelimg_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the DenseNet121 network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsinceptionresnet-module">medicalai.chief.nnets.inceptionResnet module<a class="headerlink" href="#medicalaichiefnnetsinceptionresnet-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsinceptionresnetinceptionresnetv2_modelimg_input224-224-3-classes3">medicalai.chief.nnets.inceptionResnet.InceptionResNetV2_Model(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsinceptionresnetinceptionresnetv2_modelimg_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the InceptionResNetV2 network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsinceptionv3-module">medicalai.chief.nnets.inceptionv3 module<a class="headerlink" href="#medicalaichiefnnetsinceptionv3-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsinceptionv3inceptionv3img_input224-224-3-classes3">medicalai.chief.nnets.inceptionv3.InceptionV3(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsinceptionv3inceptionv3img_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the InceptionV3 network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsmobilenet-module">medicalai.chief.nnets.mobilenet module<a class="headerlink" href="#medicalaichiefnnetsmobilenet-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsmobilenetmobilenetimg_input224-224-3-classes3">medicalai.chief.nnets.mobilenet.MobileNet(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsmobilenetmobilenetimg_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the MobileNet network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsmobilenetv2-module">medicalai.chief.nnets.mobilenetv2 module<a class="headerlink" href="#medicalaichiefnnetsmobilenetv2-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsmobilenetv2mobilenetv2img_input224-224-3-classes3">medicalai.chief.nnets.mobilenetv2.MobileNetV2(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsmobilenetv2mobilenetv2img_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the MobileNetV2 network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsresnet-module">medicalai.chief.nnets.resnet module<a class="headerlink" href="#medicalaichiefnnetsresnet-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsresnetconv_building_blockinput_tensor-kernel_size-filters-stage-block-strides2-2-trainingnone">medicalai.chief.nnets.resnet.conv_building_block(input_tensor, kernel_size, filters, stage, block, strides=(2, 2), training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetconv_building_blockinput_tensor-kernel_size-filters-stage-block-strides2-2-trainingnone" title="Permanent link">&para;</a></h3>
+<p>A block that has a conv layer at shortcut.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>input_tensor</strong> – input tensor</p>
+</li>
+<li>
+<p><strong>kernel_size</strong> – default 3, the kernel size of
+middle conv layer at main path</p>
+</li>
+<li>
+<p><strong>filters</strong> – list of integers, the filters of 3 conv layer at main path</p>
+</li>
+<li>
+<p><strong>stage</strong> – integer, current stage label, used for generating layer names</p>
+</li>
+<li>
+<p><strong>block</strong> – current block label, used for generating layer names</p>
+</li>
+<li>
+<p><strong>strides</strong> – Strides for the first conv layer in the block.</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other
+scenarios it is handled automatically.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Output tensor for the block.</p>
+</li>
+</ul>
+<p>Note that from stage 3,
+the first conv layer at main path is with strides=(2, 2)
+And the shortcut should have strides=(2, 2) as well</p>
+<h3 id="medicalaichiefnnetsresnetidentity_building_blockinput_tensor-kernel_size-filters-stage-block-trainingnone">medicalai.chief.nnets.resnet.identity_building_block(input_tensor, kernel_size, filters, stage, block, training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetidentity_building_blockinput_tensor-kernel_size-filters-stage-block-trainingnone" title="Permanent link">&para;</a></h3>
+<p>The identity block is the block that has no conv layer at shortcut.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>input_tensor</strong> – input tensor</p>
+</li>
+<li>
+<p><strong>kernel_size</strong> – default 3, the kernel size of
+middle conv layer at main path</p>
+</li>
+<li>
+<p><strong>filters</strong> – list of integers, the filters of 3 conv layer at main path</p>
+</li>
+<li>
+<p><strong>stage</strong> – integer, current stage label, used for generating layer names</p>
+</li>
+<li>
+<p><strong>block</strong> – current block label, used for generating layer names</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other
+scenarios it is handled automatically.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Output tensor for the block.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnnetsresnetresnetnum_blocks-img_inputnone-classes10-trainingnone">medicalai.chief.nnets.resnet.resnet(num_blocks, img_input=None, classes=10, training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetresnetnum_blocks-img_inputnone-classes10-trainingnone" title="Permanent link">&para;</a></h3>
+<p>Instantiates the ResNet architecture.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>num_blocks</strong> – integer, the number of conv/identity blocks in each block.
+The ResNet contains 3 blocks with each block containing one conv block
+followed by (layers_per_block - 1) number of idenity blocks. Each
+conv/idenity block has 2 convolutional layers. With the input
+convolutional layer and the pooling layer towards the end, this brings
+the total size of the network to (6*num_blocks + 2)</p>
+</li>
+<li>
+<p><strong>classes</strong> – optional number of classes to classify images into</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other</p>
+</li>
+<li>
+<p><strong>it is handled automatically.</strong> (<em>scenarios</em>) – </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>A Keras model instance.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnnetsresnetresnet110-num_blocks110-img_inputnone-classes10-trainingnone">medicalai.chief.nnets.resnet.resnet110(*, num_blocks=110, img_input=None, classes=10, training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetresnet110-num_blocks110-img_inputnone-classes10-trainingnone" title="Permanent link">&para;</a></h3>
+<p>Instantiates the ResNet architecture.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>num_blocks</strong> – integer, the number of conv/identity blocks in each block.
+The ResNet contains 3 blocks with each block containing one conv block
+followed by (layers_per_block - 1) number of idenity blocks. Each
+conv/idenity block has 2 convolutional layers. With the input
+convolutional layer and the pooling layer towards the end, this brings
+the total size of the network to (6*num_blocks + 2)</p>
+</li>
+<li>
+<p><strong>classes</strong> – optional number of classes to classify images into</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other</p>
+</li>
+<li>
+<p><strong>it is handled automatically.</strong> (<em>scenarios</em>) – </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>A Keras model instance.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnnetsresnetresnet20-num_blocks3-img_inputnone-classes10-trainingnone">medicalai.chief.nnets.resnet.resnet20(*, num_blocks=3, img_input=None, classes=10, training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetresnet20-num_blocks3-img_inputnone-classes10-trainingnone" title="Permanent link">&para;</a></h3>
+<p>Instantiates the ResNet architecture.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>num_blocks</strong> – integer, the number of conv/identity blocks in each block.
+The ResNet contains 3 blocks with each block containing one conv block
+followed by (layers_per_block - 1) number of idenity blocks. Each
+conv/idenity block has 2 convolutional layers. With the input
+convolutional layer and the pooling layer towards the end, this brings
+the total size of the network to (6*num_blocks + 2)</p>
+</li>
+<li>
+<p><strong>classes</strong> – optional number of classes to classify images into</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other</p>
+</li>
+<li>
+<p><strong>it is handled automatically.</strong> (<em>scenarios</em>) – </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>A Keras model instance.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnnetsresnetresnet32-num_blocks5-img_inputnone-classes10-trainingnone">medicalai.chief.nnets.resnet.resnet32(*, num_blocks=5, img_input=None, classes=10, training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetresnet32-num_blocks5-img_inputnone-classes10-trainingnone" title="Permanent link">&para;</a></h3>
+<p>Instantiates the ResNet architecture.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>num_blocks</strong> – integer, the number of conv/identity blocks in each block.
+The ResNet contains 3 blocks with each block containing one conv block
+followed by (layers_per_block - 1) number of idenity blocks. Each
+conv/idenity block has 2 convolutional layers. With the input
+convolutional layer and the pooling layer towards the end, this brings
+the total size of the network to (6*num_blocks + 2)</p>
+</li>
+<li>
+<p><strong>classes</strong> – optional number of classes to classify images into</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other</p>
+</li>
+<li>
+<p><strong>it is handled automatically.</strong> (<em>scenarios</em>) – </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>A Keras model instance.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnnetsresnetresnet56-num_blocks9-img_inputnone-classes10-trainingnone">medicalai.chief.nnets.resnet.resnet56(*, num_blocks=9, img_input=None, classes=10, training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetresnet56-num_blocks9-img_inputnone-classes10-trainingnone" title="Permanent link">&para;</a></h3>
+<p>Instantiates the ResNet architecture.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>num_blocks</strong> – integer, the number of conv/identity blocks in each block.
+The ResNet contains 3 blocks with each block containing one conv block
+followed by (layers_per_block - 1) number of idenity blocks. Each
+conv/idenity block has 2 convolutional layers. With the input
+convolutional layer and the pooling layer towards the end, this brings
+the total size of the network to (6*num_blocks + 2)</p>
+</li>
+<li>
+<p><strong>classes</strong> – optional number of classes to classify images into</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other</p>
+</li>
+<li>
+<p><strong>it is handled automatically.</strong> (<em>scenarios</em>) – </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>A Keras model instance.</p>
+</li>
+</ul>
+<h3 id="medicalaichiefnnetsresnetresnet_blockinput_tensor-size-kernel_size-filters-stage-conv_strides2-2-trainingnone">medicalai.chief.nnets.resnet.resnet_block(input_tensor, size, kernel_size, filters, stage, conv_strides=(2, 2), training=None)<a class="headerlink" href="#medicalaichiefnnetsresnetresnet_blockinput_tensor-size-kernel_size-filters-stage-conv_strides2-2-trainingnone" title="Permanent link">&para;</a></h3>
+<p>A block which applies conv followed by multiple identity blocks.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>input_tensor</strong> – input tensor</p>
+</li>
+<li>
+<p><strong>size</strong> – integer, number of constituent conv/identity building blocks.</p>
+</li>
+<li>
+<p><strong>conv block is applied once**</strong>, ****followed by** (<em>A</em>) – </p>
+</li>
+<li>
+<p><strong>kernel_size</strong> – default 3, the kernel size of
+middle conv layer at main path</p>
+</li>
+<li>
+<p><strong>filters</strong> – list of integers, the filters of 3 conv layer at main path</p>
+</li>
+<li>
+<p><strong>stage</strong> – integer, current stage label, used for generating layer names</p>
+</li>
+<li>
+<p><strong>conv_strides</strong> – Strides for the first conv layer in the block.</p>
+</li>
+<li>
+<p><strong>training</strong> – Only used if training keras model with Estimator.  In other
+scenarios it is handled automatically.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong></p>
+<p>Output tensor after applying conv and identity blocks.</p>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsvgg16-module">medicalai.chief.nnets.vgg16 module<a class="headerlink" href="#medicalaichiefnnetsvgg16-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsvgg16vgg16_modelimg_input224-224-3-classes3">medicalai.chief.nnets.vgg16.VGG16_Model(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsvgg16vgg16_modelimg_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the VGG16 network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="medicalaichiefnnetsxception-module">medicalai.chief.nnets.xception module<a class="headerlink" href="#medicalaichiefnnetsxception-module" title="Permanent link">&para;</a></h2>
+<h3 id="medicalaichiefnnetsxceptionxceptionimg_input224-224-3-classes3">medicalai.chief.nnets.xception.Xception(img_input=(224, 224, 3), classes=3)<a class="headerlink" href="#medicalaichiefnnetsxceptionxceptionimg_input224-224-3-classes3" title="Permanent link">&para;</a></h3>
+<p>Loaded the Xception network, ensuring the head FC layer sets are left off</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><strong>img_input</strong> – optional shape tuple, only to be specified if include_top is False (otherwise the input shape has to be (224, 224, 3)
+(with ‘channels_last’ data format) or (3, 224, 224) (with ‘channels_first’ data format). It should have exactly 3 inputs channels,
+and width and height should be no smaller than 32. E.g. (200, 200, 3) would be one valid value.</p>
+</li>
+<li>
+<p><strong>classes</strong> – Number of classes to be predicted.</p>
+</li>
+<li>
+<p><strong>Returns</strong> – model</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="module-contents">Module contents<a class="headerlink" href="#module-contents" title="Permanent link">&para;</a></h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      
+        <script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script>
+      
+        <script src="../../js/termynal.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+        <script src="../../js/chat.js"></script>
+      
+    
+  </body>
+</html>
